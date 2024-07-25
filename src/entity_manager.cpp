@@ -1,13 +1,13 @@
 #include "../include/geowars/entity_manager.h"
 
-#include <memory>
+//#include <memory>
 #include <vector>
 #include <string>
-#include <bits/stdc++.h>
-#include <complex>
-#include <string_view>
-#include <iostream>
-#include <numeric>
+//#include <bits/stdc++.h>
+//#include <complex>
+//#include <string_view>
+//#include <iostream>
+//#include <numeric>
 #include <algorithm>
 
 EntityManager::EntityManager()
@@ -33,16 +33,9 @@ void EntityManager::update()
 
 	// remove dead entities from each vector in the entity map
 	// C++17 way of iterating through [key, value] pairs in a map
-	/*
-	for (auto& [t, vec]: m_entitymap){
+	for (auto& [t, vec]: m_entityMap){
 		removeDeadEntities(vec);
 	}
-
-	//for (auto& [tag, entityVec] : m_entityMap)
-	//{
-		//removeDeadEntities(entityVec);
-	//}
-*/
 }
 
 
@@ -50,20 +43,13 @@ void EntityManager::removeDeadEntities(EntityVec & vec)
 {
 	// TODO: remove all dead entities from the input vector
 	// 		 this is called by the update() function
-	//vec.erase(std::remove_if(vec.begin(), vec.end(), []() { return Entity::isActive(); }), vec.end());
+	vec.erase(
+		std::remove_if(
+			vec.begin(), vec.end(), 
+			[](std::shared_ptr<Entity> const e) { return e->isActive() == false; }),
+	   		vec.end());
 
-	//std::erase(vec, false);
-	//for (auto& e: vec){
-		//bool temp = !e->isActive();
-		//std::erase(vec, temp);
-		//if (!e->isActive()){
-			//std::erase(vec, e);
-		//vec.erase(vec.e)
-		//}
-	}
-				// TODO: remove from vec;
-			// 		 look into std::remove_if
-//}
+}
 
 std::shared_ptr<Entity> EntityManager::addEntity(const std::string & tag)
 {
@@ -74,12 +60,12 @@ std::shared_ptr<Entity> EntityManager::addEntity(const std::string & tag)
 	return entity;
 }
 
-const EntityVec & EntityManager::getEntities()
+const EntityVec& EntityManager::getEntities()
 {
 	return m_entities;
 }
 
-const EntityVec & EntityManager::getEntities(const std::string & tag)
+const EntityVec& EntityManager::getEntities(const std::string & tag)
 {
 	// TODO: this is incorrect, return the correct vector from the map
 /*	
@@ -90,7 +76,7 @@ const EntityVec & EntityManager::getEntities(const std::string & tag)
 	}
 	//auto temp = m_entityMap.find(tag);
 */
-	return m_entityMap[tag];
+		return m_entityMap[tag];
 }
 
 /*

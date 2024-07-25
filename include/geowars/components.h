@@ -34,9 +34,11 @@ class CCollision
 {
 	//
 public:
-	float radius	= 0;
-	CCollision(float r)
-		: radius(r) {}
+	//float radius	= 0;
+	sf::FloatRect boundingBox;
+
+	CCollision(sf::FloatRect bB)
+		: boundingBox(bB) {}
 };
 
 class CScore

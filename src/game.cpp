@@ -70,12 +70,7 @@ void Game::run()
 			// you need to fill in the rest
 		}
 
-		
-		//sEnemySpawner();
 		sUserInput();
-		//sMovement();
-		//sCollision();
-		//sUserInput();
 		sRender();
 
 		// increment the current frame
@@ -111,10 +106,14 @@ void Game::spawnPlayer()
 	// The second part is instatiating a cTransform object and in the process creates a pointer
 	// to its self, the left part then assigns the entities member variable called cTransform
 	// to the pointer created when the cTransform object was created
-	entity->cTransform = std::make_shared<CTransform>(Vec2(200, 200), Vec2(1.0f, 1.0f), 0.0f);
+	entity->cTransform = std::make_shared<CTransform>(Vec2(m_windowConfig.W/2, m_windowConfig.H/2), Vec2(m_playerConfig.S, m_playerConfig.S), 0.0f);
 
 	// The entity's shape will have radius 32, 8 sides, dark grey fill, and red outline of thickness 4
 	entity->cShape = std::make_shared<CShape>(m_playerConfig.SR, m_playerConfig.V, sf::Color(m_playerConfig.FR, m_playerConfig.FG, m_playerConfig.FB), sf::Color(m_playerConfig.OR, m_playerConfig.OG, m_playerConfig.OB), m_playerConfig.OT);
+
+	// Setting bounding box
+	auto bounds = entity->cShape->circle.getGlobalBounds();
+	entity->cCollision = std::make_shared<CCollision>(bounds);
 
 	// Add an input component to the player so that we can use inputs
 	entity->cInput = std::make_shared<CInput>();
@@ -135,16 +134,27 @@ void Game::spawnEnemy()
 	float ex = rand() % m_window.getSize().x;
 	float ey = rand() % m_window.getSize().y;
 
-	float speed = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
+	float speedX = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
+	float speedY = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
+
+	if (speedX / 2 == 1)
+		speedX *= -1;
+	if (speedY / 2 == 1)
+		speedY *= -1;
+
 	float angle = (rand() % (360 - 0 + 1) + 0);
-	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(speed, speed), angle);
+	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(speedX, speedY), angle);
 
 	// The entity's shape will have radius 32, 8 sides, dark grey fill, and red outline of thickness 4
 	int vertices = (rand() % (m_enemyConfig.VMAX - m_enemyConfig.VMIN + 1) + m_enemyConfig.VMIN);
 	entity->cShape = std::make_shared<CShape>(m_enemyConfig.SR, vertices, sf::Color(0, 0, 0), sf::Color(m_enemyConfig.OR, m_enemyConfig.OG, m_enemyConfig.OB), m_enemyConfig.OT);
 
+	// setting bounding box
+	auto bounds = entity->cShape->circle.getGlobalBounds();
+	entity->cCollision = std::make_shared<CCollision>(bounds);
+
 	// initiate lifespan
-	entity->cLifespan = std::make_shared<CLifespan>(30);
+	entity->cLifespan = std::make_shared<CLifespan>(m_enemyConfig.L);
 
 	// record when the most recent enemy was spawned
 	m_lastEnemySpawnTime = m_currentFrame;
@@ -172,9 +182,17 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos)
 	// 		 - you must set the velocity by using the formula in notes
 	
 	auto bullet = m_entities.addEntity("bullet");
-	//bullet->cTransform = std::make_shared<CTransform>(mousePos, Vec2(0,0), 0);
+
+	// Bullet speed is given as a scalar speed
 	bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(m_bulletConfig.S, m_bulletConfig.S), 0);
+	
+	// Setting bullet attributes
 	bullet->cShape = std::make_shared<CShape>(m_bulletConfig.SR, m_bulletConfig.V, sf::Color(m_bulletConfig.FR, m_bulletConfig.FG, m_bulletConfig.FB), sf::Color(m_bulletConfig.OR, m_bulletConfig.OG, m_bulletConfig.OB), m_bulletConfig.OT);
+
+	// Setting bounding box
+	auto bounds = bullet->cShape->circle.getGlobalBounds();
+	bullet->cCollision = std::make_shared<CCollision>(bounds);
+
 }
 
 /*
@@ -188,27 +206,27 @@ void Game::sMovement()
 {
 	// TODO: implement all entity movement in this function
 	// 		 you should read the m_player->cInput component to determine if the player is moving
-	
-	m_player->cTransform->velocity = { 0, 0 };
 
-	// implement player movement
-	if (m_player->cInput->up){
-		m_player->cTransform->velocity.y = -5;
-	}
-	if (m_player->cInput->down){
-		m_player->cTransform->velocity.y = 5;
-	}
-	if (m_player->cInput->left){
-		m_player->cTransform->velocity.x = -5;
-	}
-	if (m_player->cInput->right){
-	m_player->cTransform->velocity.x = 5;
-	}
-	
 	// Movement speed update
 	for (auto& e : m_entities.getEntities()){
 		e->cTransform->pos.x += e->cTransform->velocity.x;
 		e->cTransform->pos.y += e->cTransform->velocity.y;
+		}
+
+	m_player->cTransform->velocity = { 0, 0 };
+
+	// implement player movement
+	if (m_player->cInput->up){
+		m_player->cTransform->velocity.y = m_playerConfig.S * -1;
+	}
+	if (m_player->cInput->down){
+		m_player->cTransform->velocity.y = m_playerConfig.S;
+	}
+	if (m_player->cInput->left){
+		m_player->cTransform->velocity.x = m_playerConfig.S * -1;
+	}
+	if (m_player->cInput->right){
+	m_player->cTransform->velocity.x = m_playerConfig.S;
 	}
 }
 
@@ -240,14 +258,22 @@ void Game::sCollision()
 {
 	// TODO: implement all proper collisions between entities
 	// 		 be sure to use the collision radius, NOT the shape radius
+
+	for (auto e : m_entities.getEntities()){
+		e->cCollision->boundingBox = e->cShape->circle.getGlobalBounds();
+	}
 	
 	for (auto b : m_entities.getEntities("bullet"))
 	{
 		for (auto e : m_entities.getEntities("enemy"))
 		{
-			// use the math from the previous lecture
+			if (b->cCollision->boundingBox.intersects(e->cCollision->boundingBox)){
+				e->destroy();
+				b->destroy();
+			}
 		}
 	}
+
 }
 
 void Game::sEnemySpawner()
@@ -315,6 +341,10 @@ void Game::sUserInput()
 					break;
 				case sf::Keyboard::Space:
 					setPaused();
+					break;
+				case sf::Keyboard::Escape:
+					m_running = false;
+					break;
 				default: break;
 			}
 		}
