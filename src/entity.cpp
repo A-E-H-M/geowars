@@ -1,6 +1,6 @@
-#include "entity.h"
+#include "../include/geowars/entity.h"
 #include <string>
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 Entity::Entity()
 {

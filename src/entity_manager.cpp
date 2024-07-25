@@ -1,4 +1,4 @@
-#include "entity_manager.h"
+#include "../include/geowars/entity_manager.h"
 
 #include <memory>
 #include <vector>
@@ -8,6 +8,7 @@
 #include <string_view>
 #include <iostream>
 #include <numeric>
+#include <algorithm>
 
 EntityManager::EntityManager()
 {
@@ -28,42 +29,41 @@ void EntityManager::update()
 	m_entitiesToAdd.clear();
 
 	// remove dead entities from the vector of all entities
-	//removeDeadEntities(m_entities);
+	removeDeadEntities(m_entities);
 
 	// remove dead entities from each vector in the entity map
 	// C++17 way of iterating through [key, value] pairs in a map
+	/*
+	for (auto& [t, vec]: m_entitymap){
+		removeDeadEntities(vec);
+	}
+
 	//for (auto& [tag, entityVec] : m_entityMap)
 	//{
 		//removeDeadEntities(entityVec);
 	//}
+*/
 }
 
-/*
+
 void EntityManager::removeDeadEntities(EntityVec & vec)
 {
 	// TODO: remove all dead entities from the input vector
 	// 		 this is called by the update() function
-	
-for (auto& e: vec){
-	bool temp = !e->isActive();
-	std::erase(vec, temp);
-		//if (e->isActive()==false){
-		//vec.erase(e);
+	//vec.erase(std::remove_if(vec.begin(), vec.end(), []() { return Entity::isActive(); }), vec.end());
+
+	//std::erase(vec, false);
+	//for (auto& e: vec){
+		//bool temp = !e->isActive();
+		//std::erase(vec, temp);
+		//if (!e->isActive()){
+			//std::erase(vec, e);
+		//vec.erase(vec.e)
+		//}
 	}
-}
-	
-	std::vector<EntityVec>::iterator temp;
-	for (auto e : vec)
-	{
-		temp = std::remove_if(vec.begin(), vec.end(), !e->isActive());
-		//if (!e->isActive())
-		{
-			// TODO: remove from vec;
+				// TODO: remove from vec;
 			// 		 look into std::remove_if
-		}
-	}
-}
-*/
+//}
 
 std::shared_ptr<Entity> EntityManager::addEntity(const std::string & tag)
 {
@@ -82,12 +82,14 @@ const EntityVec & EntityManager::getEntities()
 const EntityVec & EntityManager::getEntities(const std::string & tag)
 {
 	// TODO: this is incorrect, return the correct vector from the map
-	/*
+/*	
 	for (auto& [t, vec]: m_entityMap){
 		if (tag == t)
+			//auto temp = vec;
 			return vec;
 	}
-	*/
+	//auto temp = m_entityMap.find(tag);
+*/
 	return m_entityMap[tag];
 }
 

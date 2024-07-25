@@ -1,4 +1,4 @@
-#include "game.h"
+#include "../include/geowars/game.h"
 
 #include <iostream>
 #include <fstream>
@@ -64,17 +64,18 @@ void Game::run()
 		if (!m_paused)
 		{
 			sEnemySpawner();
+			sLifespan();
 			sMovement();
 			sCollision();
 			// you need to fill in the rest
 		}
 
 		
-		sEnemySpawner();
+		//sEnemySpawner();
 		sUserInput();
-		sMovement();
-		sCollision();
-		sUserInput();
+		//sMovement();
+		//sCollision();
+		//sUserInput();
 		sRender();
 
 		// increment the current frame
@@ -83,9 +84,16 @@ void Game::run()
 	}
 }
 
-void Game::setPaused(bool paused)
+//void Game::setPaused(bool paused)
+void Game::setPaused()
 {
 	// TODO
+	if (m_paused){
+		m_paused = false;
+	}
+	else {
+		m_paused = true;
+	}
 }
 
 void Game::spawnPlayer()
@@ -134,6 +142,9 @@ void Game::spawnEnemy()
 	// The entity's shape will have radius 32, 8 sides, dark grey fill, and red outline of thickness 4
 	int vertices = (rand() % (m_enemyConfig.VMAX - m_enemyConfig.VMIN + 1) + m_enemyConfig.VMIN);
 	entity->cShape = std::make_shared<CShape>(m_enemyConfig.SR, vertices, sf::Color(0, 0, 0), sf::Color(m_enemyConfig.OR, m_enemyConfig.OG, m_enemyConfig.OB), m_enemyConfig.OT);
+
+	// initiate lifespan
+	entity->cLifespan = std::make_shared<CLifespan>(30);
 
 	// record when the most recent enemy was spawned
 	m_lastEnemySpawnTime = m_currentFrame;
@@ -212,6 +223,17 @@ void Game::sLifespan()
 	// 		 	scale its alpha channel properly
 	// 		 if it has lifespan and its time is up
 	// 		 	destroy the entity
+	for (auto e: m_entities.getEntities()){
+		if (e->cLifespan){
+			if (e->cLifespan->remaining > 0){
+				e->cLifespan->remaining -= 1;
+			}
+			else if (e->cLifespan->remaining == 0){
+				e->destroy();
+			}
+		}
+	}
+	
 }
 
 void Game::sCollision()
@@ -291,6 +313,8 @@ void Game::sUserInput()
 				case sf::Keyboard::D:
 					m_player->cInput->right = true;
 					break;
+				case sf::Keyboard::Space:
+					setPaused();
 				default: break;
 			}
 		}

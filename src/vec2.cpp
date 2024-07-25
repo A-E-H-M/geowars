@@ -1,4 +1,4 @@
-#include "vec2.h"
+#include "../include/geowars/vec2.h"
 #include <math.h>
 
 //Constructors

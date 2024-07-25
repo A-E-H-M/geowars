@@ -2,10 +2,10 @@
 
 //#include <SFML/Graphics.hpp>
 #include <iostream>
-#include "vec2.h"
-#include "entity.h"
+#include "../include/geowars/vec2.h"
+#include "../include/geowars/entity.h"
 
-#include "game.h"
+#include "../include/geowars/game.h"
 
 int main ()
 {

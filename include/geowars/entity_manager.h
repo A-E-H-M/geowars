@@ -14,7 +14,7 @@ class EntityManager
 	EntityMap	m_entityMap;
 	size_t		m_totalEntities = 0;
 	
-	//void removeDeadEntities(EntityVec & vec);
+	void removeDeadEntities(EntityVec & vec);
 
 public:	
 	
