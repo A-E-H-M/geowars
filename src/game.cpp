@@ -15,7 +15,7 @@ Game::Game(const std::string & config)
 
 void Game::init(const std::string & path)
 {
-// Reading & storing configuration file variables and closing file
+// Read & store configuration file variables, then close file
 	std::fstream file(path);
 	if (file.is_open()) {
 		file >> m_windowConfig.T >> m_windowConfig.W >> m_windowConfig.H >> m_windowConfig.FR >> m_windowConfig.UNK;
@@ -33,7 +33,7 @@ void Game::init(const std::string & path)
 	}
 	file.close();
 
-	// Loading and verifying font
+	// Load and verify font
 	if (!m_font.loadFromFile(m_fontConfig.F)){
 		std::cerr << "Could not load font!\n";
 		exit(-1);
@@ -44,19 +44,16 @@ void Game::init(const std::string & path)
 
 void Game::run()
 {
-	// TODO: add pause functionality in here
-	// 		 some systems should function while paused (rendering)
-	// 		 some systems shouldn't (movement / input)
-	
-	// Rendering start window
+	// Render start window
 	m_window.create(sf::VideoMode(m_windowConfig.W, m_windowConfig.H), "Best Game Ever");
 	m_window.setFramerateLimit(m_windowConfig.FR);
 
-	// Setting up score text
+	// Set up score text
 	m_text.setFont(m_font);
 	m_text.setString("Your Score, Baby: ");
 	m_text.setPosition(10, m_windowConfig.H - (float)m_text.getCharacterSize() - 10);
 
+	// Main while loop
 	while (m_running)
 	{
 		m_entities.update();
@@ -76,13 +73,12 @@ void Game::run()
 		// increment the current frame
 		// may need to be moved when pause implemented
 		m_currentFrame++;
-	}
+	} // End main while loop
 }
 
 //void Game::setPaused(bool paused)
 void Game::setPaused()
 {
-	// TODO
 	if (m_paused){
 		m_paused = false;
 	}
@@ -93,45 +89,40 @@ void Game::setPaused()
 
 void Game::spawnPlayer()
 {
-	// TODO: Finish adding all properties of the player with the correct values from the config
-	
-	// We create every entity by calling EntityManager.addEntity(tag)
-	// This returns a std::shared_ptr<Entity>, so we use 'auto' to save typing
+	// Create player entity
 	auto entity = m_entities.addEntity("player");
 
-	// Give this entity a Transform so it spawns at (200, 200) with velocity (1,1) and angle 0
+	// Variables store the player entity's spawning position based on window size
 	float mx = m_window.getSize().x / 2.0f;
 	float my = m_window.getSize().y / 2.0f;
 	
-	// The second part is instatiating a cTransform object and in the process creates a pointer
-	// to its self, the left part then assigns the entities member variable called cTransform
-	// to the pointer created when the cTransform object was created
+	// Set the player entity's spawning position, speed, and rotation direction from the configuration file
 	entity->cTransform = std::make_shared<CTransform>(Vec2(m_windowConfig.W/2, m_windowConfig.H/2), Vec2(m_playerConfig.S, m_playerConfig.S), 0.0f);
 
-	// The entity's shape will have radius 32, 8 sides, dark grey fill, and red outline of thickness 4
+	// Set the player entity's shape, color, and outline thickness from the configuration file
 	entity->cShape = std::make_shared<CShape>(m_playerConfig.SR, m_playerConfig.V, sf::Color(m_playerConfig.FR, m_playerConfig.FG, m_playerConfig.FB), sf::Color(m_playerConfig.OR, m_playerConfig.OG, m_playerConfig.OB), m_playerConfig.OT);
 
-	// Setting bounding box
+	// Set the player entity's bounding box
 	auto bounds = entity->cShape->circle.getGlobalBounds();
 	entity->cCollision = std::make_shared<CCollision>(bounds);
 
-	// Add an input component to the player so that we can use inputs
+	// Add an input component to the player entity to store user input
 	entity->cInput = std::make_shared<CInput>();
 
-	// Since we want this Entity to be out player, set out Game's player variable to be this Entity
-	// This goes slightly against the EntityManager paradigm, but we use the player so much it's worth it
+	// Assign the entity to the m_player variable in the game class
 	m_player = entity;
 }
 
-//spawn an enemy at a randow position
 void Game::spawnEnemy()
 {
 	// TODO: make sure the enemy is spawned properly with the m_enemyConfig variables
 	// 		 the enemy must be spawned completely within the bounds of the window
-	// 		 you will have to read from the config file and not hard code variables 	
+	// 		 you will have to read from the config file and not hard code variables 
+	// Create enemy entity
 	auto entity = m_entities.addEntity("enemy");
 
-	float ex = rand() % m_window.getSize().x;
+	// Variables to store the enemy entity's spawning position based on window size
+	float ex = rand() % m_window.getSize().x; // rand() % used to randomize the spawning positions
 	float ey = rand() % m_window.getSize().y;
 
 	float speedX = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
