@@ -4,13 +4,13 @@
 #include <memory>
 #include <string>
 
-class Entity
-{
+class Entity {
+
 	friend class EntityManager;
 
-	bool		m_active	= true;
-	size_t		m_id		= 0;
-	std::string	m_tag		= "default";
+	bool m_active = true;			// Used to assess if entity is active
+	size_t m_id = 0;				// Entity ID
+	std::string	m_tag = "default";	// Entity tag used for adding to the correct entity vector in map of entities
 
 public:
 	
@@ -32,5 +32,6 @@ public:
 	
 	// TODO: Re-establish constructor and destructor as private following testing
 	Entity();
-	Entity(const size_t id, const std::string & tag);	
+	Entity(const size_t id, const std::string & tag);
+
 };

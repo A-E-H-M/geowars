@@ -11,35 +11,35 @@
 // Configuration containers
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
 struct FontConfig { std::string T, F; int S, R, G, B; };
-struct PlayerConfig	{ std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V; float S; };
-struct EnemyConfig	{ std::string T; int SR, CR, OR, OG, OB, OT, VMIN, VMAX, L, SI; float SMIN, SMAX; };
-struct BulletConfig	{ std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, L; float S; };
+struct PlayerConfig { std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V; float S; };
+struct EnemyConfig { std::string T; int SR, CR, OR, OG, OB, OT, VMIN, VMAX, L, SI; float SMIN, SMAX; };
+struct BulletConfig { std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, L; float S; };
 
 class Game
 {
 	private:
 		
-		// Initalize window, font, and text	for score
-		sf::RenderWindow	m_window;
-		sf::Font			m_font;
-		sf::Text			m_text;
+		// Initalize window, font, and text for score
+		sf::RenderWindow m_window;
+		sf::Font m_font;
+		sf::Text m_text;
 		
 		// Configuration specs for window and entities
-		WindowConfig		m_windowConfig;
-		FontConfig			m_fontConfig;
-		PlayerConfig		m_playerConfig;
-		EnemyConfig			m_enemyConfig;
-		BulletConfig		m_bulletConfig;
+		WindowConfig m_windowConfig;
+		FontConfig m_fontConfig;
+		PlayerConfig m_playerConfig;
+		EnemyConfig m_enemyConfig;
+		BulletConfig m_bulletConfig;
 		
 		// Game state properties
-		int					m_score = 0;
-		int					m_currentFrame = 0;
-		int					m_lastEnemySpawnTime = 0;
-		bool				m_paused = false;
-		bool				m_running = true;
+		int m_score = 0;
+		int m_currentFrame = 0;
+		int m_lastEnemySpawnTime = 0;
+		bool m_paused = false;
+		bool m_running = true;
 
 		// Initial entity manager and player
-		EntityManager		m_entities;
+		EntityManager m_entities;
 		std::shared_ptr<Entity> m_player;
 
 		// Update game state
