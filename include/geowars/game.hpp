@@ -3,12 +3,12 @@
 #include <iostream>
 #include <string>
 
+#include <SFML/Graphics.hpp>
+
 #include "entity.h"
 #include "entity_manager.h"
 
-#include <SFML/Graphics.hpp>
-
-// Custom struct for saving window variables from config
+// Configuration containers
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
 struct FontConfig { std::string T, F; int S, R, G, B; };
 struct PlayerConfig	{ std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V; float S; };
@@ -17,44 +17,53 @@ struct BulletConfig	{ std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, 
 
 class Game
 {
-	sf::RenderWindow	m_window; 					// the window we will draw to
-	EntityManager		m_entities;					// vector of entities to maintain
-	sf::Font			m_font;						// the font we will use to draw
-	sf::Text			m_text;						// the score text to be drawn to the screen
-	WindowConfig		m_windowConfig;				// Custom struct for accessing window variables
-	FontConfig			m_fontConfig;
-	PlayerConfig		m_playerConfig;
-	EnemyConfig			m_enemyConfig;
-	BulletConfig		m_bulletConfig;
-	int					m_score = 0;
-	int					m_currentFrame = 0;
-	int					m_lastEnemySpawnTime = 0;
-	bool				m_paused = false;			// whether we update game logic
-	bool				m_running = true;			// whether the game is running
-	
-	std::shared_ptr<Entity> m_player;
+	private:
+		
+		// Initalize window, font, and text	for score
+		sf::RenderWindow	m_window;
+		sf::Font			m_font;
+		sf::Text			m_text;
+		
+		// Configuration specs for window and entities
+		WindowConfig		m_windowConfig;
+		FontConfig			m_fontConfig;
+		PlayerConfig		m_playerConfig;
+		EnemyConfig			m_enemyConfig;
+		BulletConfig		m_bulletConfig;
+		
+		// Game state properties
+		int					m_score = 0;
+		int					m_currentFrame = 0;
+		int					m_lastEnemySpawnTime = 0;
+		bool				m_paused = false;
+		bool				m_running = true;
 
-	void init(const std::string & config);			// initialize the GameState with a config file path
-	//void setPaused(bool paused);					// pause the game
-	void setPaused();
+		// Initial entity manager and player
+		EntityManager		m_entities;
+		std::shared_ptr<Entity> m_player;
 
-	// Initial entity spawns
-	void spawnPlayer();
-	void spawnEnemy();
-	//void spawnSmallEnemies(std::shared_ptr<Entity> entity);
-	void spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos);
-	//void spawnSpecialWeapon(std::shared_ptr<Entity> entity);
-	
-	// Sytem updates
-	void sMovement();								// System: Entity position / movement update
-	void sUserInput();								// System: User input
-	void sLifespan();								// System: Lifespan
-	void sRender();									// System: Render / drawing
-	void sEnemySpawner();							// System: Spawns Enemies
-	void sCollision();								// System: Collisions
+		// Update game state
+		void init(const std::string & config);
+		void setPaused(); 
+		void spawnPlayer();
+		void spawnEnemy();
+		void spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos);
+		// TODO: Finish the following
+		// void spawnSpecialWeapon(std::shared_ptr<Entity> entity);
+		// void spawnSmallEnemies(std::shared_ptr<Entity> entity);
 
-public:
-	Game(const std::string & config);				// constructor, takes in game config
-	
-	void run();
+		// Sytem updates
+		void sMovement();
+		void sUserInput();
+		void sLifespan();
+		void sRender();
+		void sEnemySpawner();
+		void sCollision();
+
+	public:
+
+		// Initialize and run game
+		Game(const std::string & config);
+		void run();
+
 };
