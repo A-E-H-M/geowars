@@ -1,6 +1,6 @@
 #pragma once
 
-#include "components.h"
+#include "components.hpp"
 #include <memory>
 #include <string>
 
@@ -10,7 +10,7 @@ class Entity {
 
 	bool m_active = true;			// Used to assess if entity is active
 	size_t m_id = 0;				// Entity ID
-	std::string	m_tag = "default";	// Entity tag used for adding to the correct entity vector in map of entities
+	std::string m_tag = "default";	// Entity tag used for adding to the correct entity vector in map of entities
 
 public:
 	

@@ -5,8 +5,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "entity.h"
-#include "entity_manager.h"
+#include "entity.hpp"
+#include "entity_manager.hpp"
 
 // Configuration containers
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
