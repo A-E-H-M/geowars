@@ -1,4 +1,4 @@
-#include "../include/geowars/vec2.hpp"
+#include "vec2.hpp"
 #include <math.h>
 
 //Constructors
@@ -68,6 +68,7 @@ void Vec2::operator /= (const float val)
 	y /= val;
 }
 
+/*
 // Physics functions
 float Vec2::dist(const Vec2 & rhs) const
 {
@@ -85,3 +86,4 @@ float Vec2::length()const
 	// TODO: Write function
 	return 0;
 }
+*/

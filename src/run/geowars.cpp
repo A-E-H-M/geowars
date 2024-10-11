@@ -1,8 +1,8 @@
 #include <iostream>
-#include "../include/geowars/vec2.hpp"
-#include "../include/geowars/entity.hpp"
 
-#include "../include/geowars/game.hpp"
+//#include "../include/geowars/vec2.hpp"
+//#include "../include/geowars/entity.hpp"
+#include "game.hpp"
 
 int main()
 {	

@@ -1,4 +1,4 @@
-#include "../include/geowars/entity.hpp"
+#include "entity.hpp"
 #include <string>
 
 Entity::Entity()

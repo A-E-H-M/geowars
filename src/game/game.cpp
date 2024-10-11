@@ -1,4 +1,4 @@
-#include "../include/geowars/game.hpp"
+#include "game.hpp"
 
 #include <iostream>
 #include <fstream>

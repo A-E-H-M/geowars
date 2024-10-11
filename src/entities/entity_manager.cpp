@@ -1,4 +1,4 @@
-#include "../include/geowars/entity_manager.hpp"
+#include "entity_manager.hpp"
 
 #include <vector>
 #include <string>
