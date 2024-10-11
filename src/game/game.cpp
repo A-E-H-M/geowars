@@ -8,17 +8,18 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 
-Game::Game(const std::string & config) {
-	
+Game::Game(const std::string & config)
+{
 	init(config);
-
 }
 
-void Game::init(const std::string & path) {
-
-	// Read & store configuration file variables, then close file
+void Game::init(const std::string & path)
+{
+	// Read and store configuration file variables, then close file
 	std::fstream file(path);
-	if (file.is_open()) {
+
+	if (file.is_open())
+	{
 		file >> m_windowConfig.T >> m_windowConfig.W >> m_windowConfig.H >> m_windowConfig.FR >> m_windowConfig.UNK;
 		
 		file >> m_fontConfig.T >> m_fontConfig.F >> m_fontConfig.S >> m_fontConfig.R >> m_fontConfig.G >> m_fontConfig.B;
@@ -29,19 +30,25 @@ void Game::init(const std::string & path) {
 		
 		file >> m_bulletConfig.T >> m_bulletConfig.SR >> m_bulletConfig.CR >> m_bulletConfig.S  >> m_bulletConfig.FR >> m_bulletConfig.FG >> m_bulletConfig.FB >> m_bulletConfig.OR >> m_bulletConfig.OG >> m_bulletConfig.OB >> m_bulletConfig.OT >> m_bulletConfig.V >> m_bulletConfig.L;
 	}
-	else {
+
+	else 
+	{
+		// Print an error message if the configuration file could not be opened
 		std::cerr << "Couldn't open config file for reading. \n";
 	}
+	
+	// Close the configuration file
 	file.close();
 
-	// Load and verify font
-	if (!m_font.loadFromFile(m_fontConfig.F)){
+	// Load and verify font can be loaded, if not, print an error message
+	if (!m_font.loadFromFile(m_fontConfig.F))
+	{
 		std::cerr << "Could not load font!\n";
 		exit(-1);
 	}
-
+	
+	// Spawn the player
 	spawnPlayer();
-
 }
 
 void Game::run() {
@@ -76,21 +83,24 @@ void Game::run() {
 
 }
 
-//void Game::setPaused(bool paused)
-void Game::setPaused() {
-
-	if (m_paused){
+// Pause the game
+void Game::setPaused() 
+{
+	if (m_paused)
+	{
 		m_paused = false;
 	}
-	else {
+
+	else 
+	{
 		m_paused = true;
 	}
 
 }
 
 // Spawn player entity at the center of the window
-void Game::spawnPlayer() {
-	
+void Game::spawnPlayer() 
+{	
 	// Create player entity
 	auto entity = m_entities.addEntity("player");
 
@@ -113,11 +123,11 @@ void Game::spawnPlayer() {
 
 	// Player entity in the game class
 	m_player = entity;
-
 }
 
 // Spawn enemy at a random location in the window
-void Game::spawnEnemy() {
+void Game::spawnEnemy() 
+{
 	// TODO: Make sure the enemy is spawned properly with config specs & spawned in window bounds
 
 	// Create enemy entity
@@ -166,7 +176,8 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e) {
 */
 
 // Spawn a bullet from the player entity's to a target location
-void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos) {
+void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos) 
+{
 	// TODO: Ensure bullet speed scalar is used & add velocity formula
 	
 	auto bullet = m_entities.addEntity("bullet");
@@ -180,7 +191,6 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos) {
 	// Bullet entity's bounding box
 	auto bounds = bullet->cShape->circle.getGlobalBounds();
 	bullet->cCollision = std::make_shared<CCollision>(bounds);
-
 }
 
 /*
@@ -190,8 +200,8 @@ void Game::spawnSpecialWeapon(std::shared_ptr<Entity> entity) {
 */
 
 // Implement all entity's movements
-void Game::sMovement() {
-
+void Game::sMovement() 
+{
 	// Movement speed update
 	for (auto& e : m_entities.getEntities()){
 		e->cTransform->pos.x += e->cTransform->velocity.x;
@@ -216,58 +226,66 @@ void Game::sMovement() {
 }
 
 // Implement all lifespan functionality
-void Game::sLifespan() {
+void Game::sLifespan() 
+{
 	// TODO: Ensure for all entities
 	// 		 - if entity has no lifespan component, skip it
 	// 		 - if entity has > 0 remaining lifespan, subtract 1
 	// 		 - if it has lifespan and is alive, scale its alpha channel properly
 	// 		 - if it has lifespan and its time is up destroy the entity
-	for (auto e: m_entities.getEntities()) {
-		if (e->cLifespan) {
-			if (e->cLifespan->remaining > 0) {
+	for (auto e: m_entities.getEntities()) 
+	{
+		if (e->cLifespan) 
+		{
+			if (e->cLifespan->remaining > 0)
+			{
 				e->cLifespan->remaining -= 1;
 			}
-			else if (e->cLifespan->remaining == 0) {
+			else if (e->cLifespan->remaining == 0) 
+			{
 				e->destroy();
 			}
 		}
-	}
-	
+	} // End for loop
 }
 
 // Implement all collisions between entities
 void Game::sCollision()
 {
 	// TODO: Ensure the use of the bounding box, not the shape of the entity
-	for (auto e : m_entities.getEntities()){
+	for (auto e : m_entities.getEntities())
+	{
 		e->cCollision->boundingBox = e->cShape->circle.getGlobalBounds();
 	}
 	
-	for (auto b : m_entities.getEntities("bullet")) {
-		for (auto e : m_entities.getEntities("enemy")) {
-			if (b->cCollision->boundingBox.intersects(e->cCollision->boundingBox)) {
+	for (auto b : m_entities.getEntities("bullet"))
+	{
+		for (auto e : m_entities.getEntities("enemy"))
+		{
+			if (b->cCollision->boundingBox.intersects(e->cCollision->boundingBox))
+			{
 				e->destroy();
 				b->destroy();
 			}
-		}
-	}
-
+		} // End for loop
+	} // End for loop
 }
 
 // Spawn enemy by time lapse between last spawn and current frame
-void Game::sEnemySpawner() {
-
-	if (m_currentFrame - m_lastEnemySpawnTime >= 10) {
+void Game::sEnemySpawner()
+{
+	if (m_currentFrame - m_lastEnemySpawnTime >= 10)
+	{
 		spawnEnemy();
 	}
-
 }
 
 // Render all entities window
-void Game::sRender() {
-	
+void Game::sRender()
+{	
 	m_window.clear();
-	for (auto& e : m_entities.getEntities()) {
+	for (auto& e : m_entities.getEntities())
+	{
 		// Position of shape is based on the entity's transform->pos
 		e->cShape->circle.setPosition(e->cTransform->pos.x, e->cTransform->pos.y);
 
@@ -278,25 +296,30 @@ void Game::sRender() {
 		// Draw the entity
 		m_window.draw(e->cShape->circle);
 	}
+
 	m_window.draw(m_player->cShape->circle);
 	m_window.draw(m_text);
 	m_window.display();
-
 }
 
 // Assess for user input
-void Game::sUserInput() {
-	
+void Game::sUserInput() 
+{	
 	sf::Event event;
-	while (m_window.pollEvent(event)) {
+
+	while (m_window.pollEvent(event))
+	{
 		// Event triggers the window to closed
-		if (event.type == sf::Event::Closed) {
+		if (event.type == sf::Event::Closed)
+		{
 			m_running = false;
 		}
 		
 		// Event is triggered when a key is pressed
-		if (event.type == sf::Event::KeyPressed) {
-			switch (event.key.code) {
+		if (event.type == sf::Event::KeyPressed)
+		{
+			switch (event.key.code)
+			{
 				case sf::Keyboard::W:
 					std::cout << "W Key Pressed/n";
 					m_player->cInput->up = true;
@@ -321,8 +344,10 @@ void Game::sUserInput() {
 		}
 	
 		// Event is triggered when a key is released
-		if (event.type == sf::Event::KeyReleased) {
-			switch (event.key.code) {
+		if (event.type == sf::Event::KeyReleased)
+		{
+			switch (event.key.code)
+			{
 				case sf::Keyboard::W:
 					std::cout << "W Key Released/n";
 					m_player->cInput->up = false;
@@ -341,16 +366,19 @@ void Game::sUserInput() {
 		}
 
 		// Event is triggered when a mouse key is pressed
-		if (event.type == sf::Event::MouseButtonPressed) {
-			if (event.mouseButton.button == sf::Mouse::Left) {
+		if (event.type == sf::Event::MouseButtonPressed)
+		{
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
 				std::cout << "Left Mouse Button Clicked at (" << event.mouseButton.x << ", " << event.mouseButton.y << ")/n";
 				spawnBullet(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
 			}
 
-			if (event.mouseButton.button == sf::Mouse::Right) {
+			if (event.mouseButton.button == sf::Mouse::Right)
+			{
 				std::cout << "Right Mouse Button Clicked at (" << event.mouseButton.x << ", " << event.mouseButton.y << ")/n";
 				// TODO: Spawn special weapon here
 			}
 		}
-	}
+	} // End while loop
 }

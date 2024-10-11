@@ -4,8 +4,8 @@
 #include <SFML/Graphics.hpp>
 
 // Entity position and movement properties
-class CTransform {
-	
+class CTransform
+{	
 	public:
 		Vec2 pos		= { 0.0, 0.0 };
 		Vec2 velocity	= { 0.0, 0.0 };
@@ -13,12 +13,11 @@ class CTransform {
 
 		CTransform(const Vec2 & p, const Vec2 & v, float a)
 			: pos(p), velocity(v), angle(a) {}
-
 };
 
 // Entity graphic properties
-class CShape {
-	
+class CShape
+{	
 	public:
 		sf::CircleShape circle;
 
@@ -30,45 +29,41 @@ class CShape {
 			circle.setOutlineThickness(thickness);
 			circle.setOrigin(radius, radius);
 		}
-
 };
 
 // Entity collision properties
-class CCollision {
-	
+class CCollision
+{	
 	public:
 		sf::FloatRect boundingBox;
 
 		CCollision(sf::FloatRect bB)
 			: boundingBox(bB) {}
-
 };
 
 // Game score properties
-class CScore {
-	
+class CScore
+{	
 	public:
 		int score		= 0;
 		
 		CScore(int s)
 			: score(s) {}
-
 };
 
 // Entity lifespan properties
-class CLifespan {
-	
+class CLifespan
+{	
 	public:
 		int remaining	= 0;
 		int total		= 0;
 		CLifespan(int total)
 			: remaining(total), total(total) {}
-	
 };
 
 // User input properties
-class CInput {
-	
+class CInput
+{	
 	public:
 		bool up			= false;
 		bool left		= false;
@@ -77,5 +72,4 @@ class CInput {
 		bool shoot		= false;
 
 		CInput() {}
-
 };

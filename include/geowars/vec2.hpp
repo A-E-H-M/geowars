@@ -1,7 +1,7 @@
 #pragma once
 
-class Vec2 {
-	
+class Vec2
+{	
 	public:
 		float x = 0;
 		float y = 0;
@@ -26,5 +26,4 @@ class Vec2 {
 		// float dist(const Vec2 & rhs) const;
 		// void normalize();
 		// float length() const;
-
 };

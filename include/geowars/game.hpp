@@ -65,5 +65,4 @@ class Game
 		// Initialize and run game
 		Game(const std::string & config);
 		void run();
-
 };
