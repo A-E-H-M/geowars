@@ -12,19 +12,18 @@ project( geowars
 
 # Add library targets
 add_library(	geowars
-		#src/run/geowars.cpp
 				src/physics/vec2.cpp
 				src/entities/entity.cpp
 				src/entities/entity_manager.cpp
 				src/game/game.cpp )
-target_include_directories( geowars PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include/geowars )
+target_include_directories( geowars PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include/geowars/ )
 target_compile_features( geowars PRIVATE cxx_std_20 )
 
 # Build game
-add_subdirectory( src/run )
+add_subdirectory( src/run_game )
 
 # Add executable
-add_executable( geowars_game src/run/geowars.cpp)
-target_link_libraries( geowars_game PUBLIC geowars)
+add_executable( geowars_game src/run_game/geowars.cpp)
+target_link_libraries( geowars_game PRIVATE geowars)
 
 # End of file

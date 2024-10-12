@@ -10,6 +10,11 @@ file(	COPY ../../font/Ohyou.ttf
 file(	COPY ../../config/config.txt 
 		DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/ )
 
+# Add dependencies
+include( ../../cmake/download_cpm.cmake )
+
+#CPMAddPackage ( "gh:SFML/SFML@2.6.0")
+
 # Add executable
 #add_executable(	geowars_game geowars.cpp )
 #target_compile_features( geowars_game PRIVATE cxx_std_20 )
