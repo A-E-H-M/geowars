@@ -10,6 +10,8 @@ project( geowars
 		 LANGUAGES CXX
 		 DESCRIPTION "A single-player point and click, 2D game written in C++" )
 
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+
 # Add library targets
 add_library(	geowars
 				src/physics/vec2.cpp
