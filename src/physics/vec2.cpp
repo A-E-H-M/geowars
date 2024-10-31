@@ -73,17 +73,22 @@ void Vec2::operator /= (const float val)
 float Vec2::dist(const Vec2 & rhs) const
 {
 	// TODO: Write function
+	// D = (x2-x1, y2-y1) -- Destination minus origin
+	// Distance = sqrtf(D.x*D.x + D.y*D.y)
 	return 0;
 }
 
 void Vec2::normalize()
 {
 	// TODO: Write function
+	
 }
 
-float Vec2::length()const
+float Vec2::length() const
 {
 	// TODO: Write function
-	return 0;
+	float L = sqrtf(x*x + y*y)
+	
+	return L;
 }
 */

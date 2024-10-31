@@ -183,6 +183,9 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos)
 	auto bullet = m_entities.addEntity("bullet");
 
 	// Bullet speed is given as a scalar speed
+	//Vec2 temp = (entity->cTransform->pos.x, entity->cTransform->pos.y);
+	//temp.normalize();
+
 	bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(m_bulletConfig.S, m_bulletConfig.S), 0);
 	
 	// Bullet entity properties from the configuration file

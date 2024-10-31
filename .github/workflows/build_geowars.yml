@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Configure
-        run: cmake -B test_build ${{matrix.platform.flags}} ${{matrix.config.flags}}
+        run: cmake -B test_build ${{matrix.platform.flags}} #${{matrix.config.flags}}
 
       - name: Build
         run: cmake --build test_build --config Release
