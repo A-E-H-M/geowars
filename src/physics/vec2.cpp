@@ -70,25 +70,31 @@ void Vec2::operator /= (const float val)
 
 /*
 // Physics functions
-float Vec2::dist(const Vec2 & rhs) const
+Vec2 Vec2::dist(const Vec2 & lhs, const Vec2 & rhs) const
+//float Vec2::dist(const Vec2 & rhs) const
 {
-	// TODO: Write function
-	// D = (x2-x1, y2-y1) -- Destination minus origin
-	// Distance = sqrtf(D.x*D.x + D.y*D.y)
-	return 0;
+	return rhs - lhs;
 }
 
-void Vec2::normalize()
+Vec2 Vec2::normalize(Vec2 & lhs, const Vec2 & rhs)
 {
-	// TODO: Write function
+	// Getting distance between player and mouse click
+	Vec2 tempVec = dist(lhs, rhs);
+
+	// Getting angle
+	lhs.angle = atan2f(tempVec.y, tempVec.x);
+
+	// Normalizing vector
+	float tempLeng = (tempVec *= tempVec);
 	
+	return tempVec / tempLeng;
 }
 
-float Vec2::length() const
+Vec2 Vec2::velocity(const Vec2 & rhs, const float & speed) const
 {
-	// TODO: Write function
-	float L = sqrtf(x*x + y*y)
-	
-	return L;
+	return rhs * speed;
 }
+
+
+
 */
