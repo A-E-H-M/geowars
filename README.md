@@ -39,5 +39,5 @@ Geowars is build with CMake and uses [CPM.cmake](https://github.com/cpm-cmake/CP
 SFML
 SFML is multi-media library used for window, system, and graphics handling. CPM.cmake will automatically download SFML if it is not already installed.
 
-## About Cafe Menu
+## About Geowars
 Geowars is one of my first games using a custom game engine. Game development have been my primary means to exploring design patterns, cross-platform builds with CMake, and game engine architecture. Going forward, Geowars will serve as my control when experimenting with new technologies and just about anything I want to try out. Enjoy!
