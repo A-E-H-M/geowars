@@ -1,5 +1,6 @@
-#include "vec2.hpp"
 #include <math.h>
+
+#include "geowars/vec2.hpp"
 
 //Constructors
 Vec2::Vec2()

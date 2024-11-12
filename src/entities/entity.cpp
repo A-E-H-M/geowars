@@ -1,5 +1,6 @@
-#include "entity.hpp"
 #include <string>
+
+#include "geowars/entity.hpp"
 
 Entity::Entity()
 {

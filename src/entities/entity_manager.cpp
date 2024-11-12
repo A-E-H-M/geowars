@@ -1,8 +1,8 @@
-#include "entity_manager.hpp"
-
 #include <vector>
 #include <string>
 #include <algorithm>
+
+#include "geowars/entity_manager.hpp"
 
 EntityManager::EntityManager()
 {

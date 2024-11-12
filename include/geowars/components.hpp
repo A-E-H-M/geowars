@@ -1,7 +1,8 @@
 #pragma once
 
-#include "vec2.hpp"
 #include <SFML/Graphics.hpp>
+
+#include "geowars/vec2.hpp"
 
 // Entity position and movement properties
 class CTransform

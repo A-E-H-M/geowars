@@ -5,8 +5,9 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "entity.hpp"
-#include "entity_manager.hpp"
+#include "geowars/entity.hpp"
+#include "geowars/entity_manager.hpp"
+#include "geowars/terrain.hpp"
 
 // Configuration containers
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
@@ -23,7 +24,11 @@ class Game
 		sf::RenderWindow m_window;
 		sf::Font m_font;
 		sf::Text m_text;
-		
+
+		// Initalize textures
+		sf::Texture m_terrain;
+		sf::Sprite m_sceneBackgroundSprite;
+
 		// Configuration specs for window and entities
 		WindowConfig m_windowConfig;
 		FontConfig m_fontConfig;

@@ -1,5 +1,3 @@
-#include "game.hpp"
-
 #include <iostream>
 #include <fstream>
 #include <memory>
@@ -7,6 +5,8 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+
+#include "geowars/game.hpp"
 
 Game::Game(const std::string & config)
 {
@@ -61,6 +61,13 @@ void Game::run() {
 	m_text.setFont(m_font);
 	m_text.setString("Your Score, Baby: ");
 	m_text.setPosition(10, m_windowConfig.H - (float)m_text.getCharacterSize() - 10);
+
+	// Load textures
+	// TODO: Create a new function for loading texture and create new function for sprites
+	// 		 to replace the code below
+	m_terrain.loadFromFile("background.png");
+	Terrain m_sceneBackground(3, "Galaxy", m_terrain);
+	m_sceneBackgroundSprite.setTexture(m_terrain);
 
 	// Main while loop
 	while (m_running)
@@ -287,6 +294,7 @@ void Game::sEnemySpawner()
 void Game::sRender()
 {	
 	m_window.clear();
+	m_window.draw(m_sceneBackgroundSprite);
 	for (auto& e : m_entities.getEntities())
 	{
 		// Position of shape is based on the entity's transform->pos

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "entity.hpp"
 #include <vector>
 #include <map>
+
+#include "geowars/entity.hpp"
 
 typedef std::vector<std::shared_ptr<Entity>> EntityVec;
 typedef std::map<std::string, EntityVec> EntityMap;

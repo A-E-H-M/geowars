@@ -1,8 +1,9 @@
 #pragma once
 
-#include "components.hpp"
 #include <memory>
 #include <string>
+
+#include "geowars/components.hpp"
 
 class Entity
 {
