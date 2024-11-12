@@ -1,4 +1,4 @@
-<!-- [geowars logo](/extras/artwork/geowars.png) -->
+![geowars logo](/textures/geowars_logo.png)
 
 <!-- ### Unit Test and Documentation Generation Workflow Status -->
 ![GH Actions Workflow Status](https://img.shields.io/github/last-commit/A-E-H-M/geowars?style=for-the-badge)
