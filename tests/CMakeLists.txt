@@ -22,7 +22,7 @@ target_compile_features ( geowars_tests PRIVATE cxx_std_20 )
 # Add dependencies
 include ( ../cmake/download_cpm.cmake )
 
-CPMAddPackage ( "gh:catchorg/Catch2@3.0.x" )
+CPMAddPackage ( "gh:catchorg/Catch2@3.6.0" )
 
 # Link dependencies
 target_link_libraries ( geowars_tests PRIVATE geowars Catch2::Catch2WithMain )
