@@ -1,17 +1,17 @@
-# Copyright (c) 2025 Alex Hernandez Mann
+# Copyright (c) 2025 Alexandria Hernandez Mann
 #
 # Distributed under the Boost Software License, Version 1.0
 # (See accompanying file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 cmake_minimum_required ( VERSION 3.14 FATAL_ERROR )
 
-project(	geowars
+project( geowars
 	VERSION 1.0.0
 	LANGUAGES CXX
 	DESCRIPTION "A single-player point and click, 2D game written in C++" )
 
 # Optional flags
-#option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option( BUILD_GAME "Build game executable" OFF)
 option( GEOWARS_BUILD_TESTS "Build unit tests" OFF )
 
 # Add dependencies
@@ -31,19 +31,21 @@ target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system )
 target_compile_features( geowars PRIVATE cxx_std_20 )
 
 # Include font and config file
-file(	COPY font/Ohyou.ttf
-	DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+# file(	COPY font/Ohyou.ttf
+#	DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 
-file(	COPY config/config.txt 
-	DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+#file(	COPY config/config.txt 
+#	DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 
 # Add executable
-add_executable(	geowars_game src/main/geowars_main.cpp )
-target_link_libraries( geowars_game PRIVATE geowars )
-target_compile_features( geowars_game PRIVATE cxx_std_20 )
+# add_executable(	geowars_game src/main/geowars_main.cpp )
+# target_link_libraries( geowars_game PRIVATE geowars )
+# target_compile_features( geowars_game PRIVATE cxx_std_20 )
 
 # Build game
-#add_subdirectory( build )
+if ( ${BUILD_GAME} )
+	add_subdirectory ( build )
+endif ()
 
 # Check to build unit tests
 if ( ${GEOWARS_BUILD_TESTS} )
