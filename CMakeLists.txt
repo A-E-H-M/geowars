@@ -14,6 +14,15 @@ project( geowars
 option( BUILD_GAME "Build game executable" OFF)
 option( GEOWARS_BUILD_TESTS "Build unit tests" OFF )
 
+if ( CMAKE_BUILD_TYPE MATCHES "Debug" )
+		message (STATUS "******Trying this now")
+		if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
+				set ( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fsanitize=undefined" )
+				message (STATUS "-------------This worked" )
+				#target_link_libraries ( geowars PRIVATE asan ubsan )
+		endif ()
+endif ()
+
 # Add dependencies
 include( cmake/download_cpm.cmake )
 
@@ -29,6 +38,17 @@ add_library( geowars
 target_include_directories( geowars PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
 target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system )
 target_compile_features( geowars PRIVATE cxx_std_20 )
+
+#if ( CMAKE_BUILD_TYPE MATCHES "Debug" )
+#		message (STATUS "******Trying this now")
+#		if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
+#				set ( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fsanitize=undefined" )
+#				message (STATUS "-------------This worked" )
+				#target_link_libraries ( geowars PRIVATE asan ubsan )
+				#		endif ()
+				#endif ()
+
+#message(STATUS "/nDoing this/n" )
 
 # Build game
 if ( ${BUILD_GAME} )
