@@ -2,18 +2,8 @@
 
 #include "geowars/vec2.hpp"
 
-//Constructors
-Vec2::Vec2()
-{
-}
-
-Vec2::Vec2(float xin, float yin)
-	: x(xin), y(yin)
-{	
-}
-
 // Single operator overloads
-Vec2 Vec2::operator + (const Vec2 & rhs) const
+Vec2 Vec2::operator + (const Vec2& rhs) const
 {
 	return Vec2(x+rhs.x, y+rhs.y);
 }
@@ -34,7 +24,7 @@ Vec2 Vec2::operator * (const float val) const
 }
 
 // Comparison overloads
-bool Vec2::operator == (const Vec2 & rhs) const
+bool Vec2::operator == (const Vec2& rhs) const
 {
 	return (x == rhs.x && y == rhs.y);
 }

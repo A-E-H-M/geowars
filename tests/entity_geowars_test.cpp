@@ -5,5 +5,6 @@
 #include "geowars/entity.hpp"
 
 TEST_CASE( "Initialize entity", "[entity]" ) {
-	//
+	Entity a_entity(1, "test_entity");
+
 }

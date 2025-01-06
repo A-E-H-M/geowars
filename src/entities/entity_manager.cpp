@@ -8,6 +8,7 @@ EntityManager::EntityManager()
 {
 }
 
+
 // Update entity vectors
 void EntityManager::update()
 {

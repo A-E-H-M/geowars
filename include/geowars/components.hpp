@@ -5,25 +5,23 @@
 #include "geowars/vec2.hpp"
 
 // Entity position and movement properties
-class CTransform
+struct CTransform
 {	
-	public:
-		Vec2 pos		= { 0.0, 0.0 };
-		Vec2 velocity	= { 0.0, 0.0 };
-		float angle		= 0;
+	Vec2 pos;
+	Vec2 velocity;
+	float angle{0};
 
-		CTransform(const Vec2 & p, const Vec2 & v, float a)
-			: pos(p), velocity(v), angle(a) {}
+	CTransform(const Vec2& p, const Vec2& v, const float& a)
+		: pos(p), velocity(v), angle(a) {}
 };
 
 // Entity graphic properties
-class CShape
+struct CShape
 {	
-	public:
-		sf::CircleShape circle;
+	sf::CircleShape circle;
 
-		CShape(float radius, int points, const sf::Color & fill, const sf::Color & outline, float thickness)
-			: circle(radius, points)
+	CShape(const float radius, const int points, const sf::Color & fill, const sf::Color & outline, const float thickness)
+		: circle(radius, points)
 		{
 			circle.setFillColor(fill);
 			circle.setOutlineColor(outline);
@@ -33,44 +31,39 @@ class CShape
 };
 
 // Entity collision properties
-class CCollision
+struct CCollision
 {	
-	public:
-		sf::FloatRect boundingBox;
+	sf::FloatRect boundingBox;
 
-		CCollision(sf::FloatRect bB)
-			: boundingBox(bB) {}
+	CCollision(sf::FloatRect bB)
+		: boundingBox(bB) {}
 };
 
 // Game score properties
-class CScore
+struct CScore
 {	
-	public:
-		int score		= 0;
+	int score{0};
 		
-		CScore(int s)
-			: score(s) {}
+	CScore(int s)
+		: score(s) {}
 };
 
 // Entity lifespan properties
-class CLifespan
+struct CLifespan
 {	
-	public:
-		int remaining	= 0;
-		int total		= 0;
-		CLifespan(int total)
-			: remaining(total), total(total) {}
+	int remaining{0};
+	int total{0};
+
+	CLifespan(const int total)
+		: remaining(total), total(total) {}
 };
 
 // User input properties
-class CInput
+struct CInput
 {	
-	public:
-		bool up			= false;
-		bool left		= false;
-		bool right		= false;
-		bool down		= false;
-		bool shoot		= false;
-
-		CInput() {}
+	bool up			= false;
+	bool left		= false;
+	bool right		= false;
+	bool down		= false;
+	bool shoot		= false;
 };
