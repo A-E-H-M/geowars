@@ -38,8 +38,8 @@ void EntityManager::removeDeadEntities(EntityVec & vec)
 	vec.erase(
 		std::remove_if(
 			vec.begin(), vec.end(), 
-			[](std::shared_ptr<Entity> const e) { return e->isActive() == false; }),
-	   		vec.end());
+			[](std::shared_ptr<Entity> const e) { return !e->isActive(); }),
+			vec.end());
 
 }
 

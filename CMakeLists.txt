@@ -29,7 +29,6 @@ CPMAddPackage( "gh:SFML/SFML#2.6.x" )
 # Add library targets
 add_library( geowars
 	src/physics/vec2.cpp
-	src/entities/entity.cpp
 	src/entities/entity_manager.cpp
 	src/environment/terrain.cpp
 	src/core/game.cpp )

@@ -8,7 +8,7 @@
 class Entity
 {
 	private:
-		Entity(const size_t id, const std::string& tag) : m_id(id), m_tag(tag) {};
+		Entity(const size_t id, const std::string& tag) : m_id(id), m_tag(tag) {}
 		
 		bool m_active{true};			// Used to assess if entity is active
 		const size_t m_id;				// Entity ID
@@ -26,8 +26,12 @@ class Entity
 		std::shared_ptr<CLifespan> cLifespan;
 
 		// Private member access functions
-		bool isActive() const;
-		const std::string& tag() const;
-		size_t id() const;
-		void destroy();
+		// Get the entity's state
+		bool isActive() const { return m_active; }
+		// Get the entity's tag
+		const std::string& tag() const { return m_tag; }
+		// Get the entity's ID
+		size_t id() const { return m_id; }
+		// Update the entity's state to false
+		void destroy() { m_active = false; }
 };
