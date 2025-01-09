@@ -24,23 +24,19 @@ cmake --build .
 ```
 Using your file explorer, navigate to the `build` directory you created and open 'geowars_game'.
 
-## Continuous Integration
-### Supported Environments & Compilers
+### Continuous Integration
+#### Supported Environments & Compilers
 CI workflows currently build and unit test on g++ (through Ubuntu), MSVC (through Windows), and Clang (through macOS).
 
-## Requirements
-### C++ Standard
+### Requirements
+##### C++ Standard
 C++ 20 is the minimum required C++ standard.
-
-### Dependencies
-Geowars is build with CMake and uses [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) for dependency management. The build has been configured to download CMP from its GitHub repository if it is not already installed, along with any other dependency needed.
-
-#### List of Dependencies
-### CMAKE
+##### CMAKE
 CMake is Geowars build system. You will need CMake installed on your machine to build Geowars from source. Directions on how to install CMake can be found [here](https://cmake.org/download).
-### SFML
+### List of Dependencies
+##### SFML
 SFML is multi-media library used for window, system, and graphics handling. CPM.cmake will automatically download SFML if it is not already installed.
-### CPM.cmake
+##### CPM.cmake
 [CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) is used for dependency management. The CMake build has been configured to download CPM from its GitHub respository if it is not already installed, along with all other dependencies such as SFML.
 
 ## About Geowars
