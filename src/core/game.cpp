@@ -112,8 +112,8 @@ void Game::spawnPlayer()
 	auto entity = m_entities.addEntity("player");
 
 	// Player entity's spawning position based on window size
-	float mx = m_window.getSize().x / 2.0f;
-	float my = m_window.getSize().y / 2.0f;
+	//float mx = m_window.getSize().x / 2.0f;
+	//float my = m_window.getSize().y / 2.0f;
 	
 	// Player entity's spawning position, speed, and rotation direction are from the configuration file
 	entity->cTransform = std::make_shared<CTransform>(Vec2(m_windowConfig.W/2, m_windowConfig.H/2), Vec2(m_playerConfig.S, m_playerConfig.S), 0.0f);
