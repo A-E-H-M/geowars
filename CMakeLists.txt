@@ -34,7 +34,14 @@ add_library( geowars
 	src/core/game.cpp )
 target_include_directories( geowars PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
 target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system )
+
 target_compile_features( geowars PRIVATE cxx_std_20 )
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
+	target_compile_options( geowars PRIVATE -Wall -Werror )
+endif ()
+if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+	target_compile_options( geowars PRIVATE /Wall /WL /W4 /WX )
+endif ()
 
 # Build game
 if ( ${BUILD_GAME} )
