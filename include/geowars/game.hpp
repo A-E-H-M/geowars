@@ -12,9 +12,9 @@
 // Configuration containers
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
 struct FontConfig { std::string T, F; int S, R, G, B; };
-struct PlayerConfig { std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V; float S; };
-struct EnemyConfig { std::string T; int SR, CR, OR, OG, OB, OT, VMIN, VMAX, L, SI; float SMIN, SMAX; };
-struct BulletConfig { std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, L; float S; };
+struct PlayerConfig { std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V; int S; };
+struct EnemyConfig { std::string T; int SR, CR, OR, OG, OB, OT, VMIN, VMAX, L, SI; int SMIN, SMAX; };
+struct BulletConfig { std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, L; int S; };
 
 class Game
 {
@@ -52,7 +52,7 @@ class Game
 		void setPaused(); 
 		void spawnPlayer();
 		void spawnEnemy();
-		void spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos);
+		void spawnBullet(std::shared_ptr<Entity> entity, const Vec2<int>& mousePos);
 		// TODO: Finish the following
 		// void spawnSpecialWeapon(std::shared_ptr<Entity> entity);
 		// void spawnSmallEnemies(std::shared_ptr<Entity> entity);

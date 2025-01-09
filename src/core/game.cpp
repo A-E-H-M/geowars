@@ -59,7 +59,7 @@ void Game::run() {
 
 	// Set up score text
 	m_text.setFont(m_font);
-	m_text.setString("Your Score, Baby: ");
+	m_text.setString("Your score, baby: "+std::to_string(0));
 	m_text.setPosition(10, m_windowConfig.H - (float)m_text.getCharacterSize() - 10);
 
 	// Load textures
@@ -141,11 +141,11 @@ void Game::spawnEnemy()
 	auto entity = m_entities.addEntity("enemy");
 
 	// Enemy entity's spawning position based on window size
-	float ex = rand() % m_window.getSize().x; // rand() % used to randomize the spawning positions
-	float ey = rand() % m_window.getSize().y;
+	int ex = rand() % m_window.getSize().x; // rand() % used to randomize the spawning positions
+	int ey = rand() % m_window.getSize().y;
 
-	float speedX = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
-	float speedY = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
+	int speedX = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
+	int speedY = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
 
 	if (speedX / 2 == 1)
 		speedX *= -1;
@@ -183,7 +183,7 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e) {
 */
 
 // Spawn a bullet from the player entity's to a target location
-void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2 & mousePos) 
+void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2<int>& mousePos) 
 {
 	// TODO: Ensure bullet speed scalar is used & add velocity formula
 	
@@ -276,6 +276,7 @@ void Game::sCollision()
 			{
 				e->destroy();
 				b->destroy();
+				m_score += 5;
 			}
 		} // End for loop
 	} // End for loop
@@ -307,6 +308,8 @@ void Game::sRender()
 		// Draw the entity
 		m_window.draw(e->cShape->circle);
 	}
+
+	m_text.setString("Your score, baby: "+std::to_string(m_score));
 
 	m_window.draw(m_player->cShape->circle);
 	m_window.draw(m_text);

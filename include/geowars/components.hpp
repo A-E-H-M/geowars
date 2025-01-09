@@ -7,11 +7,11 @@
 // Entity position and movement properties
 struct CTransform
 {	
-	Vec2 pos;
-	Vec2 velocity;
-	float angle{0};
+	Vec2<int> pos;
+	Vec2<int> velocity;
+	float angle;
 
-	CTransform(const Vec2& p, const Vec2& v, const float& a)
+	CTransform(const Vec2<int>& p, const Vec2<int>& v, const float& a)
 		: pos(p), velocity(v), angle(a) {}
 };
 
