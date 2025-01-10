@@ -13,8 +13,8 @@
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
 struct FontConfig { std::string T, F; int S, R, G, B; };
 struct PlayerConfig { std::string T; int SR, CR; uint8_t FR, FG, FB; int OR, OG, OB, OT, V; int S; };
-struct EnemyConfig { std::string T; int SR, CR, OR, OG, OB, OT, VMIN, VMAX, L, SI; int SMIN, SMAX; };
-struct BulletConfig { std::string T; int SR, CR, FR, FG, FB, OR, OG, OB, OT, V, L; int S; };
+struct EnemyConfig { std::string T; int SR, CR; uint8_t OR, OG, OB; int OT, VMIN, VMAX, L, SI; int SMIN, SMAX; };
+struct BulletConfig { std::string T; int SR, CR; uint8_t FR, FG, FB, OR, OG, OB; int OT, V, L; int S; };
 
 class Game
 {

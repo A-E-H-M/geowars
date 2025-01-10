@@ -17,8 +17,8 @@ Player SR CR S FR FG FB OR OG OB OT V
 	Shape Radius		SR			int
 	Collision Radius	CR			int
 	Speed				S			float
-	Fill Color			FR,FG,FB	int,int,int
-	Outline Color		OR,OG,OB	int,int,int
+	Fill Color			FR,FG,FB	uint8_t,uint8_t,uint8_t
+	Outline Color		OR,OG,OB	uint8_t,uint8_t,uint8_t
 	Outline Thickness	OT			int
 	Shape Vertices		V			int
 
@@ -27,7 +27,7 @@ Enemy SR CR SMIN SMAX OR OG OB OT VMIN VMAX L SI
 	Shape Radius		SR			int
 	Collision Radius	CR			int
 	Min / Max Speed		SMIN,SMAX	float,float
-	Outline Color		OR,OG,OB	int,int,int
+	Outline Color		OR,OG,OB	uint8_t,uint8_t,uint8_t
 	Outline Thickness	OT			int
 	Min / Max Vertices	VMIN,VMAX	int,int
 	Spawn Lifespan		L			int
@@ -38,8 +38,8 @@ Bullet SR CR S FR FG FB OR OG OB OT V L
 	Shape Radius		SR			int
 	Collision Radius	CR			int
 	Speed				S			int
-	Fill Color			FR,FG,FB	int,int,int
-	Outline Color		OR,OG,OB	int,int,int
+	Fill Color			FR,FG,FB	uint8_t,uint8_t,uint8_t
+	Outline Color		OR,OG,OB	uint8_t,uint8_t,uint8_t
 	Outline Thickness	OT			int
 	Shape Vertices		V			int
 	Spawn Lifespan		L			int
