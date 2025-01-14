@@ -40,7 +40,7 @@ if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
 	target_compile_options( geowars PRIVATE -Wall -Werror )
 endif ()
 if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-	target_compile_options( geowars PRIVATE /Wall /WL /W4 /wd"4100" )
+	target_compile_options( geowars PRIVATE /Wall /WL /W4 /wd"4100" /fsanitize=adress )
 endif ()
 
 # Build game
