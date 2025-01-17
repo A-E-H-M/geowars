@@ -363,7 +363,6 @@ void Game::sUserInput()
 			switch (event.key.code)
 			{
 				case sf::Keyboard::W:
-					std::cout << "W Key Released/n";
 					m_player->cInput->up = false;
 					break;
 				case sf::Keyboard::S:
@@ -384,7 +383,6 @@ void Game::sUserInput()
 		{
 			if (event.mouseButton.button == sf::Mouse::Left)
 			{
-				std::cout << "Left Mouse Button Clicked at (" << event.mouseButton.x << ", " << event.mouseButton.y << ")/n";
 				spawnBullet(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
 			}
 
