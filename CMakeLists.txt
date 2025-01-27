@@ -11,20 +11,15 @@ project( geowars
 	DESCRIPTION "A single-player point and click, 2D game written in C++" )
 
 # Optional flags
-option( BUILD_GAME "Build game executable" OFF)
+option( BUILD_GAME "Build game executable" OFF )
 option( GEOWARS_BUILD_TESTS "Build unit tests" OFF )
-
-if ( CMAKE_BUILD_TYPE MATCHES "Debug" )
-		if ( CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
-				set ( CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address -fsanitize=undefined" )
-				#target_link_libraries ( geowars PRIVATE asan ubsan )
-		endif ()
-endif ()
+option( COMPILER_FLAGS "Build with compiler flags" OFF )
 
 # Add dependencies
 include( cmake/download_cpm.cmake )
 
 CPMAddPackage( "gh:SFML/SFML#2.6.x" )
+CPMAddPackage( "gh:nlohmann/json@3.11.3" )
 
 # Add library targets
 add_library( geowars
@@ -35,12 +30,17 @@ add_library( geowars
 target_include_directories( geowars PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
 target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system )
 
+# Compile features
 target_compile_features( geowars PRIVATE cxx_std_20 )
-if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
-	target_compile_options( geowars PRIVATE -Wall -Werror )
-endif ()
-if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-	target_compile_options( geowars PRIVATE /Wall /WL /W4 /wd"4100" /fsanitize=adress )
+
+# Build with compiler flags
+if ( ${COMPILER_FLAGS} )
+	if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
+		target_compile_options( geowars PRIVATE -Wall -Werror )
+	endif ()
+	if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
+		target_compile_options( geowars PRIVATE /Wall /WL /W4 /wd"4100" /fsanitize=adress )
+	endif ()
 endif ()
 
 # Build game
@@ -50,8 +50,8 @@ endif ()
 
 # Check to build unit tests
 if ( ${GEOWARS_BUILD_TESTS} )
-		enable_testing ()
-		add_subdirectory ( tests )
+	enable_testing ()
+	add_subdirectory ( tests )
 endif ()
 
 # End of file
