@@ -57,7 +57,7 @@ class Game
 		// void spawnSpecialWeapon(std::shared_ptr<Entity> entity);
 		// void spawnSmallEnemies(std::shared_ptr<Entity> entity);
 
-		// Sytem updates
+		// System updates
 		void sMovement();
 		void sUserInput();
 		void sLifespan();

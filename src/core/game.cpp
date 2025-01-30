@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+#include <cmath>
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -185,15 +186,11 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e) {
 // Spawn a bullet from the player entity's to a target location
 void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2<int>& mousePos) 
 {
-	// TODO: Ensure bullet speed scalar is used & add velocity formula
-	
 	auto bullet = m_entities.addEntity("bullet");
 
-	// Bullet speed is given as a scalar speed
-	//Vec2 temp = (entity->cTransform->pos.x, entity->cTransform->pos.y);
-	//temp.normalize();
+	float angle = atan2(mousePos.y - entity->cTransform->pos.y, mousePos.x - entity->cTransform->pos.x);
 
-	bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(m_bulletConfig.S, m_bulletConfig.S), 0);
+	bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(static_cast<int>(m_bulletConfig.S * cos(angle)), static_cast<int>(m_bulletConfig.S *sin(angle))), angle);
 	
 	// Bullet entity properties from the configuration file
 	bullet->cShape = std::make_shared<CShape>(m_bulletConfig.SR, m_bulletConfig.V, sf::Color(m_bulletConfig.FR, m_bulletConfig.FG, m_bulletConfig.FB), sf::Color(m_bulletConfig.OR, m_bulletConfig.OG, m_bulletConfig.OB), m_bulletConfig.OT);
@@ -239,10 +236,7 @@ void Game::sMovement()
 void Game::sLifespan() 
 {
 	// TODO: Ensure for all entities
-	// 		 - if entity has no lifespan component, skip it
-	// 		 - if entity has > 0 remaining lifespan, subtract 1
 	// 		 - if it has lifespan and is alive, scale its alpha channel properly
-	// 		 - if it has lifespan and its time is up destroy the entity
 	for (auto e: m_entities.getEntities()) 
 	{
 		if (e->cLifespan) 
@@ -262,7 +256,6 @@ void Game::sLifespan()
 // Implement all collisions between entities
 void Game::sCollision()
 {
-	// TODO: Ensure the use of the bounding box, not the shape of the entity
 	for (auto e : m_entities.getEntities())
 	{
 		e->cCollision->boundingBox = e->cShape->circle.getGlobalBounds();
