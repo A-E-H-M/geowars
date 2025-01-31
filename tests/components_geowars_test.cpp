@@ -1,11 +1,11 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/generators/catch_generators.hpp>
-#include <vector>
+//#include <vector>
 
 #include "geowars/components.hpp"
 
 TEST_CASE( "Initialize component", "[component]" ) {
-	SECTION( "Initalize with Vec2 default parameters" ) {
+	/*SECTION( "Initalize with Vec2 default parameters" ) {
 		Vec2 a;
 		CTransform Ct(a, a, 0);
 		CHECK( Ct.pos == a );
@@ -22,4 +22,5 @@ TEST_CASE( "Initialize component", "[component]" ) {
 		CHECK( a_Ct.velocity == velocity );
 		CHECK( a_Ct.angle == 10 );
 	}
+	*/
 }

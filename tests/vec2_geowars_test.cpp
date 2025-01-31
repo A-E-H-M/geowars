@@ -5,17 +5,18 @@
 #include <catch2/catch_approx.hpp>
 #include "geowars/vec2.hpp"
 
-TEMPLATE_TEST_CASE("Vec2 operations", "[vec2]", 
+TEMPLATE_TEST_CASE( "Vec2 operations", "[vec2]", 
     int, long, short,                     // Integer types
     float, double, long double,           // Floating point types
     unsigned int, unsigned long           // Unsigned types
 ) {
-    Vec2<TestType> v1(static_cast<TestType>(2), static_cast<TestType>(3));
-    Vec2<TestType> v2(static_cast<TestType>(3), static_cast<TestType>(4));
     
-    SECTION("Basic operations") {
-        // Test addition
-        auto sum = v1 + v2;
+Vec2<TestType> v1(static_cast<TestType>(2), static_cast<TestType>(3));
+Vec2<TestType> v2(static_cast<TestType>(3), static_cast<TestType>(4));
+    
+	SECTION("Basic operations") {
+	// Test addition
+		auto sum = v1 + v2;
         REQUIRE(sum.x == static_cast<TestType>(5));
         REQUIRE(sum.y == static_cast<TestType>(7));
 
