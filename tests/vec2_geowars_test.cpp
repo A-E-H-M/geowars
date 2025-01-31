@@ -2,7 +2,9 @@
 //#include <vector>
 
 #include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_template_test_macros.hpp>
 #include <catch2/catch_approx.hpp>
+
 #include "geowars/vec2.hpp"
 
 TEMPLATE_TEST_CASE( "Vec2 operations", "[vec2]", 
@@ -251,5 +253,4 @@ TEST_CASE( "Vec2 template instantiation", "[vec2]" ) {
 	SECTION( "Testing overloaded - operator" ) {
 		//
 	}
-*/
-}
+} */
