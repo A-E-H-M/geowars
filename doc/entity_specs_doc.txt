@@ -1,19 +1,19 @@
-Configuration File:
+Game Specifications
 
-Window Specification:
+Window Specs:
 Window W H FL FS
 	Width				W			int
 	Height				H			int
 	Frame limit			FL			int
-	Full-screen mode 	FS			bool
+	Full-screen mode	FS			bool
 
-Font Specification:
+Font Specs:
 Font F S R G B
 	Font File 			F			std::string
 	Font Size			S			int
 	RBG Color			R,G,B		int, int, int
 
-Player Specification:
+Player Specs:
 Player SR CR S FR FG FB OR OG OB OT V
 	Shape Radius		SR			int
 	Collision Radius	CR			int
@@ -23,24 +23,24 @@ Player SR CR S FR FG FB OR OG OB OT V
 	Outline Thickness	OT			int
 	Shape Vertices		V			int
 
-Enemy Specification:
+Enemy Specs:
 Enemy SR CR SMIN SMAX OR OG OB OT VMIN VMAX L SI
 	Shape Radius		SR			int
 	Collision Radius	CR			int
-	Min / Max Speed		SMIN,SMAX	float,float
-	Outline Color		OR,OG,OB	uint8_t,uint8_t,uint8_t
+	Min / Max Speed		SMIN,SMAX	float, float
+	Outline Color		OR,OG,OB	int, int, int
 	Outline Thickness	OT			int
-	Min / Max Vertices	VMIN,VMAX	int,int
+	Min / Max Vertices	VMIN,VMAX	int, int
 	Spawn Lifespan		L			int
 	Spawn Interval		SI			int
 
-Bullet Specification:
+Bullet Specs:
 Bullet SR CR S FR FG FB OR OG OB OT V L
 	Shape Radius		SR			int
 	Collision Radius	CR			int
 	Speed				S			int
-	Fill Color			FR,FG,FB	uint8_t,uint8_t,uint8_t
-	Outline Color		OR,OG,OB	uint8_t,uint8_t,uint8_t
+	Fill Color			FR,FG,FB	int, int, int
+	Outline Color		OR,OG,OB	int, int, int
 	Outline Thickness	OT			int
 	Shape Vertices		V			int
 	Spawn Lifespan		L			int

@@ -8,65 +8,41 @@
     "font": {
         "file": "Ohyou.ttf",
         "size": 24,
-        "color": {
-            "r": 255,
-            "g": 255,
-            "b": 255
-        }
+        "color": [255, 255, 255]
     },
-    "player": {
-        "shape_radius": 32,
-        "collision_radius": 32,
-        "speed": 5.0,
-        "fill_color": {
-            "r": 5,
-            "g": 5,
-            "b": 5
-        },
-        "outline_color": {
-            "r": 255,
-            "g": 0,
-            "b": 0
-        },
-        "outline_thickness": 4,
-        "vertices": 8
-    },
-    "enemy": {
-        "shape_radius": 32,
-        "collision_radius": 32,
-        "speed": {
-            "min": 3.0,
-            "max": 3.0
-        },
-        "outline_color": {
-            "r": 255,
-            "g": 255,
-            "b": 255
-        },
-        "outline_thickness": 2,
-        "vertices": {
-            "min": 3,
-            "max": 8
-        },
-        "spawn_lifespan": 90,
-        "spawn_interval": 60
-    },
-    "bullet": {
-        "shape_radius": 10,
-        "collision_radius": 10,
-        "speed": 20,
-        "fill_color": {
-            "r": 255,
-            "g": 255,
-            "b": 255
-        },
-        "outline_color": {
-            "r": 255,
-            "g": 255,
-            "b": 255
-        },
-        "outline_thickness": 2,
-        "vertices": 20,
-        "lifespan": 90
-    }
+	"entity": {
+    	"player": {
+        	"shape_radius": 32,
+        	"collision_radius": 32,
+        	"speed": [5.0, 5.0],
+        	"fill_color": [5, 5, 5],
+        	"outline_color": [255, 0, 0],
+        	"outline_thickness": 4,
+        	"vertices": [8, 8],
+			"spawn_lifespan": 0,
+        	"spawn_interval": 0
+    	},
+    	"enemy": {
+        	"shape_radius": 32,
+        	"collision_radius": 32,
+        	"speed": [3.0, 3.0],
+			"fill_color": [0, 0, 0],
+        	"outline_color": [255, 255, 255],
+        	"outline_thickness": 2,
+        	"vertices": [3, 8],
+        	"spawn_lifespan": 90,
+        	"spawn_interval": 60
+    	},
+    	"bullet": {
+        	"shape_radius": 10,
+        	"collision_radius": 10,
+        	"speed": [20.0, 20.0],
+        	"fill_color": [255, 255, 255],
+        	"outline_color": [255, 255, 255],
+        	"outline_thickness": 2,
+        	"vertices": [20, 20],
+        	"spawn_lifespan": 90,
+			"spawn_interval": 0
+    	}
+	}
 }
