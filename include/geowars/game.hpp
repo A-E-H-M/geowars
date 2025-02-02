@@ -12,9 +12,10 @@
 // Configuration containers
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
 struct FontConfig { std::string T, F; int S, R, G, B; };
-struct PlayerConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V; int S; };
-struct EnemyConfig { std::string T; int SR, CR; int OR, OG, OB; int OT, VMIN, VMAX, L, SI; int SMIN, SMAX; };
-struct BulletConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V, L; int S; };
+struct Entity_Config { std::string T, int SR, CR, SMin, SMax, FR, FG, FB, OR, OG, OB, OT, VMin, VMax, SL, SI; };
+//struct PlayerConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V; int S; };
+//struct EnemyConfig { std::string T; int SR, CR; int OR, OG, OB; int OT, VMIN, VMAX, L, SI; int SMIN, SMAX; };
+//struct BulletConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V, L; int S; };
 
 class Game
 {
@@ -32,9 +33,9 @@ class Game
 		// Configuration specs for window and entities
 		WindowConfig m_windowConfig;
 		FontConfig m_fontConfig;
-		PlayerConfig m_playerConfig;
-		EnemyConfig m_enemyConfig;
-		BulletConfig m_bulletConfig;
+		EntityConfig m_playerConfig;
+		EntityConfig m_enemyConfig;
+		EntityConfig m_bulletConfig;
 		
 		// Game state properties
 		int m_score = 0;

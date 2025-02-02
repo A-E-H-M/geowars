@@ -2,7 +2,7 @@
     "window": {
         "width": 1280,
         "height": 720,
-        "frame_limit": 60,
+        "frame_rate": 60,
         "fullscreen": 0
     },
     "font": {

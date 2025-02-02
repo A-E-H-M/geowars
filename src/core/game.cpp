@@ -6,6 +6,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <nlohmann/json.hpp>
 
 #include "geowars/game.hpp"
 
@@ -16,6 +17,46 @@ Game::Game(const std::string & config)
 
 void Game::init(const std::string & path)
 {
+	std::ifstream f("config.json");
+	json game_config = json::parse(f);
+	
+	m_windowConfig.W = game_config["window"]["width"];
+	m_windowConfig.H = game_config["window"]["height"];
+	m_windowConfig.FR = game_config["window"]["frame_rate"];
+	m_windowConfig.UNK = game_config["window"]["fullscreen"];	
+
+	m_fontConfig.F = game_config["font"]["file"];
+	m_fontConfig.S = game_config["font"]["size"];
+	m_fontConfig.R = game_config["font"]["color"].at(0);	
+	m_fontConfig.G = game_config["font"]["color"].at(1);
+	m_fontConfig.B = game_config["font"]["color"].at(2);
+
+	std::vector<Entity_Config> e_types;
+	for (auto& a : game_config["entity"].items())
+	{
+		entity_type temp;
+		temp.T = a.key();
+		temp.SR = game_config["entity"][temp.T]["shape_radius"];
+		temp.CR = game_config["entity"][temp.T]["collision_radius"];
+		temp.SMin = game_config["entity"][temp.T]["speed"].at(0);
+		temp.SMax = game_config["entity"][temp.T]["speed"].at(1);
+		temp.FR = game_config["entity"][temp.T]["fill_color"].at(0);	
+		temp.FG = game_config["entity"][temp.T]["fill_color"].at(1);		
+		temp.FB = game_config["entity"][temp.T]["fill_color"].at(2);	
+		temp.OR = game_config["entity"][temp.T]["outline_color"].at(0);	
+		temp.OG = game_config["entity"][temp.T]["outline_color"].at(1);		
+		temp.OB = game_config["entity"][temp.T]["outline_color"].at(2);		
+		temp.OT = game_config["entity"][temp.T]["outline_thickness"];
+		temp.VMin = game_config["entity"][temp.T]["vertices"].at(0);		
+		temp.VMax = game_config["entity"][temp.T]["vertices"].at(1);
+		temp.SL = game_config["entity"][temp.T]["spawn_lifespan"];	
+		temp.SI = game_config["entity"][temp.T]["spawn_interval"];	
+		e_types.push_back(temp);
+	}
+
+	
+		
+	/*
 	// Read and store configuration file variables, then close file
 	std::fstream file(path);
 
@@ -40,6 +81,7 @@ void Game::init(const std::string & path)
 	
 	// Close the configuration file
 	file.close();
+	*/
 
 	// Load and verify font can be loaded, if not, print an error message
 	if (!m_font.loadFromFile(m_fontConfig.F))
