@@ -12,7 +12,7 @@
 // Configuration containers
 struct WindowConfig { std::string T; int W, H, FR, UNK; };
 struct FontConfig { std::string T, F; int S, R, G, B; };
-struct Entity_Config { std::string T, int SR, CR, SMin, SMax, FR, FG, FB, OR, OG, OB, OT, VMin, VMax, SL, SI; };
+struct EntityConfig { std::string T; int SR, CR, SMin, SMax, FR, FG, FB, OR, OG, OB, OT, VMin, VMax, SL, SI; };
 //struct PlayerConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V; int S; };
 //struct EnemyConfig { std::string T; int SR, CR; int OR, OG, OB; int OT, VMIN, VMAX, L, SI; int SMIN, SMAX; };
 //struct BulletConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V, L; int S; };

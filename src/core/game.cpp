@@ -10,6 +10,8 @@
 
 #include "geowars/game.hpp"
 
+using json = nlohmann::json;
+
 Game::Game(const std::string & config)
 {
 	init(config);
@@ -17,7 +19,9 @@ Game::Game(const std::string & config)
 
 void Game::init(const std::string & path)
 {
-	std::ifstream f("config.json");
+	try
+	{
+	std::ifstream f(path);
 	json game_config = json::parse(f);
 	
 	m_windowConfig.W = game_config["window"]["width"];
@@ -31,10 +35,10 @@ void Game::init(const std::string & path)
 	m_fontConfig.G = game_config["font"]["color"].at(1);
 	m_fontConfig.B = game_config["font"]["color"].at(2);
 
-	std::vector<Entity_Config> e_types;
 	for (auto& a : game_config["entity"].items())
 	{
-		entity_type temp;
+		EntityConfig temp;
+	
 		temp.T = a.key();
 		temp.SR = game_config["entity"][temp.T]["shape_radius"];
 		temp.CR = game_config["entity"][temp.T]["collision_radius"];
@@ -51,38 +55,22 @@ void Game::init(const std::string & path)
 		temp.VMax = game_config["entity"][temp.T]["vertices"].at(1);
 		temp.SL = game_config["entity"][temp.T]["spawn_lifespan"];	
 		temp.SI = game_config["entity"][temp.T]["spawn_interval"];	
-		e_types.push_back(temp);
+		
+		if (temp.T == "player")
+			m_playerConfig = temp;
+		if (temp.T == "enemy")
+			m_enemyConfig = temp;
+		if (temp.T == "bullet")
+			m_bulletConfig = temp;
+	}
 	}
 
-	
-		
-	/*
-	// Read and store configuration file variables, then close file
-	std::fstream file(path);
-
-	if (file.is_open())
+	catch (const json::parse_error& e)
 	{
-		file >> m_windowConfig.T >> m_windowConfig.W >> m_windowConfig.H >> m_windowConfig.FR >> m_windowConfig.UNK;
-		
-		file >> m_fontConfig.T >> m_fontConfig.F >> m_fontConfig.S >> m_fontConfig.R >> m_fontConfig.G >> m_fontConfig.B;
-		
-		file >> m_playerConfig.T >> m_playerConfig.SR >> m_playerConfig.CR >> m_playerConfig.S >> m_playerConfig.FR >> m_playerConfig.FG >> m_playerConfig.FB >> m_playerConfig.OR >> m_playerConfig.OG >> m_playerConfig.OB >> m_playerConfig.OT >> m_playerConfig.V;
-		
-		file >> m_enemyConfig.T >> m_enemyConfig.SR >> m_enemyConfig.CR >> m_enemyConfig.SMIN >> m_enemyConfig.SMAX >> m_enemyConfig.OR >> m_enemyConfig.OG >> m_enemyConfig.OB >> m_enemyConfig.OT >> m_enemyConfig.VMIN >> m_enemyConfig.VMAX >> m_enemyConfig.L >> m_enemyConfig.SI;
-		
-		file >> m_bulletConfig.T >> m_bulletConfig.SR >> m_bulletConfig.CR >> m_bulletConfig.S  >> m_bulletConfig.FR >> m_bulletConfig.FG >> m_bulletConfig.FB >> m_bulletConfig.OR >> m_bulletConfig.OG >> m_bulletConfig.OB >> m_bulletConfig.OT >> m_bulletConfig.V >> m_bulletConfig.L;
+		std::cout << "Message: Couldn't open config file for reading. \n"
+				<< "Error: " << e.what() << "Exception ID: " << e.id << "\n";
 	}
-
-	else 
-	{
-		// Print an error message if the configuration file could not be opened
-		std::cerr << "Couldn't open config file for reading. \n";
-	}
-	
-	// Close the configuration file
-	file.close();
-	*/
-
+		
 	// Load and verify font can be loaded, if not, print an error message
 	if (!m_font.loadFromFile(m_fontConfig.F))
 	{
@@ -159,10 +147,10 @@ void Game::spawnPlayer()
 	//float my = m_window.getSize().y / 2.0f;
 	
 	// Player entity's spawning position, speed, and rotation direction are from the configuration file
-	entity->cTransform = std::make_shared<CTransform>(Vec2(m_windowConfig.W/2, m_windowConfig.H/2), Vec2(m_playerConfig.S, m_playerConfig.S), 0.0f);
+	entity->cTransform = std::make_shared<CTransform>(Vec2(m_windowConfig.W/2, m_windowConfig.H/2), Vec2(m_playerConfig.SMin, m_playerConfig.SMax), 0.0f);
 
 	// Player entity's shape, color, and outline thickness are from the configuration file
-	entity->cShape = std::make_shared<CShape>(m_playerConfig.SR, m_playerConfig.V, sf::Color(m_playerConfig.FR, m_playerConfig.FG, m_playerConfig.FB), sf::Color(m_playerConfig.OR, m_playerConfig.OG, m_playerConfig.OB), m_playerConfig.OT);
+	entity->cShape = std::make_shared<CShape>(m_playerConfig.SR, m_playerConfig.VMax, sf::Color(m_playerConfig.FR, m_playerConfig.FG, m_playerConfig.FB), sf::Color(m_playerConfig.OR, m_playerConfig.OG, m_playerConfig.OB), m_playerConfig.OT);
 
 	// Player entity's bounding box
 	auto bounds = entity->cShape->circle.getGlobalBounds();
@@ -187,8 +175,8 @@ void Game::spawnEnemy()
 	int ex = rand() % m_window.getSize().x; // rand() % used to randomize the spawning positions
 	int ey = rand() % m_window.getSize().y;
 
-	int speedX = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
-	int speedY = (rand() % static_cast<int>((m_enemyConfig.SMAX - m_enemyConfig.SMIN + 1.0) + m_enemyConfig.SMIN));
+	int speedX = (rand() % static_cast<int>((m_enemyConfig.SMax - m_enemyConfig.SMin + 1.0) + m_enemyConfig.SMin));
+	int speedY = (rand() % static_cast<int>((m_enemyConfig.SMax - m_enemyConfig.SMin + 1.0) + m_enemyConfig.SMin));
 
 	if (speedX / 2 == 1)
 		speedX *= -1;
@@ -199,7 +187,7 @@ void Game::spawnEnemy()
 	entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(speedX, speedY), angle);
 
 	// Enemy entity's graphics and physics properties from configuration file
-	int vertices = (rand() % (m_enemyConfig.VMAX - m_enemyConfig.VMIN + 1) + m_enemyConfig.VMIN);
+	int vertices = (rand() % (m_enemyConfig.VMax - m_enemyConfig.VMin + 1) + m_enemyConfig.VMin);
 	entity->cShape = std::make_shared<CShape>(m_enemyConfig.SR, vertices, sf::Color(0, 0, 0), sf::Color(m_enemyConfig.OR, m_enemyConfig.OG, m_enemyConfig.OB), m_enemyConfig.OT);
 
 	// Enemy entity's bounding box
@@ -207,7 +195,7 @@ void Game::spawnEnemy()
 	entity->cCollision = std::make_shared<CCollision>(bounds);
 
 	// Enemy entity's lifespan
-	entity->cLifespan = std::make_shared<CLifespan>(m_enemyConfig.L);
+	entity->cLifespan = std::make_shared<CLifespan>(m_enemyConfig.SL);
 
 	// Record of the frame this enemy entity was spawned
 	m_lastEnemySpawnTime = m_currentFrame;
@@ -232,10 +220,10 @@ void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2<int>& mousePos
 
 	float angle = atan2(mousePos.y - entity->cTransform->pos.y, mousePos.x - entity->cTransform->pos.x);
 
-	bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(static_cast<int>(m_bulletConfig.S * cos(angle)), static_cast<int>(m_bulletConfig.S *sin(angle))), angle);
+	bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(static_cast<int>(m_bulletConfig.SMin * cos(angle)), static_cast<int>(m_bulletConfig.SMax *sin(angle))), angle);
 	
 	// Bullet entity properties from the configuration file
-	bullet->cShape = std::make_shared<CShape>(m_bulletConfig.SR, m_bulletConfig.V, sf::Color(m_bulletConfig.FR, m_bulletConfig.FG, m_bulletConfig.FB), sf::Color(m_bulletConfig.OR, m_bulletConfig.OG, m_bulletConfig.OB), m_bulletConfig.OT);
+	bullet->cShape = std::make_shared<CShape>(m_bulletConfig.SR, m_bulletConfig.VMax, sf::Color(m_bulletConfig.FR, m_bulletConfig.FG, m_bulletConfig.FB), sf::Color(m_bulletConfig.OR, m_bulletConfig.OG, m_bulletConfig.OB), m_bulletConfig.OT);
 
 	// Bullet entity's bounding box
 	auto bounds = bullet->cShape->circle.getGlobalBounds();
@@ -261,16 +249,16 @@ void Game::sMovement()
 
 	// Implement player movement
 	if (m_player->cInput->up) {
-		m_player->cTransform->velocity.y = m_playerConfig.S * -1;
+		m_player->cTransform->velocity.y = m_playerConfig.SMax * -1;
 	}
 	if (m_player->cInput->down) {
-		m_player->cTransform->velocity.y = m_playerConfig.S;
+		m_player->cTransform->velocity.y = m_playerConfig.SMax;
 	}
 	if (m_player->cInput->left) {
-		m_player->cTransform->velocity.x = m_playerConfig.S * -1;
+		m_player->cTransform->velocity.x = m_playerConfig.SMax * -1;
 	}
 	if (m_player->cInput->right) {
-	m_player->cTransform->velocity.x = m_playerConfig.S;
+	m_player->cTransform->velocity.x = m_playerConfig.SMax;
 	}
 }
 
@@ -423,7 +411,6 @@ void Game::sUserInput()
 
 			if (event.mouseButton.button == sf::Mouse::Right)
 			{
-				std::cout << "Right Mouse Button Clicked at (" << event.mouseButton.x << ", " << event.mouseButton.y << ")/n";
 				// TODO: Spawn special weapon here
 			}
 		}

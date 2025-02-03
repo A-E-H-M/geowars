@@ -7,7 +7,7 @@
 file( COPY ../font/Ohyou.ttf
 	DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 
-file( COPY ../config/config.txt 
+file( COPY ../config/config.json 
 	DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
 
 file( COPY ../textures/background.png
