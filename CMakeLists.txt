@@ -28,7 +28,7 @@ add_library( geowars
 	src/environment/terrain.cpp
 	src/core/game.cpp )
 target_include_directories( geowars PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
-target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system )
+target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json )
 
 # Compile features
 target_compile_features( geowars PRIVATE cxx_std_20 )
