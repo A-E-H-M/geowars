@@ -16,7 +16,8 @@ file( COPY ../textures/background.png
 # Add dependencies
 include( ../cmake/download_cpm.cmake )
 
-CPMAddPackage("gh:SFML/SFML#2.6.x")
+CPMAddPackage( "gh:SFML/SFML#2.6.x" )
+CPMAddPackage( "gh:nlohmann/json@3.11.3" )
 
 # Add executable
 add_executable(	geowars_game ../src/main/geowars_main.cpp )
