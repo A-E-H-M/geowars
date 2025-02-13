@@ -33,13 +33,15 @@ target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system nloh
 # Compile features
 target_compile_features( geowars PRIVATE cxx_std_20 )
 
-# Build with compiler flags
+# Build with compiler flags and warnings as errors
 if ( ${COMPILER_FLAGS} )
+	set_target_properties( geowars PROPERTIES COMPILE_WARNING_AS_ERROR ON )
 	if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU|AppleClang" )
-		target_compile_options( geowars PRIVATE -Wall -Werror )
+			target_compile_options( geowars PRIVATE -Wall -Werror -Wextra -pedantic-errors )
+			# TODO: Add -Wconversion -Wsign-conversion
 	endif ()
 	if ( CMAKE_CXX_COMPILER_ID MATCHES "MSVC" )
-		target_compile_options( geowars PRIVATE /Wall /WL /W4 /wd"4100" /fsanitize=adress )
+			target_compile_options( geowars PRIVATE /Wall /WL /WX /W4 /wd"4100" )
 	endif ()
 endif ()
 
