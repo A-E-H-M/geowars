@@ -10,7 +10,7 @@
 ## Overview
 Geowars is a 2D point and click, shooter game where the player scores points by shooting at shapes that randomly appear on the screen.
 
-## To Play Geowars
+## Play Geowars
 #### Build From Source
 ##### Requirements: C++20 & CMake 3.25
 First clone the `geowars` repository, then create a separate `build` directory at the same directory level as `geowars` but not inside the `geowars` directory. 
@@ -40,31 +40,31 @@ cmake -D GEOWARS_BUILD_TESTS::BOOL=ON ../geowars/
 
 cmake --build .
 ```
-
-### Build with Compiler Flags
+#### Build with Compiler Flags
 To build Geowars tests with additional warning compiler flags add the following `-D COMPILER_FLAGS::BOOL=ON` to the your first command.
 ```
 cmake -D GEOWARS_BUILD_TESTS::BOOL=ON -D COMPILER_FLAGS::BOOL=ON ../geowars/
 
 cmake --build .
 ```
-
 ### Continuous Integration
 #### Supported Environments & Compilers
 CI workflows currently build and unit test on g++ (through Ubuntu), MSVC (through Windows), and Clang (through macOS).
 
 ### Requirements
+Your machine should have each of these already installed before you can proceed with building from source. Unlike the library dependencies listed in the next section which are handled by the dependency manager, these might take some extra leg work if they are not already installed. Always check to see if you have them before trying to install them.
 ##### C++ Standard
 Minimum required standard is C++20.
 ##### CMake
 CMake is Geowars build system. You will need CMake 3.25 installed on your machine to build Geowars from source. Directions on how to install CMake can be found [here](https://cmake.org/download).
 ### List of Dependencies
+These are only listed for your reference. You will not need to manually install them yourself, rather the CPM.cmake (see below) takes care of downloading the library dependencies with the correct version for you.
 ##### SFML
-[SFML](https://github.com/SFML/SFML)is multi-media library used for window, system, and graphics handling. CPM.cmake will automatically download SFML if it is not already installed.
+[SFML](https://github.com/SFML/SFML) is a multi-media library used for window, system, and graphics handling.
 ##### Nlohmann JSON Library
-[Nlohmann/json](https://github.com/nlohmann/json) is a commonly used C++ library written to read, write, and manipulate JSON files. Geowars uses JSON as its configuration format for entity, font, and window properties. CPM.cmake will automatically download Nlohmann JSON Library if it is not already installed.
+[Nlohmann/json](https://github.com/nlohmann/json) is a commonly used C++ library written to read, write, and manipulate JSON files. Geowars uses JSON as its configuration format for entity, font, and window properties.
 ##### CPM.cmake
-[CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) is used for dependency management. The CMake build has been configured to download CPM from its GitHub respository if it is not already installed, along with all other dependencies such as SFML.
+[CPM.cmake](https://github.com/cpm-cmake/CPM.cmake) is used for dependency management. The CMake build has been configured to download CPM from its GitHub respository if it is not already installed, along with all other dependencies such as SFML. CPM will extract the correct version for each dependency, unlike the requirements needed for the build.
 
 ## About Geowars
 Geowars is one of my first games using a custom game engine. Game development have been my primary means to exploring design patterns, cross-platform builds with CMake, and game engine architecture. Going forward, Geowars will serve as my control when experimenting with new technologies and just about anything I want to try out. Enjoy!
