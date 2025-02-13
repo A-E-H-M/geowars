@@ -56,7 +56,7 @@ Your machine should have each of these already installed before you can proceed 
 ##### C++ Standard
 Minimum required standard is C++20.
 ##### CMake
-CMake is Geowars build system. You will need CMake 3.25 installed on your machine to build Geowars from source. Directions on how to install CMake can be found [here](https://cmake.org/download).
+CMake is Geowars build system. You will need CMake 3.25 or later installed on your machine to build Geowars from source. Directions on how to install CMake can be found [here](https://cmake.org/download).
 ### List of Dependencies
 These are only listed for your reference. You will not need to manually install them yourself, rather the CPM.cmake (see below) takes care of downloading the library dependencies with the correct version for you.
 ##### SFML
