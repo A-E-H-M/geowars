@@ -4,18 +4,20 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <nlohmann/json.hpp>
 
 #include "geowars/entity.hpp"
 #include "geowars/entity_manager.hpp"
 #include "geowars/terrain.hpp"
 
+using json = nlohmann::json;
+
 // Configuration containers
-struct WindowConfig { std::string T; int W, H, FR, UNK; };
-struct FontConfig { std::string T, F; int S, R, G, B; };
+struct WindowConfig { int W, H, FR, UNK; };
+struct FontConfig { std::string F; int S, R, G, B; };
 struct EntityConfig { std::string T; int SR, CR, SMin, SMax, FR, FG, FB, OR, OG, OB, OT, VMin, VMax, SL, SI; };
-//struct PlayerConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V; int S; };
-//struct EnemyConfig { std::string T; int SR, CR; int OR, OG, OB; int OT, VMIN, VMAX, L, SI; int SMIN, SMAX; };
-//struct BulletConfig { std::string T; int SR, CR; int FR, FG, FB, OR, OG, OB; int OT, V, L; int S; };
+struct TerrainConfig { std::string F, N; int D; };
+struct TextConfig { std::string WT, ST; };
 
 class Game
 {
@@ -30,12 +32,14 @@ class Game
 		sf::Texture m_terrain;
 		sf::Sprite m_sceneBackgroundSprite;
 
-		// Configuration specs for window and entities
+		// Configuration specs for window, text strings, and entities
 		WindowConfig m_windowConfig;
 		FontConfig m_fontConfig;
 		EntityConfig m_playerConfig;
 		EntityConfig m_enemyConfig;
 		EntityConfig m_bulletConfig;
+		TerrainConfig m_terrainConfig;
+		TextConfig m_textConfig;
 		
 		// Game state properties
 		int m_score = 0;
@@ -49,7 +53,7 @@ class Game
 		std::shared_ptr<Entity> m_player;
 
 		// Update game state
-		void init(const std::string & config);
+		void init(const json& game_configurations);
 		void setPaused(); 
 		void spawnPlayer();
 		void spawnEnemy();

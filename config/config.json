@@ -5,6 +5,10 @@
         "frame_rate": 60,
         "fullscreen": 0
     },
+	"text": {
+		"window_text": "Best Game Ever",
+		"score_text": "Your score, baby: "
+	}
     "font": {
         "file": "Ohyou.ttf",
         "size": 24,
@@ -44,5 +48,10 @@
         	"spawn_lifespan": 90,
 			"spawn_interval": 0
     	}
-	}
+	}	
+	"terrain": {
+        "difficulty": 3,
+        "file": "background.png",
+		"name": "Galaxy"
+		}
 }

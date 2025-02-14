@@ -12,29 +12,45 @@
 
 using json = nlohmann::json;
 
-Game::Game(const std::string & config)
+Game::Game(const std::string& config)
 {
-	init(config);
+	// Verify config file can be located and parsed, if not, print an error message
+	//try
+	{
+	std::ifstream f(config);
+	json game_config = json::parse(f);
+	}
+
+	catch (const json::parse_error& e)
+	{
+		std::cout << "Message: Couldn't open config file for reading. \n"
+				<< "Error: " << e.what() << "Exception ID: " << e.id << "\n";
+		//exit(-1);
+	}
+
+	init(game_config);
 }
 
-void Game::init(const std::string & path)
-{
-	try
-	{
-	std::ifstream f(path);
-	json game_config = json::parse(f);
-	
+void Game::init(const json& game_config)
+{	
+	// Set window configurations
 	m_windowConfig.W = game_config["window"]["width"];
 	m_windowConfig.H = game_config["window"]["height"];
 	m_windowConfig.FR = game_config["window"]["frame_rate"];
 	m_windowConfig.UNK = game_config["window"]["fullscreen"];	
 
+	// Set on screen text strings
+	m_textConfig.WT = game_config["text"]["window_text"];
+	m_textConfig.ST = game_config["text"]["screen_text"];
+
+	// Set font configurations
 	m_fontConfig.F = game_config["font"]["file"];
 	m_fontConfig.S = game_config["font"]["size"];
 	m_fontConfig.R = game_config["font"]["color"].at(0);	
 	m_fontConfig.G = game_config["font"]["color"].at(1);
 	m_fontConfig.B = game_config["font"]["color"].at(2);
 
+	// Set player, enemy, and bullet configurations
 	for (auto& a : game_config["entity"].items())
 	{
 		EntityConfig temp;
@@ -63,14 +79,12 @@ void Game::init(const std::string & path)
 		if (temp.T == "bullet")
 			m_bulletConfig = temp;
 	}
-	}
 
-	catch (const json::parse_error& e)
-	{
-		std::cout << "Message: Couldn't open config file for reading. \n"
-				<< "Error: " << e.what() << "Exception ID: " << e.id << "\n";
-	}
-		
+	// Set asset configurations
+	m_terrainConfig.F = game_config["terrain"]["file"];
+	m_terrainConfig.N = game_config["terrain"]["name"];
+	m_terrainConfig.D = game_config["terrain"]["difficulty"];
+	
 	// Load and verify font can be loaded, if not, print an error message
 	if (!m_font.loadFromFile(m_fontConfig.F))
 	{
@@ -78,6 +92,13 @@ void Game::init(const std::string & path)
 		exit(-1);
 	}
 	
+	// Load and verify terrain texture can be loaded, if not, print an error message
+	if (!m_terrain.loadFromFile(m_terrainConfig.F))
+	{
+		std::cerr << "Could not load terrain texture!\n";
+		exit(-1);
+	}
+
 	// Spawn the player
 	spawnPlayer();
 }
@@ -85,19 +106,17 @@ void Game::init(const std::string & path)
 void Game::run() {
 	
 	// Render start window
-	m_window.create(sf::VideoMode(m_windowConfig.W, m_windowConfig.H), "Best Game Ever");
+	m_window.create(sf::VideoMode(m_windowConfig.W, m_windowConfig.H), m_textConfig.WT);
 	m_window.setFramerateLimit(m_windowConfig.FR);
 
 	// Set up score text
 	m_text.setFont(m_font);
-	m_text.setString("Your score, baby: "+std::to_string(0));
-	m_text.setPosition(10, m_windowConfig.H - (float)m_text.getCharacterSize() - 10);
+	m_text.setString(m_textConfig.ST + std::to_string(0));
+	m_text.setPosition(10, m_windowConfig.H - static_cast<float>(m_text.getCharacterSize()) - 10);
 
 	// Load textures
-	// TODO: Create a new function for loading texture and create new function for sprites
-	// 		 to replace the code below
-	m_terrain.loadFromFile("background.png");
-	Terrain m_sceneBackground(3, "Galaxy", m_terrain);
+	m_terrain.loadFromFile(m_terrainConfig.F);
+	Terrain m_sceneBackground(m_terrainConfig.D, m_terrainConfig.N, m_terrain);
 	m_sceneBackgroundSprite.setTexture(m_terrain);
 
 	// Main while loop
@@ -140,7 +159,7 @@ void Game::setPaused()
 void Game::spawnPlayer() 
 {	
 	// Create player entity
-	auto entity = m_entities.addEntity("player");
+	auto entity = m_entities.addEntity(m_playerConfig.T);
 
 	// Player entity's spawning position based on window size
 	//float mx = m_window.getSize().x / 2.0f;
@@ -169,7 +188,7 @@ void Game::spawnEnemy()
 	// TODO: Make sure the enemy is spawned properly with config specs & spawned in window bounds
 
 	// Create enemy entity
-	auto entity = m_entities.addEntity("enemy");
+	auto entity = m_entities.addEntity(m_enemyConfig.T);
 
 	// Enemy entity's spawning position based on window size
 	int ex = rand() % m_window.getSize().x; // rand() % used to randomize the spawning positions
@@ -216,7 +235,7 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e) {
 // Spawn a bullet from the player entity's to a target location
 void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2<int>& mousePos) 
 {
-	auto bullet = m_entities.addEntity("bullet");
+	auto bullet = m_entities.addEntity(m_bulletConfig.T);
 
 	float angle = atan2(mousePos.y - entity->cTransform->pos.y, mousePos.x - entity->cTransform->pos.x);
 
@@ -332,7 +351,7 @@ void Game::sRender()
 		m_window.draw(e->cShape->circle);
 	}
 
-	m_text.setString("Your score, baby: "+std::to_string(m_score));
+	m_text.setString(m_textConfig.ST + std::to_string(m_score));
 
 	m_window.draw(m_player->cShape->circle);
 	m_window.draw(m_text);
@@ -358,7 +377,6 @@ void Game::sUserInput()
 			switch (event.key.code)
 			{
 				case sf::Keyboard::W:
-					std::cout << "W Key Pressed/n";
 					m_player->cInput->up = true;
 					break;
 				case sf::Keyboard::S:
