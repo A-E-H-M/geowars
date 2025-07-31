@@ -15,20 +15,21 @@ using json = nlohmann::json;
 Game::Game(const std::string& config)
 {
 	// Verify config file can be located and parsed, if not, print an error message
-	//try
+	try
 	{
 	std::ifstream f(config);
 	json game_config = json::parse(f);
+
+	init(game_config);
 	}
 
 	catch (const json::parse_error& e)
 	{
 		std::cout << "Message: Couldn't open config file for reading. \n"
 				<< "Error: " << e.what() << "Exception ID: " << e.id << "\n";
-		//exit(-1);
+		exit(-1);
 	}
 
-	init(game_config);
 }
 
 void Game::init(const json& game_config)

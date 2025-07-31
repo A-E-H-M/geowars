@@ -12,11 +12,19 @@
 
 using json = nlohmann::json;
 
-// Configuration containers
+// Window configuration properties (Width, Height, Frame Rate, Unknown)
 struct WindowConfig { int W, H, FR, UNK; };
+
+// Font configuration properties (File path, Size, RGB color values)
 struct FontConfig { std::string F; int S, R, G, B; };
+
+// Entity configuration properties (Type, Shape Radius, Collision Radius, Speed Min/Max, Fill RGB, Outline RGB, Outline Thickness, Vertices Min/Max, Spawn Life, Spawn Interval)
 struct EntityConfig { std::string T; int SR, CR, SMin, SMax, FR, FG, FB, OR, OG, OB, OT, VMin, VMax, SL, SI; };
+
+// Terrain configuration properties (File path, Name, Difficulty)
 struct TerrainConfig { std::string F, N; int D; };
+
+// Text configuration properties (Window Title, Score Text)
 struct TextConfig { std::string WT, ST; };
 
 class Game

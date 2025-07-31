@@ -1,5 +1,6 @@
 #pragma once
 
+// 2D vector template class for position and velocity calculations
 template <typename T>
 struct Vec2
 {
