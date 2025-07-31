@@ -18,6 +18,6 @@ class Window_Manager
 		WindowVec all_windows;
 	public:
 		Window_Manager();
-		// Add a window to the vector of windows based on the window congfiguration passed by reference
+		// Add a window to the vector of windows based on the window configuration passed by reference
 		std::shared_ptr<sf::RenderWindow> add_window(const CWindow& _window);	
 };

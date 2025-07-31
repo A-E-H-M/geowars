@@ -31,12 +31,12 @@ class Game
 {
 	private:
 		
-		// Initalize window, font, and text for score
+		// Initialize window, font, and text for score
 		sf::RenderWindow m_window;
 		sf::Font m_font;
 		sf::Text m_text;
 
-		// Initalize textures
+		// Initialize textures
 		sf::Texture m_terrain;
 		sf::Sprite m_sceneBackgroundSprite;
 
