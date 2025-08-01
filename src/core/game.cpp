@@ -15,6 +15,7 @@ using json = nlohmann::json;
 Game::Game(const std::string& config)
 {
 	// Verify config file can be located and parsed, if not, print an error message
+	// Error handling
 	try
 	{
 	std::ifstream f(config);
