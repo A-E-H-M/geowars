@@ -13,7 +13,7 @@ EntityManager::EntityManager()
 void EntityManager::update()
 {
 	// TODO: Add entities to the vector of all entities & the vector inside the map, with the tag as a key
-	for (auto e : m_entitiesToAdd)
+	for (const auto& e : m_entitiesToAdd)
 	{
 		m_entities.push_back(e);
 		m_entityMap[e->m_tag].push_back(e);
@@ -38,13 +38,13 @@ void EntityManager::removeDeadEntities(EntityVec & vec)
 	vec.erase(
 		std::remove_if(
 			vec.begin(), vec.end(), 
-			[](std::shared_ptr<Entity> const e) { return !e->isActive(); }),
+			[](const std::shared_ptr<Entity>& e) { return !e->isActive(); }),
 			vec.end());
 
 }
 
 // Add entity
-std::shared_ptr<Entity> EntityManager::addEntity(const std::string & tag)
+std::shared_ptr<Entity> EntityManager::addEntity(const std::string& tag)
 {
 	auto entity = std::shared_ptr<Entity>(new Entity(m_totalEntities, tag));
 	m_entitiesToAdd.push_back(entity);
@@ -58,7 +58,7 @@ const EntityVec& EntityManager::getEntities()
 	return m_entities;
 }
 
-const EntityVec& EntityManager::getEntities(const std::string & tag)
+const EntityVec& EntityManager::getEntities(const std::string& tag)
 {	
 	// TODO: this is incorrect, return the correct vector from the map
 	/*	

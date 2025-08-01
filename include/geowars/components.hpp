@@ -20,7 +20,7 @@ struct CShape
 {	
 	sf::CircleShape circle;
 
-	CShape(const float radius, const int points, const sf::Color & fill, const sf::Color & outline, const float thickness)
+	CShape(const float radius, const int points, const sf::Color& fill, const sf::Color& outline, const float thickness)
 		: circle(radius, points)
 		{
 			circle.setFillColor(fill);
@@ -35,7 +35,7 @@ struct CCollision
 {	
 	sf::FloatRect boundingBox;
 
-	CCollision(sf::FloatRect bB)
+	CCollision(const sf::FloatRect& bB)
 		: boundingBox(bB) {}
 };
 
@@ -44,7 +44,7 @@ struct CScore
 {	
 	int score{0};
 		
-	CScore(int s)
+	CScore(const int s)
 		: score(s) {}
 };
 

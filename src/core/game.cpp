@@ -234,7 +234,7 @@ void Game::spawnSmallEnemies(std::shared_ptr<Entity> e) {
 */
 
 // Spawn a bullet from the player entity's to a target location
-void Game::spawnBullet(std::shared_ptr<Entity> entity, const Vec2<int>& mousePos) 
+void Game::spawnBullet(const std::shared_ptr<Entity>& entity, const Vec2<int>& mousePos) 
 {
 	auto bullet = m_entities.addEntity(m_bulletConfig.T);
 
@@ -287,7 +287,7 @@ void Game::sLifespan()
 {
 	// TODO: Ensure for all entities
 	// 		 - if it has lifespan and is alive, scale its alpha channel properly
-	for (auto e: m_entities.getEntities()) 
+	for (const auto& e : m_entities.getEntities()) 
 	{
 		if (e->cLifespan) 
 		{
@@ -306,14 +306,14 @@ void Game::sLifespan()
 // Implement all collisions between entities
 void Game::sCollision()
 {
-	for (auto e : m_entities.getEntities())
+	for (const auto& e : m_entities.getEntities())
 	{
 		e->cCollision->boundingBox = e->cShape->circle.getGlobalBounds();
 	}
 	
-	for (auto b : m_entities.getEntities("bullet"))
+	for (const auto& b : m_entities.getEntities("bullet"))
 	{
-		for (auto e : m_entities.getEntities("enemy"))
+		for (const auto& e : m_entities.getEntities("enemy"))
 		{
 			if (b->cCollision->boundingBox.intersects(e->cCollision->boundingBox))
 			{
@@ -339,7 +339,7 @@ void Game::sRender()
 {	
 	m_window.clear();
 	m_window.draw(m_sceneBackgroundSprite);
-	for (auto& e : m_entities.getEntities())
+	for (const auto& e : m_entities.getEntities())
 	{
 		// Position of shape is based on the entity's transform->pos
 		e->cShape->circle.setPosition(e->cTransform->pos.x, e->cTransform->pos.y);
