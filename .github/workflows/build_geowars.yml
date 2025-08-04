@@ -4,8 +4,7 @@ name: CMake build geowars matrix
 
 on:
   push:
-    branches:
-    
+    branches: [ dev ]
 env:
   BUILD_TYPE: Release
 
