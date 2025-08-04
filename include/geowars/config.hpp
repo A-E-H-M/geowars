@@ -91,9 +91,9 @@ struct CEntity
 	CColor outline_color;
 	// The thickness of the entity. The default value is set to 3.
 	int outline_thickness{3};
-	// The entity's minimum verticies. The default value is set to 3.
+	// The entity's minimum vertices. The default value is set to 3.
 	int vertices_min{3};
-	// The entity's maximum verticies. The default value is set to 3.
+	// The entity's maximum vertices. The default value is set to 3.
 	int vertices_max{3};
 	// The entity's life time on screen after spawning. The default value is set to 0.
 	int spawn_life{0};
