@@ -10,7 +10,8 @@
 #include "geowars/entity_manager.hpp"
 #include "geowars/terrain.hpp"
 
-using json = nlohmann::json;
+//namespace geowars
+//{
 
 // Window configuration properties (Width, Height, Frame Rate, Unknown)
 struct WindowConfig { int W, H, FR, UNK; };
@@ -29,6 +30,8 @@ struct TextConfig { std::string WT, ST; };
 
 class Game
 {
+	using json = nlohmann::json;
+
 	private:
 		
 		// Initialize window, font, and text for score
@@ -61,7 +64,7 @@ class Game
 		std::shared_ptr<Entity> m_player;
 
 		// Update game state
-		void init(const json& game_configurations);
+		void init(const json& game_config);
 		void setPaused(); 
 		void spawnPlayer();
 		void spawnEnemy();
@@ -84,3 +87,4 @@ class Game
 		Game(const std::string & config);
 		void run();
 };
+//}; // End namespace
