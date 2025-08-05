@@ -3,6 +3,7 @@
 //#include <vector>
 
 #include "geowars/components.hpp"
+using namespace GWars;
 
 TEST_CASE( "Initialize component", "[component]" ) {
 	/*SECTION( "Initalize with Vec2 default parameters" ) {

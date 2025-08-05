@@ -7,6 +7,8 @@
 
 #include "geowars/vec2.hpp"
 
+using namespace GWars;
+
 TEMPLATE_TEST_CASE( "Vec2 operations", "[vec2]", 
     int, long, short,                     // Integer types
     float, double, long double,           // Floating point types

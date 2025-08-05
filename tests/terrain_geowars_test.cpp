@@ -4,6 +4,8 @@
 
 #include "geowars/terrain.hpp"
 
+using namespace GWars;
+
 TEST_CASE( "Initialize terrain", "[terrain]" ) {
 	//
 }

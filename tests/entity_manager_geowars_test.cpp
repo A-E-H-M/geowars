@@ -4,6 +4,8 @@
 
 #include "geowars/entity_manager.hpp"
 
+using namespace GWars;
+
 TEST_CASE( "Initialize entity manager", "[entity manager]" ) {
 	//
 }
