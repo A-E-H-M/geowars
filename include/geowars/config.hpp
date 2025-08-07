@@ -1,121 +1,140 @@
 #pragma once
 
 #include <string>
+#include <nlohmann/json.hpp>
 
-namespace GWars
+#include "geowars/config_components.hpp"
+
+using json = nlohmann::json;
+
+namespace GWars 
 {
-	// Settings for RGB color values. The default value set for each is 255.
-	struct CColor
+	struct configObject
 	{
-		// R value in RGB scale. Default value is 255.
-		int color_R{255};
-		// G value in RGB scale. Default value is 255.
-		int color_G{255};
-		// B value in RGB scale. Default value is 255.
-		int color_B{255};
+		// Configuration specs for window, text strings, and entities
+		WindowConfig m_windowConfig;
+		FontConfig m_fontConfig;
+		TextConfig m_textConfig;
+		EntityConfig m_playerConfig;
+		EntityConfig m_enemyConfig;
+		EntityConfig m_bulletConfig;
+		TerrainConfig m_terrainConfig;
 
-		CColor(){};
-		CColor(int R, int G, int B) : color_R(R), color_G(G), color_B(B) {}
+		configObject(const WindowConfig wC, const FontConfig fC, const TextConfig tC, const EntityConfig eC1, 
+					const EntityConfig eC2, const EntityConfig eC3, const TerrainConfig tC) : m_windowConfig(wc), m_fontConfig(fC),
+					m_playerConfig(eC1), m_enemyConfig(eC2), m_bulletConfig(eC3), m_terrainConfig(tC)
+					{};
 	};
 
-	// Window settings
-	struct CWindow
+	class GameConfig
 	{
-		// Width of game window
-		int width;
-		// Height of game window
-		int height;
-		// Frame-rate limit for window
-		int frame_rate;
-		// Full-screen mode option
-		// 0 is true, 1 is false
-		bool full_screen_mode{false};
-		// Background color in window in RGB scale. Default values are set to 0, 0, 0.
-		CColor window_color{0, 0, 0};
-		// Text on the top of the window bar
-		std::string window_title;
+		const std::string configFileName;
 
-		CWindow(const int W, const int H, const int FR, const int FSM) 
-			: width(W), height(H), frame_rate(FR) 
-			{}
-
-		CWindow(const int W, const int H, const int FR, const int FSM, const int R, const int G, const int B, const std::string WT) 
-			: width(W), height(H), frame_rate(FR), full_screen_mode(FSM), window_color(R, G, B), window_title(WT)
-			{}
-	};
-
-	// Font configuration
-	struct CFont
-	{
-		// String file path to the font file.
-		std::string font_file_path;
-
-		CFont(const std::string F)
-			: font_file_path(F) {}
-	};
-
-	// Text configuration
-	struct CText
-	{
-		// The text string
-		std::string text;
-		// Size of the text. Default size is 0.
-		int text_size{0};
-		// Color values for the color of the font for RGB
-		CColor text_color;
+		bool configParse(const std::string& textString);
+		configObject configInit(const std::string& text);
 		
-		CText(const std::string T)
-			: text(T) 
-			{};
-		CText(const std::string T, const int TS, const int R, const int G, const int B)
-			: text(T), text_size(TS), text_color(R, G, B) {}
+		GameConfig(const std::string& configFile) : configFileName (configFile)
+		{};
 	};
 
-	// Entity configuration
-	struct CEntity
+	json GameConfig::configParse(const std::string& textString)
 	{
-		// Name of the type of entity
-		const std::string entity_type;
-		// The radius of the entity. The default value is set to 0.
-		int shape_radius{0};
-		// The collision of the radius for the entity. The default value is set to 0.
-		int collision_radius{0};
-		// Entity's minimum speed. The default value is set to 0.
-		int speed_min{0};
-		// Entity's maximum speed. The default value is set to 0.
-		int speed_max{0};
-		// The color fill of the entity in RGB scale. The default values are set to 225.
-		CColor fill_color;
-		// The outline color of the entity in RGB scale. The default values are set to 255.
-		CColor outline_color;
-		// The thickness of the entity. The default value is set to 3.
-		int outline_thickness{3};
-		// The entity's minimum vertices. The default value is set to 3.
-		int vertices_min{3};
-		// The entity's maximum vertices. The default value is set to 3.
-		int vertices_max{3};
-		// The entity's life time on screen after spawning. The default value is set to 0.
-		int spawn_life{0};
-		// How often the the entity will spawn again. The default value is set to 0.
-		int spawn_interval{0};
+    	// Verify config file can be located and parsed, if not, print an error message
+		try
+		{
+			std::ifstream f(config);
+			//json jObject = json::parse(f);
+			return json::parse(f);
+        }
 
-		CEntity(const std::string T, const int SR, const int CR, const int SMin, const int SMax, const int FR, const int FG, const int FB, const int OR, const int OG, const int OB, const int OT, const int VMin, const int VMax, const int SL, const int SI)
-		: entity_type(T), shape_radius(SR), collision_radius(CR), speed_min(SMin), speed_max(SMax), fill_color(FR, FG, FB), outline_color(OR, OG, OB), outline_thickness(OT), vertices_min(VMin), vertices_max(VMax), spawn_life(SL), spawn_interval(SI)
-		{}
-	};
+		catch (const json::parse_error& e)
+		{
+			std::cout << "Message: Couldn't open config file for reading. \n"
+					<< "Error: " << e.what() << "Exception ID: " << e.id << "\n";
+			exit(-1);
+			return NULL;
+		}
+	}
 
-	// Terrain asset configuration
-	struct CTerrain
+	configObject GameConfig::configInit() 
 	{
-		// The file path name to the terrain asset.
-		std::string terrain_file_path;
-		// Name of the terrain type.
-		std::string terrain_type;
-		// The level of difficulty for the terrain. The default value is set to 0.
-		const int difficulty{0};
+		json game_config = configParse(configFileName);
+		
+		WindowConfig t_windowConfig;
+		FontConfig t_fontConfig;
+		TextConfig t_textConfig;
+		EntityConfig t_playerConfig;
+		EntityConfig t_enemyConfig;
+		EntityConfig t_bulletConfig;
+		TerrainConfig t_terrainConfig;
 
-		CTerrain(const std::string F, const std::string N, const int D)
-			: terrain_file_path(F), terrain_type(N), difficulty(D)
-			{}
-	};
+		// Set window configurations
+		t_windowConfig.W = game_config["window"]["width"];
+		t_windowConfig.H = game_config["window"]["height"];
+		t_windowConfig.FR = game_config["window"]["frame_rate"];
+		T_windowConfig.UNK = game_config["window"]["fullscreen"];	
+
+		// Set on screen text strings
+		t_textConfig.WT = game_config["text"]["window_text"];
+		t_textConfig.ST = game_config["text"]["screen_text"];
+
+		// Set font configurations
+		t_fontConfig.F = game_config["font"]["file"];
+		t_fontConfig.S = game_config["font"]["size"];
+		t_fontConfig.R = game_config["font"]["color"].at(0);	
+		t_fontConfig.G = game_config["font"]["color"].at(1);
+		t_fontConfig.B = game_config["font"]["color"].at(2);
+
+		// Set player, enemy, and bullet configurations
+		for (auto& a : game_config["entity"].items())
+		{
+			EntityConfig temp;
+		
+			temp.T = a.key();
+			temp.SR = game_config["entity"][temp.T]["shape_radius"];
+			temp.CR = game_config["entity"][temp.T]["collision_radius"];
+			temp.SMin = game_config["entity"][temp.T]["speed"].at(0);
+			temp.SMax = game_config["entity"][temp.T]["speed"].at(1);
+			temp.FR = game_config["entity"][temp.T]["fill_color"].at(0);	
+			temp.FG = game_config["entity"][temp.T]["fill_color"].at(1);		
+			temp.FB = game_config["entity"][temp.T]["fill_color"].at(2);	
+			temp.OR = game_config["entity"][temp.T]["outline_color"].at(0);	
+			temp.OG = game_config["entity"][temp.T]["outline_color"].at(1);		
+			temp.OB = game_config["entity"][temp.T]["outline_color"].at(2);		
+			temp.OT = game_config["entity"][temp.T]["outline_thickness"];
+			temp.VMin = game_config["entity"][temp.T]["vertices"].at(0);		
+			temp.VMax = game_config["entity"][temp.T]["vertices"].at(1);
+			temp.SL = game_config["entity"][temp.T]["spawn_lifespan"];	
+			temp.SI = game_config["entity"][temp.T]["spawn_interval"];	
+			
+			if (temp.T == "player")
+				t_playerConfig = temp;
+			if (temp.T == "enemy")
+				t_enemyConfig = temp;
+			if (temp.T == "bullet")
+				t_bulletConfig = temp;
+		}
+
+		// Set asset configurations
+		t_terrainConfig.F = game_config["terrain"]["file"];
+		t_terrainConfig.N = game_config["terrain"]["name"];
+		t_terrainConfig.D = game_config["terrain"]["difficulty"];
+		
+		// Load and verify font can be loaded, if not, print an error message
+		if (!m_font.loadFromFile(m_fontConfig.F))
+		{
+			std::cerr << "Could not load font!\n";
+			exit(-1);
+		}
+		
+		// Load and verify terrain texture can be loaded, if not, print an error message
+		if (!m_terrain.loadFromFile(m_terrainConfig.F))
+		{
+			std::cerr << "Could not load terrain texture!\n";
+			exit(-1);
+		}
+
+		return configObject(t_windowConfig, t_fontConfig, t_textConfig, t_playerConfig, t_enemyConfig, t_bulletConfig, t_terrainConfig);
+	}
+
 }; // End namespace

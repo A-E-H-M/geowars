@@ -9,10 +9,12 @@
 #include "geowars/entity.hpp"
 #include "geowars/entity_manager.hpp"
 #include "geowars/terrain.hpp"
+#include "geowars/config.hpp"
 
 namespace GWars
 {
 
+	/*
 	// Window configuration properties (Width, Height, Frame Rate, Unknown)
 	struct WindowConfig { int W, H, FR, UNK; };
 
@@ -27,6 +29,7 @@ namespace GWars
 
 	// Text configuration properties (Window Title, Score Text)
 	struct TextConfig { std::string WT, ST; };
+	*/
 
 	class Game
 	{
@@ -43,14 +46,8 @@ namespace GWars
 			sf::Texture m_terrain;
 			sf::Sprite m_sceneBackgroundSprite;
 
-			// Configuration specs for window, text strings, and entities
-			WindowConfig m_windowConfig;
-			FontConfig m_fontConfig;
-			EntityConfig m_playerConfig;
-			EntityConfig m_enemyConfig;
-			EntityConfig m_bulletConfig;
-			TerrainConfig m_terrainConfig;
-			TextConfig m_textConfig;
+			// Configuration object
+			GameConfig m_gameConfig;
 			
 			// Game state properties
 			int m_score = 0;
