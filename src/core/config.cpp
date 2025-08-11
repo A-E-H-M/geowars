@@ -3,8 +3,8 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 
-#include "../../include/geowars/config_components.hpp"
-#include "../../include/geowars/config.hpp"
+#include "geowars/config_components.hpp"
+#include "geowars/config.hpp"
 
 using json = nlohmann::json;
 

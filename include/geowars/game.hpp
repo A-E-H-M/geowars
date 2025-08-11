@@ -4,7 +4,6 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
-#include <nlohmann/json.hpp>
 
 #include "geowars/entity.hpp"
 #include "geowars/entity_manager.hpp"
@@ -13,28 +12,8 @@
 
 namespace GWars
 {
-
-	/*
-	// Window configuration properties (Width, Height, Frame Rate, Unknown)
-	struct WindowConfig { int W, H, FR, UNK; };
-
-	// Font configuration properties (File path, Size, RGB color values)
-	struct FontConfig { std::string F; int S, R, G, B; };
-
-	// Entity configuration properties (Type, Shape Radius, Collision Radius, Speed Min/Max, Fill RGB, Outline RGB, Outline Thickness, Vertices Min/Max, Spawn Life, Spawn Interval)
-	struct EntityConfig { std::string T; int SR, CR, SMin, SMax, FR, FG, FB, OR, OG, OB, OT, VMin, VMax, SL, SI; };
-
-	// Terrain configuration properties (File path, Name, Difficulty)
-	struct TerrainConfig { std::string F, N; int D; };
-
-	// Text configuration properties (Window Title, Score Text)
-	struct TextConfig { std::string WT, ST; };
-	*/
-
 	class Game
 	{
-		using json = nlohmann::json;
-
 		private:
 			
 			// Initialize window, font, and text for score
@@ -46,8 +25,14 @@ namespace GWars
 			sf::Texture m_terrain;
 			sf::Sprite m_sceneBackgroundSprite;
 
-			// Configuration object
-			GameConfig m_gameConfig;
+			// Object configurations
+			WindowConfig m_windowConfig;
+			FontConfig m_fontConfig;
+			TextConfig m_textConfig;
+			EntityConfig m_playerConfig;
+			EntityConfig m_enemyConfig;
+			EntityConfig m_bulletConfig;
+			TerrainConfig m_terrainConfig;
 			
 			// Game state properties
 			int m_score = 0;
@@ -61,7 +46,7 @@ namespace GWars
 			std::shared_ptr<Entity> m_player;
 
 			// Update game state
-			void init(const json& game_config);
+			void init(const configObject& gameConfig);
 			void setPaused(); 
 			void spawnPlayer();
 			void spawnEnemy();

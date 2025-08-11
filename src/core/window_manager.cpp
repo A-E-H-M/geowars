@@ -1,4 +1,4 @@
-#include "window_manager.hpp"
+#include "geowars/window_manager.hpp"
 
 namespace GWars
 {

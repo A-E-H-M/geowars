@@ -6,20 +6,28 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
-#include <nlohmann/json.hpp>
 
+#include "geowars/config.hpp"
 #include "geowars/game.hpp"
 
-using json = nlohmann::json;
 namespace GWars
 {
-	Game::Game(const std::string& config)
+	Game::Game(const std::string& filePath)
 	{
-		init(game_config);
+		GameConfig game(filePath);
+		init(game.configInit());
 	}
 
-	void Game::init(const json& game_config)
+	void Game::init(const configObject& gameConfig)
 	{	
+		m_windowConfig = gameConfig.windowConfig;
+		m_fontConfig = gameConfig.fontConfig;
+		m_textConfig = gameConfig.textConfig;
+		m_playerConfig = gameConfig.playerConfig;
+		m_enemyConfig = gameConfig.enemyConfig;
+		m_bulletConfig = gameConfig.bulletConfig;
+		m_terrainConfig = gameConfig.terrainConfig;
+
 		// Spawn the player
 		spawnPlayer();
 	}
@@ -27,17 +35,17 @@ namespace GWars
 	void Game::run() {
 		
 		// Render start window
-		m_window.create(sf::VideoMode(m_windowConfig.W, m_windowConfig.H), m_textConfig.WT);
-		m_window.setFramerateLimit(m_windowConfig.FR);
+		m_window.create(sf::VideoMode(m_windowConfig.width, m_windowConfig.height), m_textConfig.text);
+		m_window.setFramerateLimit(m_windowConfig.frame_rate);
 
 		// Set up score text
 		m_text.setFont(m_font);
-		m_text.setString(m_textConfig.ST + std::to_string(0));
-		m_text.setPosition(10, m_windowConfig.H - static_cast<float>(m_text.getCharacterSize()) - 10);
+		m_text.setString(m_textConfig.text + std::to_string(0));
+		m_text.setPosition(10, m_windowConfig.height - static_cast<float>(m_text.getCharacterSize()) - 10);
 
 		// Load textures
-		m_terrain.loadFromFile(m_terrainConfig.F);
-		Terrain m_sceneBackground(m_terrainConfig.D, m_terrainConfig.N, m_terrain);
+		m_terrain.loadFromFile(m_terrainConfig.terrain_file_path);
+		Terrain m_sceneBackground(m_terrainConfig.difficulty, m_terrainConfig.terrain_type, m_terrain);
 		m_sceneBackgroundSprite.setTexture(m_terrain);
 
 		// Main while loop
@@ -80,17 +88,17 @@ namespace GWars
 	void Game::spawnPlayer() 
 	{	
 		// Create player entity
-		auto entity = m_entities.addEntity(m_playerConfig.T);
+		auto entity = m_entities.addEntity(m_playerConfig.entity_type);
 
 		// Player entity's spawning position based on window size
 		//float mx = m_window.getSize().x / 2.0f;
 		//float my = m_window.getSize().y / 2.0f;
 		
 		// Player entity's spawning position, speed, and rotation direction are from the configuration file
-		entity->cTransform = std::make_shared<CTransform>(Vec2(m_windowConfig.W/2, m_windowConfig.H/2), Vec2(m_playerConfig.SMin, m_playerConfig.SMax), 0.0f);
+		entity->cTransform = std::make_shared<CTransform>(Vec2(m_windowConfig.width/2, m_windowConfig.height/2), Vec2(m_playerConfig.speed_min, m_playerConfig.speed_max), 0.0f);
 
 		// Player entity's shape, color, and outline thickness are from the configuration file
-		entity->cShape = std::make_shared<CShape>(m_playerConfig.SR, m_playerConfig.VMax, sf::Color(m_playerConfig.FR, m_playerConfig.FG, m_playerConfig.FB), sf::Color(m_playerConfig.OR, m_playerConfig.OG, m_playerConfig.OB), m_playerConfig.OT);
+		entity->cShape = std::make_shared<CShape>(m_playerConfig.shape_radius, m_playerConfig.vertices_max, sf::Color(m_playerConfig.fill_color.color_R, m_playerConfig.fill_color.color_G, m_playerConfig.fill_color.color_B), sf::Color(m_playerConfig.outline_color.color_R, m_playerConfig.outline_color.color_G, m_playerConfig.outline_color.color_B), m_playerConfig.outline_thickness);
 
 		// Player entity's bounding box
 		auto bounds = entity->cShape->circle.getGlobalBounds();
@@ -109,14 +117,14 @@ namespace GWars
 		// TODO: Make sure the enemy is spawned properly with config specs & spawned in window bounds
 
 		// Create enemy entity
-		auto entity = m_entities.addEntity(m_enemyConfig.T);
+		auto entity = m_entities.addEntity(m_enemyConfig.entity_type);
 
 		// Enemy entity's spawning position based on window size
 		int ex = rand() % m_window.getSize().x; // rand() % used to randomize the spawning positions
 		int ey = rand() % m_window.getSize().y;
 
-		int speedX = (rand() % static_cast<int>((m_enemyConfig.SMax - m_enemyConfig.SMin + 1.0) + m_enemyConfig.SMin));
-		int speedY = (rand() % static_cast<int>((m_enemyConfig.SMax - m_enemyConfig.SMin + 1.0) + m_enemyConfig.SMin));
+		int speedX = (rand() % static_cast<int>((m_enemyConfig.speed_max - m_enemyConfig.speed_min + 1.0) + m_enemyConfig.speed_min));
+		int speedY = (rand() % static_cast<int>((m_enemyConfig.speed_max - m_enemyConfig.speed_min + 1.0) + m_enemyConfig.speed_min));
 
 		if (speedX / 2 == 1)
 			speedX *= -1;
@@ -127,15 +135,15 @@ namespace GWars
 		entity->cTransform = std::make_shared<CTransform>(Vec2(ex, ey), Vec2(speedX, speedY), angle);
 
 		// Enemy entity's graphics and physics properties from configuration file
-		int vertices = (rand() % (m_enemyConfig.VMax - m_enemyConfig.VMin + 1) + m_enemyConfig.VMin);
-		entity->cShape = std::make_shared<CShape>(m_enemyConfig.SR, vertices, sf::Color(0, 0, 0), sf::Color(m_enemyConfig.OR, m_enemyConfig.OG, m_enemyConfig.OB), m_enemyConfig.OT);
+		int vertices = (rand() % (m_enemyConfig.vertices_max - m_enemyConfig.vertices_min + 1) + m_enemyConfig.vertices_min);
+		entity->cShape = std::make_shared<CShape>(m_enemyConfig.shape_radius, vertices, sf::Color(0, 0, 0), sf::Color(m_enemyConfig.outline_color.color_R, m_enemyConfig.outline_color.color_G, m_enemyConfig.outline_color.color_B), m_enemyConfig.outline_thickness);
 
 		// Enemy entity's bounding box
 		auto bounds = entity->cShape->circle.getGlobalBounds();
 		entity->cCollision = std::make_shared<CCollision>(bounds);
 
 		// Enemy entity's lifespan
-		entity->cLifespan = std::make_shared<CLifespan>(m_enemyConfig.SL);
+		entity->cLifespan = std::make_shared<CLifespan>(m_enemyConfig.spawn_life);
 
 		// Record of the frame this enemy entity was spawned
 		m_lastEnemySpawnTime = m_currentFrame;
@@ -156,14 +164,14 @@ namespace GWars
 	// Spawn a bullet from the player entity's to a target location
 	void Game::spawnBullet(const std::shared_ptr<Entity>& entity, const Vec2<int>& mousePos) 
 	{
-		auto bullet = m_entities.addEntity(m_bulletConfig.T);
+		auto bullet = m_entities.addEntity(m_bulletConfig.entity_type);
 
 		float angle = atan2(mousePos.y - entity->cTransform->pos.y, mousePos.x - entity->cTransform->pos.x);
 
-		bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(static_cast<int>(m_bulletConfig.SMin * cos(angle)), static_cast<int>(m_bulletConfig.SMax *sin(angle))), angle);
+		bullet->cTransform = std::make_shared<CTransform>(Vec2(entity->cTransform->pos.x, entity->cTransform->pos.y), Vec2(static_cast<int>(m_bulletConfig.speed_min * cos(angle)), static_cast<int>(m_bulletConfig.speed_max *sin(angle))), angle);
 		
 		// Bullet entity properties from the configuration file
-		bullet->cShape = std::make_shared<CShape>(m_bulletConfig.SR, m_bulletConfig.VMax, sf::Color(m_bulletConfig.FR, m_bulletConfig.FG, m_bulletConfig.FB), sf::Color(m_bulletConfig.OR, m_bulletConfig.OG, m_bulletConfig.OB), m_bulletConfig.OT);
+		bullet->cShape = std::make_shared<CShape>(m_bulletConfig.shape_radius, m_bulletConfig.vertices_max, sf::Color(m_bulletConfig.fill_color.color_R, m_bulletConfig.fill_color.color_G, m_bulletConfig.fill_color.color_B), sf::Color(m_bulletConfig.outline_color.color_R, m_bulletConfig.outline_color.color_G, m_bulletConfig.outline_color.color_B), m_bulletConfig.outline_thickness);
 
 		// Bullet entity's bounding box
 		auto bounds = bullet->cShape->circle.getGlobalBounds();
@@ -189,16 +197,16 @@ namespace GWars
 
 		// Implement player movement
 		if (m_player->cInput->up) {
-			m_player->cTransform->velocity.y = m_playerConfig.SMax * -1;
+			m_player->cTransform->velocity.y = m_playerConfig.speed_max * -1;
 		}
 		if (m_player->cInput->down) {
-			m_player->cTransform->velocity.y = m_playerConfig.SMax;
+			m_player->cTransform->velocity.y = m_playerConfig.speed_max;
 		}
 		if (m_player->cInput->left) {
-			m_player->cTransform->velocity.x = m_playerConfig.SMax * -1;
+			m_player->cTransform->velocity.x = m_playerConfig.speed_max * -1;
 		}
 		if (m_player->cInput->right) {
-		m_player->cTransform->velocity.x = m_playerConfig.SMax;
+		m_player->cTransform->velocity.x = m_playerConfig.speed_max;
 		}
 	}
 
@@ -272,7 +280,7 @@ namespace GWars
 			m_window.draw(e->cShape->circle);
 		}
 
-		m_text.setString(m_textConfig.ST + std::to_string(m_score));
+		m_text.setString(m_textConfig.text + std::to_string(m_score));
 
 		m_window.draw(m_player->cShape->circle);
 		m_window.draw(m_text);
