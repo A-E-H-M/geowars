@@ -22,11 +22,11 @@ namespace GWars
 	struct WindowConfig
 	{
 		// Width of game window
-		int width;
+		int width{0};
 		// Height of game window
-		int height;
+		int height{0};
 		// Frame-rate limit for window
-		int frame_rate;
+		int frame_rate{0};
 		// Full-screen mode option
 		// 0 is true, 1 is false
 		bool full_screen_mode{false};
@@ -34,6 +34,8 @@ namespace GWars
 		Color window_color{0, 0, 0};
 		// Text on the top of the window bar
 		std::string window_title;
+
+		WindowConfig() = default;
 
 		WindowConfig(const int W, const int H, const int FR, const int FSM) 
 			: width(W), height(H), frame_rate(FR) 
@@ -50,6 +52,8 @@ namespace GWars
 		// String file path to the font file.
 		std::string font_file_path;
 
+		FontConfig() = default;
+
 		FontConfig(const std::string F)
 			: font_file_path(F) {}
 	};
@@ -64,6 +68,8 @@ namespace GWars
 		// Color values for the color of the font for RGB
 		Color text_color;
 		
+		TextConfig() = default;
+
 		TextConfig(const std::string T)
 			: text(T) 
 			{};
@@ -74,7 +80,7 @@ namespace GWars
 	struct EntityConfig
 	{
 		// Name of the type of entity
-		const std::string entity_type;
+		std::string entity_type;
 		// The radius of the entity. The default value is set to 0.
 		int shape_radius{0};
 		// The collision of the radius for the entity. The default value is set to 0.
@@ -98,6 +104,8 @@ namespace GWars
 		// How often the the entity will spawn again. The default value is set to 0.
 		int spawn_interval{0};
 
+		EntityConfig() = default;
+
 		EntityConfig(const std::string T, const int SR, const int CR, const int SMin, const int SMax, const int FR, const int FG, const int FB, const int OR, const int OG, const int OB, const int OT, const int VMin, const int VMax, const int SL, const int SI)
 		: entity_type(T), shape_radius(SR), collision_radius(CR), speed_min(SMin), speed_max(SMax), fill_color(FR, FG, FB), outline_color(OR, OG, OB), outline_thickness(OT), vertices_min(VMin), vertices_max(VMax), spawn_life(SL), spawn_interval(SI)
 		{}
@@ -111,7 +119,9 @@ namespace GWars
 		// Name of the terrain type.
 		std::string terrain_type;
 		// The level of difficulty for the terrain. The default value is set to 0.
-		const int difficulty{0};
+		int difficulty{0};
+
+		TerrainConfig() = default;
 
 		TerrainConfig(const std::string F, const std::string N, const int D)
 			: terrain_file_path(F), terrain_type(N), difficulty(D)
