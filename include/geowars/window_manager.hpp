@@ -19,8 +19,8 @@ namespace GWars
 			// Named vector for all windows
 			WindowVec all_windows;
 		public:
-			Window_Manager();
+			Window_Manager(){};
 			// Add a window to the vector of windows based on the window configuration passed by reference
 			std::shared_ptr<sf::RenderWindow> add_window(const WindowConfig& _window);	
 	};
-}; // End namespace
+} // End namespace

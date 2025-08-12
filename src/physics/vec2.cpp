@@ -32,4 +32,4 @@ namespace GWars
 		return rhs * speed;
 	}
 	*/
-}; // End namespace
+} // End namespace

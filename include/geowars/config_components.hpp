@@ -1,12 +1,13 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 
 namespace GWars
 {	
 	// Settings for RGB color values. The default value set for each is 255.
 	struct Color
-	{
+	{	
 		// R value in RGB scale. Default value is 255.
 		int color_R{255};
 		// G value in RGB scale. Default value is 255.
@@ -35,15 +36,18 @@ namespace GWars
 		// Text on the top of the window bar
 		std::string window_title;
 
-		WindowConfig() = default;
+		WindowConfig(){};
 
-		WindowConfig(const int W, const int H, const int FR, const int FSM) 
+		WindowConfig(int W, int H, int FR, int FSM) 
 			: width(W), height(H), frame_rate(FR), fullscreen_mode(FSM) 
 			{}
 
-		WindowConfig(const int W, const int H, const int FR, const int FSM, const int R, const int G, const int B, const std::string WT) 
+		WindowConfig(int W, int H, int FR, int FSM, int R, int G, int B, std::string_view WT) 
 			: width(W), height(H), frame_rate(FR), fullscreen_mode(FSM), window_color(R, G, B), window_title(WT)
 			{}
+
+		private:
+		
 	};
 
 	// Font configuration properties (File path, Size, RGB color values)
@@ -52,9 +56,9 @@ namespace GWars
 		// String file path to the font file.
 		std::string font_file_path;
 
-		FontConfig() = default;
+		FontConfig(){};
 
-		FontConfig(const std::string F)
+		FontConfig(std::string_view F)
 			: font_file_path(F) {}
 	};
 
@@ -68,12 +72,12 @@ namespace GWars
 		// Color values for the color of the font for RGB
 		Color text_color;
 		
-		TextConfig() = default;
+		TextConfig(){};
 
-		TextConfig(const std::string T)
+		TextConfig(std::string_view T)
 			: text(T) 
 			{};
-		TextConfig(const std::string T, const int TS, const int R, const int G, const int B)
+		TextConfig(std::string_view T, int TS, int R, int G, int B)
 			: text(T), text_size(TS), text_color(R, G, B) {}
 	};
 
@@ -104,9 +108,9 @@ namespace GWars
 		// How often the the entity will spawn again. The default value is set to 0.
 		int spawn_interval{0};
 
-		EntityConfig() = default;
+		EntityConfig(){};
 
-		EntityConfig(const std::string T, const int SR, const int CR, const int SMin, const int SMax, const int FR, const int FG, const int FB, const int OR, const int OG, const int OB, const int OT, const int VMin, const int VMax, const int SL, const int SI)
+		EntityConfig(std::string_view T, int SR, int CR, int SMin, int SMax, int FR, int FG, int FB, int OR, int OG, int OB, int OT, int VMin, int VMax, int SL, int SI)
 		: entity_type(T), shape_radius(SR), collision_radius(CR), speed_min(SMin), speed_max(SMax), fill_color(FR, FG, FB), outline_color(OR, OG, OB), outline_thickness(OT), vertices_min(VMin), vertices_max(VMax), spawn_life(SL), spawn_interval(SI)
 		{}
 	};
@@ -121,9 +125,9 @@ namespace GWars
 		// The level of difficulty for the terrain. The default value is set to 0.
 		int difficulty{0};
 
-		TerrainConfig() = default;
+		TerrainConfig(){};
 
-		TerrainConfig(const std::string F, const std::string N, const int D)
+		TerrainConfig(std::string_view F, std::string_view N, int D)
 			: terrain_file_path(F), terrain_type(N), difficulty(D)
 			{}
 	};
