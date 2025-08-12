@@ -3,7 +3,7 @@
         "width": 1280,
         "height": 720,
         "frame_rate": 60,
-        "fullscreen": 0
+        "fullscreen": false
     },
 	"text": {
 		"window_text": "Best Game Ever",

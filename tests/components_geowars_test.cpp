@@ -2,7 +2,8 @@
 #include <catch2/generators/catch_generators.hpp>
 //#include <vector>
 
-#include "geowars/components.hpp"
+#include "geowars/game_components.hpp"
+using namespace GWars;
 
 TEST_CASE( "Initialize component", "[component]" ) {
 	/*SECTION( "Initalize with Vec2 default parameters" ) {

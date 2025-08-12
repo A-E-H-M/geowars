@@ -3,6 +3,8 @@
 
 #include "geowars/entity.hpp"
 
+using namespace GWars;
+
 TEST_CASE( "Initialize entity", "[entity]" ) {
 	//Entity a_entity(1, "test_entity");
 
