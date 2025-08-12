@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-#include "geowars/components.hpp"
+#include "geowars/game_components.hpp"
 
 namespace GWars
 {

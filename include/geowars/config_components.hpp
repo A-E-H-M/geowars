@@ -29,7 +29,7 @@ namespace GWars
 		int frame_rate{0};
 		// Full-screen mode option
 		// 0 is true, 1 is false
-		bool full_screen_mode{false};
+		bool fullscreen_mode{false};
 		// Background color in window in RGB scale. Default values are set to 0, 0, 0.
 		Color window_color{0, 0, 0};
 		// Text on the top of the window bar
@@ -38,11 +38,11 @@ namespace GWars
 		WindowConfig() = default;
 
 		WindowConfig(const int W, const int H, const int FR, const int FSM) 
-			: width(W), height(H), frame_rate(FR) 
+			: width(W), height(H), frame_rate(FR), fullscreen_mode(FSM) 
 			{}
 
 		WindowConfig(const int W, const int H, const int FR, const int FSM, const int R, const int G, const int B, const std::string WT) 
-			: width(W), height(H), frame_rate(FR), full_screen_mode(FSM), window_color(R, G, B), window_title(WT)
+			: width(W), height(H), frame_rate(FR), fullscreen_mode(FSM), window_color(R, G, B), window_title(WT)
 			{}
 	};
 

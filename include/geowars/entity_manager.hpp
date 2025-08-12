@@ -5,11 +5,13 @@
 
 #include "geowars/entity.hpp"
 
-using EntityVec = std::vector<std::shared_ptr<Entity>>;
-using EntityMap = std::map<std::string, EntityVec>;
+
 
 namespace GWars
 {
+	using EntityVec = std::vector<std::shared_ptr<Entity>>;
+	using EntityMap = std::map<std::string, EntityVec>;
+	
 	class EntityManager
 	{	
 		private:

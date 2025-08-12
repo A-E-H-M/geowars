@@ -6,7 +6,7 @@ namespace GWars
 	{	
 	}
 
-	std::shared_ptr<sf::RenderWindow> Window_Manager::add_window(const CWindow& _window)
+	std::shared_ptr<sf::RenderWindow> Window_Manager::add_window(const WindowConfig& _window)
 	{
 		auto w_window = std::shared_ptr<sf::RenderWindow>(new sf::RenderWindow);
 		w_window->create(sf::VideoMode(_window.width, _window.height), _window.window_title);
