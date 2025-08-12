@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <string_view>
 #include <algorithm>
 
 #include "geowars/entity_manager.hpp"
@@ -45,7 +46,7 @@ namespace GWars
 	}
 
 	// Add entity
-	std::shared_ptr<Entity> EntityManager::addEntity(const std::string& tag)
+	std::shared_ptr<Entity> EntityManager::addEntity(std::string_view tag)
 	{
 		auto entity = std::shared_ptr<Entity>(new Entity(m_totalEntities, tag));
 		m_entitiesToAdd.push_back(entity);
@@ -59,7 +60,7 @@ namespace GWars
 		return m_entities;
 	}
 
-	const EntityVec& EntityManager::getEntities(const std::string& tag)
+	const EntityVec& EntityManager::getEntities(std::string tag)
 	{	
 		// TODO: this is incorrect, return the correct vector from the map
 		/*	

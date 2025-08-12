@@ -13,7 +13,7 @@ namespace GWars
 		Vec2<int> velocity;
 		float angle;
 
-		CTransform(const Vec2<int>& p, const Vec2<int>& v, const float& a)
+		CTransform(const Vec2<int>& p, const Vec2<int>& v, const float a)
 			: pos(p), velocity(v), angle(a) {}
 	};
 
@@ -69,4 +69,4 @@ namespace GWars
 		bool down		= false;
 		bool shoot		= false;
 	};
-}; // End namespace
+} // End namespace

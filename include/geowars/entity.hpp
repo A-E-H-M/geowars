@@ -10,10 +10,10 @@ namespace GWars
 	class Entity
 	{
 		private:
-			Entity(const size_t id, const std::string& tag) : m_id(id), m_tag(tag) {}
+			Entity(const size_t id, std::string_view tag) : m_id(id), m_tag(tag) {}
 			
-			bool m_active{true};			// Used to assess if entity is active
-			const size_t m_id;				// Entity ID
+			bool m_active {true};		// Used to assess if entity is active
+			const size_t m_id;			// Entity ID
 			const std::string m_tag;	// Entity tag used for adding to the correct entity vector in map of entities
 
 		public:
@@ -37,4 +37,4 @@ namespace GWars
 			// Update the entity's state to false
 			void destroy() { m_active = false; }
 	};
-}; // End namespace
+} // End namespace

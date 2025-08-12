@@ -2,10 +2,6 @@
 
 namespace GWars
 {
-	Window_Manager::Window_Manager()
-	{	
-	}
-
 	std::shared_ptr<sf::RenderWindow> Window_Manager::add_window(const WindowConfig& _window)
 	{
 		auto w_window = std::shared_ptr<sf::RenderWindow>(new sf::RenderWindow);
@@ -14,4 +10,4 @@ namespace GWars
 		all_windows.push_back(w_window);
 		return w_window;
 	}
-}; // End namespace
+} // End namespace

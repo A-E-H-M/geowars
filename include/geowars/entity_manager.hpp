@@ -2,16 +2,16 @@
 
 #include <vector>
 #include <map>
+#include <string>
+#include <string_view>
 
 #include "geowars/entity.hpp"
-
-
 
 namespace GWars
 {
 	using EntityVec = std::vector<std::shared_ptr<Entity>>;
 	using EntityMap = std::map<std::string, EntityVec>;
-	
+
 	class EntityManager
 	{	
 		private:
@@ -28,12 +28,12 @@ namespace GWars
 
 			// Entity management tools
 			void update();
-			std::shared_ptr<Entity> addEntity(const std::string& tag);
+			std::shared_ptr<Entity> addEntity(std::string_view tag);
 		
 			const EntityVec& getEntities();
-			const EntityVec& getEntities(const std::string& tag);
+			const EntityVec& getEntities(std::string tag);
 
 			// TODO: Test and evaluate the following
 			// const std::map<std::string, EntityVec> & getEntityMap(const std::string& tag);
 	};
-}; // End namespace
+} // End namespace

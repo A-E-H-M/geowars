@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <memory>
 #include <cmath>
 
@@ -12,10 +11,9 @@
 
 namespace GWars
 {
-	Game::Game(const std::string& filePath)
+	Game::Game(const configObject& gameConfig)
 	{
-		GameConfig game(filePath);
-		init(game.configInit());
+		init(gameConfig);
 	}
 
 	void Game::init(const configObject& gameConfig)
@@ -363,4 +361,4 @@ namespace GWars
 			}
 		} // End while loop
 	}
-}; // End namespace
+} // End namespace

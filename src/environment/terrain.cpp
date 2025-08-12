@@ -8,6 +8,7 @@
 
 namespace GWars
 {
+	/*
 	const sf::Texture& Terrain::terrain_texture()
 	{
 		return t_texture;
@@ -22,4 +23,5 @@ namespace GWars
 	{
 		return t_type;
 	}
+	*/
 } // End namespace

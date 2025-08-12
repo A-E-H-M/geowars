@@ -6,16 +6,16 @@
 #include "geowars/config_components.hpp"
 #include "geowars/config.hpp"
 
-using json = nlohmann::json;
-
 namespace GWars 
 {
-    json GameConfig::configParse(const std::string& textString)
+	using json = nlohmann::json;
+
+    json GameConfig::configParse()
 	{
     	// Verify config file can be located and parsed, if not, print an error message
 		try
 		{
-			std::ifstream f(textString);
+			std::ifstream f(configFileName);
 			json jObject = json::parse(f);
 			return jObject;
         }
@@ -31,7 +31,7 @@ namespace GWars
 
 	configObject GameConfig::configInit() 
 	{
-		json game_config = configParse(configFileName);
+		json game_config = configParse();
 		
 		WindowConfig t_windowConfig;
 		FontConfig t_fontConfig;
@@ -109,4 +109,4 @@ namespace GWars
 		return configObject(t_windowConfig, t_fontConfig, t_textConfig, t_playerConfig, t_enemyConfig, t_bulletConfig, t_terrainConfig);
 	}
 
-}; // End namespace
+} // End namespace

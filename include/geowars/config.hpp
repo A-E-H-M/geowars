@@ -1,12 +1,11 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <iostream>
 #include <nlohmann/json.hpp>
 
 #include "config_components.hpp"
-
-using json = nlohmann::json;
 
 namespace GWars 
 {
@@ -21,7 +20,7 @@ namespace GWars
 		EntityConfig bulletConfig;
 		TerrainConfig terrainConfig;
 
-		configObject() = default;
+		configObject(){};
 
 		configObject(const WindowConfig wC, const FontConfig fC, const TextConfig txC, const EntityConfig eC1, 
 					const EntityConfig eC2, const EntityConfig eC3, const TerrainConfig tC) : windowConfig(wC), fontConfig(fC),
@@ -33,11 +32,11 @@ namespace GWars
 	{
 		const std::string configFileName;
 
-		json configParse(const std::string& textString);
+		nlohmann::json configParse();
 		configObject configInit();
 		
-		GameConfig(const std::string& configFile) : configFileName (configFile)
+		GameConfig(std::string_view configFile) : configFileName (configFile)
 		{};
 	};
 
-}; // End namespace
+} // End namespace

@@ -32,4 +32,4 @@ namespace GWars
 			// void normalize();
 			// float length() const;
 	};
-};
+} // End namespace

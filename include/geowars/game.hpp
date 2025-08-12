@@ -1,8 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-
 #include <SFML/Graphics.hpp>
 
 #include "geowars/entity.hpp"
@@ -66,7 +63,7 @@ namespace GWars
 		public:
 
 			// Initialize and run game
-			Game(const std::string & config);
+			Game(const configObject& gameConfig);
 			void run();
 	};
-}; // End namespace
+} // End namespace
