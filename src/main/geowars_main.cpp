@@ -1,5 +1,9 @@
+#include <string>
 
 #include "geowars/game.hpp"
+#include "geowars/config.hpp"
+
+using namespace GWars;
 
 int main(int argc, char* argv[])
 {	

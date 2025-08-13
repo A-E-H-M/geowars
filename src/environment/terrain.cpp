@@ -6,18 +6,22 @@
 
 #include "geowars/terrain.hpp"
 
-const sf::Texture& Terrain::terrain_texture()
+namespace GWars
 {
-	return t_texture;
-};
+	/*
+	const sf::Texture& Terrain::terrain_texture()
+	{
+		return t_texture;
+	}
 
-const int& Terrain::terrain_difficulty()
-{
-	return t_difficulty;
-};
+	const int& Terrain::terrain_difficulty()
+	{
+		return t_difficulty;
+	}
 
-const std::string& Terrain::terrain_type()
-{
-	return t_type;
-};
-
+	const std::string& Terrain::terrain_type()
+	{
+		return t_type;
+	}
+	*/
+} // End namespace

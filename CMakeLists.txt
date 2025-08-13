@@ -26,7 +26,9 @@ add_library( geowars
 	src/physics/vec2.cpp
 	src/entities/entity_manager.cpp
 	src/environment/terrain.cpp
-	src/core/game.cpp )
+	src/core/game.cpp
+	src/core/config.cpp 
+	src/core/window_manager.cpp )
 target_include_directories( geowars PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
 target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json )
 

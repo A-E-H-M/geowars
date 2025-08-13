@@ -15,6 +15,7 @@ add_executable ( geowars_tests
 	components_geowars_test.cpp
 	entity_geowars_test.cpp
 	entity_manager_geowars_test.cpp
+	entity_manager_test.cpp
 	terrain_geowars_test.cpp
 	vec2_geowars_test.cpp )
 target_compile_features ( geowars_tests PRIVATE cxx_std_20 )
