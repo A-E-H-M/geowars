@@ -6,6 +6,7 @@
 #include "geowars/entity_manager.hpp"
 #include "geowars/terrain.hpp"
 #include "geowars/config.hpp"
+#include "geowars/input.hpp"
 
 namespace GWars
 {
@@ -30,6 +31,9 @@ namespace GWars
 			EntityConfig m_enemyConfig;
 			EntityConfig m_bulletConfig;
 			TerrainConfig m_terrainConfig;
+
+			// Friend classes
+			friend class Input;
 			
 			// Game state properties
 			int m_score = 0;
@@ -41,6 +45,7 @@ namespace GWars
 			// Initial entity manager and player
 			EntityManager m_entities;
 			std::shared_ptr<Entity> m_player;
+			Input m_input;
 
 			// Update game state
 			void init(const configObject& gameConfig);
@@ -54,11 +59,12 @@ namespace GWars
 
 			// System updates
 			void sMovement();
-			void sUserInput();
 			void sLifespan();
 			void sRender();
 			void sEnemySpawner();
 			void sCollision();
+
+			void pullWindowEvents();
 
 		public:
 

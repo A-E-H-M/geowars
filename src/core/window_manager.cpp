@@ -1,4 +1,5 @@
 #include "geowars/window_manager.hpp"
+#include "geowars/input.hpp"
 
 namespace GWars
 {
@@ -10,4 +11,16 @@ namespace GWars
 		all_windows.push_back(w_window);
 		return w_window;
 	}
+
+	/*	
+	void pullWindowEvents(const sf::RenderWindow& m_window)
+	{
+		sf::Event event;
+
+        while (m_window.pollEvent(event))
+        {
+			userInput(event);
+		}
+	}
+		*/
 } // End namespace

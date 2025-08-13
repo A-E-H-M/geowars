@@ -8,6 +8,7 @@
 
 #include "geowars/config.hpp"
 #include "geowars/game.hpp"
+#include "geowars/input.hpp"
 
 namespace GWars
 {
@@ -59,7 +60,7 @@ namespace GWars
 				sCollision();
 			}
 
-			sUserInput();
+			pullWindowEvents();
 			sRender();
 
 			m_currentFrame++;
@@ -285,80 +286,13 @@ namespace GWars
 		m_window.display();
 	}
 
-	// Assess for user input
-	void Game::sUserInput() 
-	{	
+	void Game::pullWindowEvents()
+	{
 		sf::Event event;
 
-		while (m_window.pollEvent(event))
-		{
-			// Event triggers the window to closed
-			if (event.type == sf::Event::Closed)
-			{
-				m_running = false;
-			}
-			
-			// Event is triggered when a key is pressed
-			if (event.type == sf::Event::KeyPressed)
-			{
-				switch (event.key.code)
-				{
-					case sf::Keyboard::W:
-						m_player->cInput->up = true;
-						break;
-					case sf::Keyboard::S:
-						m_player->cInput->down = true;
-						break;
-					case sf::Keyboard::A:
-						m_player->cInput->left = true;
-						break;
-					case sf::Keyboard::D:
-						m_player->cInput->right = true;
-						break;
-					case sf::Keyboard::Space:
-						setPaused();
-						break;
-					case sf::Keyboard::Escape:
-						m_running = false;
-						break;
-					default: break;
-				}
-			}
-		
-			// Event is triggered when a key is released
-			if (event.type == sf::Event::KeyReleased)
-			{
-				switch (event.key.code)
-				{
-					case sf::Keyboard::W:
-						m_player->cInput->up = false;
-						break;
-					case sf::Keyboard::S:
-						m_player->cInput->down = false;
-						break;
-					case sf::Keyboard::A:
-						m_player->cInput->left = false;
-						break;
-					case sf::Keyboard::D:
-						m_player->cInput->right = false;
-						break;
-					default: break;
-				}
-			}
-
-			// Event is triggered when a mouse key is pressed
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					spawnBullet(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
-				}
-
-				if (event.mouseButton.button == sf::Mouse::Right)
-				{
-					// TODO: Spawn special weapon here
-				}
-			}
-		} // End while loop
+        while (m_window.pollEvent(event))
+        {
+			m_input.userInput(event, *this);
+		}
 	}
 } // End namespace
