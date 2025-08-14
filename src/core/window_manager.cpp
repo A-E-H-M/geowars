@@ -1,8 +1,11 @@
+#include <SFML/System.hpp>
+
 #include "geowars/window_manager.hpp"
-#include "geowars/input.hpp"
+#include "geowars/game.hpp"
 
 namespace GWars
 {
+	/*
 	std::shared_ptr<sf::RenderWindow> Window_Manager::add_window(const WindowConfig& _window)
 	{
 		auto w_window = std::shared_ptr<sf::RenderWindow>(new sf::RenderWindow);
@@ -11,16 +14,14 @@ namespace GWars
 		all_windows.push_back(w_window);
 		return w_window;
 	}
-
-	/*	
-	void pullWindowEvents(const sf::RenderWindow& m_window)
+*/
+	void Window_Manager::pollWindowEvents(class Game& game)
 	{
 		sf::Event event;
 
-        while (m_window.pollEvent(event))
+        while (game.m_window.pollEvent(event))
         {
-			userInput(event);
+			game.m_input.userInput(event, game);
 		}
 	}
-		*/
 } // End namespace

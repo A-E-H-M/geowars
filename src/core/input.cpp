@@ -1,9 +1,5 @@
-#include <iostream>
-
 #include <SFML/System.hpp>
 
-#include "geowars/entity.hpp"
-#include "geowars/config.hpp"
 #include "geowars/game.hpp"
 
 namespace GWars

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <memory>
 #include <cmath>
 
@@ -8,7 +7,7 @@
 
 #include "geowars/config.hpp"
 #include "geowars/game.hpp"
-#include "geowars/input.hpp"
+#include "geowars/window_manager.hpp"
 
 namespace GWars
 {
@@ -60,7 +59,7 @@ namespace GWars
 				sCollision();
 			}
 
-			pullWindowEvents();
+			m_window_manager.pollWindowEvents(*this);
 			sRender();
 
 			m_currentFrame++;
@@ -284,15 +283,5 @@ namespace GWars
 		m_window.draw(m_player->cShape->circle);
 		m_window.draw(m_text);
 		m_window.display();
-	}
-
-	void Game::pullWindowEvents()
-	{
-		sf::Event event;
-
-        while (m_window.pollEvent(event))
-        {
-			m_input.userInput(event, *this);
-		}
 	}
 } // End namespace
