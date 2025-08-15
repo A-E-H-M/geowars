@@ -10,6 +10,8 @@
 #include "geowars/config.hpp"
 #include "geowars/window_manager.hpp"
 #include "geowars/input.hpp"
+#include "geowars/movement.hpp"
+#include "geowars/collisions.hpp"
 
 namespace GWars
 {
@@ -41,6 +43,13 @@ namespace GWars
 			// Input
 			friend class Input;
 			Input m_input;
+
+			//Mechanics
+			friend class Movement;
+			Movement m_movement;
+
+			friend class Collisions;
+			Collisions m_collisions;
 			
 			// Game state properties
 			int m_score = 0;
@@ -53,7 +62,6 @@ namespace GWars
 			EntityManager m_entities;
 			std::shared_ptr<Entity> m_player;
 
-
 			// Update game state
 			void init(const configObject& gameConfig);
 			void setPaused() { m_paused = !m_paused; }
@@ -65,11 +73,10 @@ namespace GWars
 			// void spawnSmallEnemies(std::shared_ptr<Entity> entity);
 
 			// System updates
-			void sMovement();
 			void sLifespan();
 			void sRender();
 			void sEnemySpawner();
-			void sCollision();
+			//void sCollision();
 
 		public:
 

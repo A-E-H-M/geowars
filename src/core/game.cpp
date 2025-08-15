@@ -8,6 +8,8 @@
 #include "geowars/config.hpp"
 #include "geowars/game.hpp"
 #include "geowars/window_manager.hpp"
+#include "geowars/movement.hpp"
+#include "geowars/collisions.hpp"
 
 namespace GWars
 {
@@ -52,8 +54,9 @@ namespace GWars
 			{
 				sEnemySpawner();
 				sLifespan();
-				sMovement();
-				sCollision();
+				m_movement.updatePlayer(*this);
+				//sCollision();
+				m_collisions.updateCollisions(*this);
 			}
 
 			m_window_manager.pollWindowEvents(*this);
@@ -164,32 +167,6 @@ namespace GWars
 	}
 	*/
 
-	// Implement all entity's movements
-	void Game::sMovement() 
-	{
-		// Movement speed update
-		for (auto& e : m_entities.getEntities()){
-			e->cTransform->pos.x += e->cTransform->velocity.x;
-			e->cTransform->pos.y += e->cTransform->velocity.y;
-			}
-
-		m_player->cTransform->velocity = { 0, 0 };
-
-		// Implement player movement
-		if (m_player->cInput->up) {
-			m_player->cTransform->velocity.y = m_playerConfig.speed_max * -1;
-		}
-		if (m_player->cInput->down) {
-			m_player->cTransform->velocity.y = m_playerConfig.speed_max;
-		}
-		if (m_player->cInput->left) {
-			m_player->cTransform->velocity.x = m_playerConfig.speed_max * -1;
-		}
-		if (m_player->cInput->right) {
-		m_player->cTransform->velocity.x = m_playerConfig.speed_max;
-		}
-	}
-
 	// Implement all lifespan functionality
 	void Game::sLifespan() 
 	{
@@ -211,6 +188,7 @@ namespace GWars
 		} // End for loop
 	}
 
+	/*
 	// Implement all collisions between entities
 	void Game::sCollision()
 	{
@@ -232,6 +210,7 @@ namespace GWars
 			} // End for loop
 		} // End for loop
 	}
+		*/
 
 	// Spawn enemy by time lapse between last spawn and current frame
 	void Game::sEnemySpawner()

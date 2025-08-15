@@ -29,7 +29,9 @@ add_library( geowars
 	src/core/game.cpp
 	src/core/config.cpp 
 	src/core/window_manager.cpp
-	src/core/input.cpp )
+	src/core/input.cpp
+	src/mechanics/movement.cpp
+	src/mechanics/collisions.cpp )
 target_include_directories( geowars PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include )
 target_link_libraries( geowars PUBLIC sfml-graphics sfml-window sfml-system nlohmann_json::nlohmann_json )
 
