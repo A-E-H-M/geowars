@@ -4,8 +4,7 @@
 #include <memory>
 
 #include <SFML/Graphics.hpp>
-
-#include "config.hpp"
+#include <SFML/Window.hpp>
 
 namespace GWars
 {
@@ -18,9 +17,13 @@ namespace GWars
 		private:
 			// Named vector for all windows
 			WindowVec all_windows;
+
 		public:
 			Window_Manager(){};
 			// Add a window to the vector of windows based on the window configuration passed by reference
-			std::shared_ptr<sf::RenderWindow> add_window(const WindowConfig& _window);	
+			//std::shared_ptr<sf::RenderWindow> add_window(const WindowConfig& _window);
+			void initWindow(class Game& game);
+			void pollWindowEvents(class Game& game);
+
 	};
 } // End namespace

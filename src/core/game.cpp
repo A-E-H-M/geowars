@@ -1,4 +1,3 @@
-#include <iostream>
 #include <memory>
 #include <cmath>
 
@@ -8,6 +7,7 @@
 
 #include "geowars/config.hpp"
 #include "geowars/game.hpp"
+#include "geowars/window_manager.hpp"
 
 namespace GWars
 {
@@ -26,15 +26,7 @@ namespace GWars
 		m_bulletConfig = gameConfig.bulletConfig;
 		m_terrainConfig = gameConfig.terrainConfig;
 
-		// Spawn the player
-		spawnPlayer();
-	}
-
-	void Game::run() {
-		
-		// Render start window
-		m_window.create(sf::VideoMode(m_windowConfig.width, m_windowConfig.height), m_textConfig.text);
-		m_window.setFramerateLimit(m_windowConfig.frame_rate);
+		m_window_manager.initWindow(*this);
 
 		// Set up score text
 		m_text.setFont(m_font);
@@ -46,6 +38,11 @@ namespace GWars
 		Terrain m_sceneBackground(m_terrainConfig.difficulty, m_terrainConfig.terrain_type, m_terrain);
 		m_sceneBackgroundSprite.setTexture(m_terrain);
 
+		// Spawn the player
+		spawnPlayer();
+	}
+
+	void Game::run() {
 		// Main while loop
 		while (m_running)
 		{
@@ -59,26 +56,11 @@ namespace GWars
 				sCollision();
 			}
 
-			sUserInput();
+			m_window_manager.pollWindowEvents(*this);
 			sRender();
 
 			m_currentFrame++;
 		} // End main while loop
-
-	}
-
-	// Pause the game
-	void Game::setPaused() 
-	{
-		if (m_paused)
-		{
-			m_paused = false;
-		}
-
-		else 
-		{
-			m_paused = true;
-		}
 
 	}
 
@@ -283,82 +265,5 @@ namespace GWars
 		m_window.draw(m_player->cShape->circle);
 		m_window.draw(m_text);
 		m_window.display();
-	}
-
-	// Assess for user input
-	void Game::sUserInput() 
-	{	
-		sf::Event event;
-
-		while (m_window.pollEvent(event))
-		{
-			// Event triggers the window to closed
-			if (event.type == sf::Event::Closed)
-			{
-				m_running = false;
-			}
-			
-			// Event is triggered when a key is pressed
-			if (event.type == sf::Event::KeyPressed)
-			{
-				switch (event.key.code)
-				{
-					case sf::Keyboard::W:
-						m_player->cInput->up = true;
-						break;
-					case sf::Keyboard::S:
-						m_player->cInput->down = true;
-						break;
-					case sf::Keyboard::A:
-						m_player->cInput->left = true;
-						break;
-					case sf::Keyboard::D:
-						m_player->cInput->right = true;
-						break;
-					case sf::Keyboard::Space:
-						setPaused();
-						break;
-					case sf::Keyboard::Escape:
-						m_running = false;
-						break;
-					default: break;
-				}
-			}
-		
-			// Event is triggered when a key is released
-			if (event.type == sf::Event::KeyReleased)
-			{
-				switch (event.key.code)
-				{
-					case sf::Keyboard::W:
-						m_player->cInput->up = false;
-						break;
-					case sf::Keyboard::S:
-						m_player->cInput->down = false;
-						break;
-					case sf::Keyboard::A:
-						m_player->cInput->left = false;
-						break;
-					case sf::Keyboard::D:
-						m_player->cInput->right = false;
-						break;
-					default: break;
-				}
-			}
-
-			// Event is triggered when a mouse key is pressed
-			if (event.type == sf::Event::MouseButtonPressed)
-			{
-				if (event.mouseButton.button == sf::Mouse::Left)
-				{
-					spawnBullet(m_player, Vec2(event.mouseButton.x, event.mouseButton.y));
-				}
-
-				if (event.mouseButton.button == sf::Mouse::Right)
-				{
-					// TODO: Spawn special weapon here
-				}
-			}
-		} // End while loop
 	}
 } // End namespace

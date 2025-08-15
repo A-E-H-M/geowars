@@ -2,10 +2,9 @@
 
 #include <string>
 #include <string_view>
-#include <iostream>
 #include <nlohmann/json.hpp>
 
-#include "config_components.hpp"
+#include "geowars/config_components.hpp"
 
 namespace GWars 
 {
@@ -35,8 +34,7 @@ namespace GWars
 		nlohmann::json configParse();
 		configObject configInit();
 		
-		GameConfig(std::string_view configFile) : configFileName (configFile)
-		{};
+		GameConfig(std::string_view configFile) : configFileName (configFile) {};
 	};
 
 } // End namespace

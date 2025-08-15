@@ -4,7 +4,6 @@
 #include <string_view>
 
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
 namespace GWars
