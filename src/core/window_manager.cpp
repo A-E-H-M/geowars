@@ -1,4 +1,5 @@
 #include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 #include "geowars/window_manager.hpp"
 #include "geowars/game.hpp"
@@ -15,6 +16,12 @@ namespace GWars
 		return w_window;
 	}
 */
+	void Window_Manager::initWindow(class Game& game)
+	{
+		game.m_window.create(sf::VideoMode(game.m_windowConfig.width, game.m_windowConfig.height), game.m_textConfig.text);
+		game.m_window.setFramerateLimit(game.m_windowConfig.frame_rate);
+	}
+
 	void Window_Manager::pollWindowEvents(class Game& game)
 	{
 		sf::Event event;

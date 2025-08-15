@@ -26,15 +26,7 @@ namespace GWars
 		m_bulletConfig = gameConfig.bulletConfig;
 		m_terrainConfig = gameConfig.terrainConfig;
 
-		// Spawn the player
-		spawnPlayer();
-	}
-
-	void Game::run() {
-		
-		// Render start window
-		m_window.create(sf::VideoMode(m_windowConfig.width, m_windowConfig.height), m_textConfig.text);
-		m_window.setFramerateLimit(m_windowConfig.frame_rate);
+		m_window_manager.initWindow(*this);
 
 		// Set up score text
 		m_text.setFont(m_font);
@@ -46,6 +38,11 @@ namespace GWars
 		Terrain m_sceneBackground(m_terrainConfig.difficulty, m_terrainConfig.terrain_type, m_terrain);
 		m_sceneBackgroundSprite.setTexture(m_terrain);
 
+		// Spawn the player
+		spawnPlayer();
+	}
+
+	void Game::run() {
 		// Main while loop
 		while (m_running)
 		{
@@ -64,21 +61,6 @@ namespace GWars
 
 			m_currentFrame++;
 		} // End main while loop
-
-	}
-
-	// Pause the game
-	void Game::setPaused() 
-	{
-		if (m_paused)
-		{
-			m_paused = false;
-		}
-
-		else 
-		{
-			m_paused = true;
-		}
 
 	}
 

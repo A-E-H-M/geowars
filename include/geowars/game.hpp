@@ -1,10 +1,12 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 #include "geowars/entity.hpp"
 #include "geowars/entity_manager.hpp"
 #include "geowars/terrain.hpp"
+#include "geowars/config_components.hpp"
 #include "geowars/config.hpp"
 #include "geowars/window_manager.hpp"
 #include "geowars/input.hpp"
@@ -18,12 +20,12 @@ namespace GWars
 			friend class Window_Manager;
 			Window_Manager m_window_manager;
 
-			// Initialize window, font, and text for score
+			// Window elements
 			sf::RenderWindow m_window;
 			sf::Font m_font;
 			sf::Text m_text;
 
-			// Initialize textures
+			// Assets
 			sf::Texture m_terrain;
 			sf::Sprite m_sceneBackgroundSprite;
 
@@ -54,7 +56,7 @@ namespace GWars
 
 			// Update game state
 			void init(const configObject& gameConfig);
-			void setPaused(); 
+			void setPaused() { m_paused = !m_paused; }
 			void spawnPlayer();
 			void spawnEnemy();
 			void spawnBullet(const std::shared_ptr<Entity>& entity, const Vec2<int>& mousePos);
