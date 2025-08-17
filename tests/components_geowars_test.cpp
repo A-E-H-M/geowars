@@ -2,7 +2,7 @@
 #include <catch2/generators/catch_generators.hpp>
 //#include <vector>
 
-#include "geowars/game_components.hpp"
+#include "geowars/entity_components.hpp"
 using namespace GWars;
 
 TEST_CASE( "Initialize component", "[component]" ) {

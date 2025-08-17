@@ -3,6 +3,7 @@
 
 #include "geowars/window_manager.hpp"
 #include "geowars/game.hpp"
+#include "geowars/config.hpp"
 
 namespace GWars
 {

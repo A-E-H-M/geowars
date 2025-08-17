@@ -24,7 +24,7 @@ namespace GWars
 			void removeDeadEntities(EntityVec& vec);
 
 		public:	
-			EntityManager();
+			EntityManager(){};
 
 			// Entity management tools
 			void update();

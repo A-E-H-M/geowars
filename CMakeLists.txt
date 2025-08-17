@@ -25,7 +25,6 @@ CPMAddPackage( "gh:nlohmann/json@3.11.3" )
 add_library( geowars
 	src/physics/vec2.cpp
 	src/entities/entity_manager.cpp
-	src/environment/terrain.cpp
 	src/core/game.cpp
 	src/core/config.cpp 
 	src/core/window_manager.cpp

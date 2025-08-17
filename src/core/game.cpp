@@ -23,7 +23,6 @@ namespace GWars
 		m_windowConfig = gameConfig.windowConfig;
 		m_fontConfig = gameConfig.fontConfig;
 		m_textConfig = gameConfig.textConfig;
-		m_playerConfig = gameConfig.playerConfig;
 		m_enemyConfig = gameConfig.enemyConfig;
 		m_bulletConfig = gameConfig.bulletConfig;
 		m_terrainConfig = gameConfig.terrainConfig;
@@ -41,25 +40,27 @@ namespace GWars
 		m_sceneBackgroundSprite.setTexture(m_terrain);
 
 		// Spawn the player
-		spawnPlayer();
+		spawnPlayer(gameConfig.playerConfig);
 	}
 
 	void Game::run() {
 		// Main while loop
 		while (m_running)
 		{
-			m_entities.update();
+			m_entity_manager.update();
 
 			if (!m_paused)
 			{
 				sEnemySpawner();
 				sLifespan();
-				m_movement.updatePlayer(*this);
-				//sCollision();
+				m_movement.updateEntitiesPos(m_entity_manager);
+				m_movement.updatePlayerMov(m_player);
 				m_collisions.updateCollisions(*this);
 			}
 
 			m_window_manager.pollWindowEvents(*this);
+			m_movement.updateEntitiesMov(m_entity_manager);
+
 			sRender();
 
 			m_currentFrame++;
@@ -68,10 +69,10 @@ namespace GWars
 	}
 
 	// Spawn player entity at the center of the window
-	void Game::spawnPlayer() 
+	void Game::spawnPlayer(const EntityConfig& m_playerConfig) 
 	{	
 		// Create player entity
-		auto entity = m_entities.addEntity(m_playerConfig.entity_type);
+		auto entity = m_entity_manager.addEntity(m_playerConfig.entity_type);
 
 		// Player entity's spawning position based on window size
 		//float mx = m_window.getSize().x / 2.0f;
@@ -97,10 +98,8 @@ namespace GWars
 	// Spawn enemy at a random location in the window
 	void Game::spawnEnemy() 
 	{
-		// TODO: Make sure the enemy is spawned properly with config specs & spawned in window bounds
-
 		// Create enemy entity
-		auto entity = m_entities.addEntity(m_enemyConfig.entity_type);
+		auto entity = m_entity_manager.addEntity(m_enemyConfig.entity_type);
 
 		// Enemy entity's spawning position based on window size
 		int ex = rand() % m_window.getSize().x; // rand() % used to randomize the spawning positions
@@ -147,7 +146,7 @@ namespace GWars
 	// Spawn a bullet from the player entity's to a target location
 	void Game::spawnBullet(const std::shared_ptr<Entity>& entity, const Vec2<int>& mousePos) 
 	{
-		auto bullet = m_entities.addEntity(m_bulletConfig.entity_type);
+		auto bullet = m_entity_manager.addEntity(m_bulletConfig.entity_type);
 
 		float angle = atan2(mousePos.y - entity->cTransform->pos.y, mousePos.x - entity->cTransform->pos.x);
 
@@ -172,7 +171,7 @@ namespace GWars
 	{
 		// TODO: Ensure for all entities
 		// 		 - if it has lifespan and is alive, scale its alpha channel properly
-		for (const auto& e : m_entities.getEntities()) 
+		for (const auto& e : m_entity_manager.getEntities()) 
 		{
 			if (e->cLifespan) 
 			{
@@ -188,30 +187,6 @@ namespace GWars
 		} // End for loop
 	}
 
-	/*
-	// Implement all collisions between entities
-	void Game::sCollision()
-	{
-		for (const auto& e : m_entities.getEntities())
-		{
-			e->cCollision->boundingBox = e->cShape->circle.getGlobalBounds();
-		}
-		
-		for (const auto& b : m_entities.getEntities("bullet"))
-		{
-			for (const auto& e : m_entities.getEntities("enemy"))
-			{
-				if (b->cCollision->boundingBox.intersects(e->cCollision->boundingBox))
-				{
-					e->destroy();
-					b->destroy();
-					m_score += 5;
-				}
-			} // End for loop
-		} // End for loop
-	}
-		*/
-
 	// Spawn enemy by time lapse between last spawn and current frame
 	void Game::sEnemySpawner()
 	{
@@ -226,16 +201,8 @@ namespace GWars
 	{	
 		m_window.clear();
 		m_window.draw(m_sceneBackgroundSprite);
-		for (const auto& e : m_entities.getEntities())
+		for (const auto& e : m_entity_manager.getEntities())
 		{
-			// Position of shape is based on the entity's transform->pos
-			e->cShape->circle.setPosition(e->cTransform->pos.x, e->cTransform->pos.y);
-
-			// Rotation of shape is based on the entity's transform->angle
-			e->cTransform->angle += 1.0f;
-			e->cShape->circle.setRotation(e->cTransform->angle);
-
-			// Draw the entity
 			m_window.draw(e->cShape->circle);
 		}
 

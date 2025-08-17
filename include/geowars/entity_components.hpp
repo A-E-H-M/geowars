@@ -11,10 +11,11 @@ namespace GWars
 	{	
 		Vec2<int> pos;
 		Vec2<int> velocity;
+		Vec2<int> speed;
 		float angle;
 
 		CTransform(const Vec2<int>& p, const Vec2<int>& v, const float a)
-			: pos(p), velocity(v), angle(a) {}
+			: pos(p), velocity(v), speed(v), angle(a) {}
 	};
 
 	// Entity graphic properties
