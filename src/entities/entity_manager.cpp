@@ -7,10 +7,6 @@
 
 namespace GWars
 {
-	EntityManager::EntityManager()
-	{
-	}
-
 	// Update entity vectors
 	void EntityManager::update()
 	{
@@ -62,22 +58,7 @@ namespace GWars
 
 	const EntityVec& EntityManager::getEntities(std::string tag)
 	{	
-		// TODO: this is incorrect, return the correct vector from the map
-		/*	
-		for (auto& [t, vec]: m_entityMap){
-			if (tag == t)
-				//auto temp = vec;
-				return vec;
-		}
-		//auto temp = m_entityMap.find(tag);
-		*/
 		return m_entityMap[tag];
 	}
 
-	/*
-	const std::map<std::string, EntityVec> & EntityManager::getEntityMap(const std::string & tag)
-	{
-		return m_entityMap[tag]; // This is not correct, it is a placeholder
-	}
-	*/
 } // End namespace

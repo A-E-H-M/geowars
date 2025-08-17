@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
+#include "geowars/config.hpp"
+
 namespace GWars
 {
 	// Template vector for storing SFML window objects

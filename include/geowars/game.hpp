@@ -24,6 +24,7 @@ namespace GWars
 
 			// Window elements
 			sf::RenderWindow m_window;
+			//std::shared_ptr<sf::RenderWindow> m_window;
 			sf::Font m_font;
 			sf::Text m_text;
 
@@ -35,7 +36,6 @@ namespace GWars
 			WindowConfig m_windowConfig;
 			FontConfig m_fontConfig;
 			TextConfig m_textConfig;
-			EntityConfig m_playerConfig;
 			EntityConfig m_enemyConfig;
 			EntityConfig m_bulletConfig;
 			TerrainConfig m_terrainConfig;
@@ -45,7 +45,6 @@ namespace GWars
 			Input m_input;
 
 			//Mechanics
-			friend class Movement;
 			Movement m_movement;
 
 			friend class Collisions;
@@ -59,13 +58,13 @@ namespace GWars
 			bool m_running = true;
 
 			// Initial entity manager and player
-			EntityManager m_entities;
+			EntityManager m_entity_manager;
 			std::shared_ptr<Entity> m_player;
 
 			// Update game state
 			void init(const configObject& gameConfig);
 			void setPaused() { m_paused = !m_paused; }
-			void spawnPlayer();
+			void spawnPlayer(const EntityConfig& m_playerConfig);
 			void spawnEnemy();
 			void spawnBullet(const std::shared_ptr<Entity>& entity, const Vec2<int>& mousePos);
 			// TODO: Finish the following

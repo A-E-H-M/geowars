@@ -8,14 +8,14 @@ namespace GWars
 	// Implement all collisions between entities
 	void Collisions::updateCollisions(class Game& game)
 	{
-		for (const auto& e : game.m_entities.getEntities())
+		for (const auto& e : game.m_entity_manager.getEntities())
 		{
 			e->cCollision->boundingBox = e->cShape->circle.getGlobalBounds();
 		}
 		
-		for (const auto& b : game.m_entities.getEntities("bullet"))
+		for (const auto& b : game.m_entity_manager.getEntities("bullet"))
 		{
-			for (const auto& e : game.m_entities.getEntities("enemy"))
+			for (const auto& e : game.m_entity_manager.getEntities("enemy"))
 			{
 				if (b->cCollision->boundingBox.intersects(e->cCollision->boundingBox))
 				{
