@@ -55,7 +55,7 @@ namespace GWars
 				sLifespan();
 				m_movement.updateEntitiesPos(m_entity_manager);
 				m_movement.updatePlayerMov(m_player);
-				m_collisions.updateCollisions(*this);
+				m_collisions.updateCollisions(m_entity_manager, m_score);
 			}
 
 			m_window_manager.pollWindowEvents(*this);

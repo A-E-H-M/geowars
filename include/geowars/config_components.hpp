@@ -16,6 +16,7 @@ namespace GWars
 		int color_B{255};
 
 		Color(){};
+
 		Color(int R, int G, int B) : color_R(R), color_G(G), color_B(B) {}
 	};
 
@@ -45,9 +46,6 @@ namespace GWars
 		WindowConfig(int W, int H, int FR, int FSM, int R, int G, int B, std::string_view WT) 
 			: width(W), height(H), frame_rate(FR), fullscreen_mode(FSM), window_color(R, G, B), window_title(WT)
 			{}
-
-		private:
-		
 	};
 
 	// Font configuration properties (File path, Size, RGB color values)
@@ -67,6 +65,8 @@ namespace GWars
 	{
 		// The text string
 		std::string text;
+		// Font texture
+		std::string font;
 		// Size of the text. Default size is 0.
 		int text_size{0};
 		// Color values for the color of the font for RGB
@@ -77,8 +77,18 @@ namespace GWars
 		TextConfig(std::string_view T)
 			: text(T) 
 			{};
-		TextConfig(std::string_view T, int TS, int R, int G, int B)
-			: text(T), text_size(TS), text_color(R, G, B) {}
+		TextConfig(std::string_view T, int TS, int R, int G, int B, std::string_view F)
+			: text(T), text_size(TS), text_color(R, G, B), font(F) {}
+	};
+
+	struct TextureConfig
+	{
+		std::string texture_file;
+		std::string texture_name;
+
+		Texture{}();
+
+		Texture(std::string_view TF, std::string_view TN) : texture_file(TF), texture_name(TN) {};
 	};
 
 	struct EntityConfig
@@ -107,11 +117,13 @@ namespace GWars
 		int spawn_life{0};
 		// How often the the entity will spawn again. The default value is set to 0.
 		int spawn_interval{0};
+		// Texture for sprite
+		std::string texture;
 
 		EntityConfig(){};
 
-		EntityConfig(std::string_view T, int SR, int CR, int SMin, int SMax, int FR, int FG, int FB, int OR, int OG, int OB, int OT, int VMin, int VMax, int SL, int SI)
-		: entity_type(T), shape_radius(SR), collision_radius(CR), speed_min(SMin), speed_max(SMax), fill_color(FR, FG, FB), outline_color(OR, OG, OB), outline_thickness(OT), vertices_min(VMin), vertices_max(VMax), spawn_life(SL), spawn_interval(SI)
+		EntityConfig(std::string_view T, int SR, int CR, int SMin, int SMax, int FR, int FG, int FB, int OR, int OG, int OB, int OT, int VMin, int VMax, int SL, int SI, std::string_view TX)
+		: entity_type(T), shape_radius(SR), collision_radius(CR), speed_min(SMin), speed_max(SMax), fill_color(FR, FG, FB), outline_color(OR, OG, OB), outline_thickness(OT), vertices_min(VMin), vertices_max(VMax), spawn_life(SL), spawn_interval(SI), texture(TX)
 		{}
 	};
 
@@ -119,7 +131,7 @@ namespace GWars
 	struct TerrainConfig
 	{
 		// The file path name to the terrain asset.
-		std::string terrain_file_path;
+		std::string texture;
 		// Name of the terrain type.
 		std::string terrain_type;
 		// The level of difficulty for the terrain. The default value is set to 0.
@@ -128,7 +140,7 @@ namespace GWars
 		TerrainConfig(){};
 
 		TerrainConfig(std::string_view F, std::string_view N, int D)
-			: terrain_file_path(F), terrain_type(N), difficulty(D)
+			: texture(F), terrain_type(N), difficulty(D)
 			{}
 	};
 }; // End namespace

@@ -46,8 +46,6 @@ namespace GWars
 
 			//Mechanics
 			Movement m_movement;
-
-			friend class Collisions;
 			Collisions m_collisions;
 			
 			// Game state properties
@@ -75,7 +73,6 @@ namespace GWars
 			void sLifespan();
 			void sRender();
 			void sEnemySpawner();
-			//void sCollision();
 
 		public:
 

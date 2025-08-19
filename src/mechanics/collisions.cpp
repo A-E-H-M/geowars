@@ -1,27 +1,27 @@
 #include<string>
 
 #include "geowars/collisions.hpp"
-#include "geowars/game.hpp"
+#include "geowars/entity_manager.hpp"
 
 namespace GWars
 {
 	// Implement all collisions between entities
-	void Collisions::updateCollisions(class Game& game)
+	void Collisions::updateCollisions(const EntityManager& m_entity_manager, int& score)
 	{
-		for (const auto& e : game.m_entity_manager.getEntities())
+		for (const auto& e : m_entity_manager.getEntities())
 		{
 			e->cCollision->boundingBox = e->cShape->circle.getGlobalBounds();
 		}
 		
-		for (const auto& b : game.m_entity_manager.getEntities("bullet"))
+		for (const auto& b : m_entity_manager.getEntities("bullet"))
 		{
-			for (const auto& e : game.m_entity_manager.getEntities("enemy"))
+			for (const auto& e : m_entity_manager.getEntities("enemy"))
 			{
 				if (b->cCollision->boundingBox.intersects(e->cCollision->boundingBox))
 				{
 					e->destroy();
 					b->destroy();
-					game.m_score += 5;
+					score += 5;
 				}
 			} // End for loop
 		} // End for loop
