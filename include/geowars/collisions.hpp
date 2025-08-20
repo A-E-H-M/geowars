@@ -8,6 +8,6 @@ namespace GWars
     {
         public:
             Collisions(){};
-            void updateCollisions(const EntityManager& m_entity_manager, int& score);
+            void updateCollisions(EntityManager& m_entity_manager, int& score);
     };
 }

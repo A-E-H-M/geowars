@@ -47,12 +47,12 @@ namespace GWars
 
 	struct GameConfig
 	{
-		const std::string configFileName;
+		const std::string ConfigFilePath;
 
 		nlohmann::json configParse();
 		configObject configInit();
 		
-		GameConfig(std::string_view configFile) : configFileName (configFile) {};
+		GameConfig(std::string_view CFP) : ConfigFilePath(CFP) {};
 	};
 
 } // End namespace

@@ -65,12 +65,12 @@ namespace GWars
 	{
 		// The text string
 		std::string text;
-		// Font texture
-		std::string font;
 		// Size of the text. Default size is 0.
 		int text_size{0};
 		// Color values for the color of the font for RGB
 		Color text_color;
+		// Font texture
+		std::string font;
 		
 		TextConfig(){};
 
@@ -86,9 +86,9 @@ namespace GWars
 		std::string texture_file;
 		std::string texture_name;
 
-		Texture{}();
+		TextureConfig(){};
 
-		Texture(std::string_view TF, std::string_view TN) : texture_file(TF), texture_name(TN) {};
+		TextureConfig(std::string_view TF, std::string_view TN) : texture_file(TF), texture_name(TN) {};
 	};
 
 	struct EntityConfig

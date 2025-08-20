@@ -11,18 +11,19 @@ namespace GWars
 	class Terrain
 	{
 	public:
-		Terrain(int difficulty, std::string_view name_type, const sf::Texture& texture_type)
-				: t_difficulty(difficulty),
+		Terrain(const sf::Texture& texture_type, std::string_view name_type, int difficulty)
+				: t_texture(texture_type),
 				t_type(name_type),
-				t_texture(texture_type)
+				t_difficulty(difficulty)
 				{};
 		const sf::Texture& terrain_texture() { return t_texture; }
-		const int& terrain_difficulty() { return t_difficulty; }
 		const std::string& terrain_type() { return t_type; }
+		const int& terrain_difficulty() { return t_difficulty; }
 		
-	private:
-		int t_difficulty;
-		std::string t_type;
+	//private:
 		sf::Texture t_texture;
+		std::string t_type;
+		int t_difficulty;
 	};
+
 } // End namespace

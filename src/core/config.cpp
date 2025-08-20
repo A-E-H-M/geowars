@@ -15,7 +15,7 @@ namespace GWars
     	// Verify config file can be located and parsed, if not, print an error message
 		try
 		{
-			std::ifstream f(configFileName);
+			std::ifstream f(ConfigFilePath);
 			json jObject = json::parse(f);
 			return jObject;
         }
@@ -63,29 +63,30 @@ namespace GWars
 		{
 			TextConfig temp;
 			std::string text_loc = d.key();
+			std::string tempKey = d.key();
 			
-			for (auto& e : text_loc.items())
+			for (auto& e : d.value().items())
 			{
 				std::string element_temp = e.key();
 
 				temp.text = game_config["text"][text_loc][element_temp]["text_1"];
 				temp.font = game_config["text"][text_loc][element_temp]["font"];
 				temp.text_size = game_config["text"][text_loc][element_temp]["size"];
-				temp.text_color.color_R = game_config["text"][text_loc][element_temp]["color"].at[0];
-				temp.text_color.color_G = game_config["text"][text_loc][element_temp]["color"].at[1];
-				temp.text_color.color_B = game_config["text"][text_loc][element_temp]["color"].at[2];
+				temp.text_color.color_R = game_config["text"][text_loc][element_temp]["color"].at(0);
+				temp.text_color.color_G = game_config["text"][text_loc][element_temp]["color"].at(0);
+				temp.text_color.color_B = game_config["text"][text_loc][element_temp]["color"].at(0);
 
-				switch (d) 
+				
+				if (tempKey == "window") 
 				{
-					case "window":
-						t_textConfig_1 = temp;
-						break;
-					case "score":
-						if (element_temp == "element_1")
-							t_textConfig_2 = temp;
-						if (element_temp == "element_2")
-							t_textConfig_3 = temp;
-						break;
+					t_textConfig_1 = temp;
+				}
+				else if (tempKey == "score")
+				{
+					if (element_temp == "element_1")
+						t_textConfig_2 = temp;
+					if (element_temp == "element_2")
+						t_textConfig_3 = temp;
 				}
 			}
 
@@ -94,34 +95,37 @@ namespace GWars
 		// Set font configurations
 		for (auto& c : game_config["font"].items())
 		{
-			switch(c)
+			std::string tempKey = c.key();
+
+			if (tempKey == "font_1")
 			{
-				case "font_1":
-					t_fontConfig_1.font_file_path = game_config["font"][c]["file"];
-					break;
-				case "font_2":
-					t_fontConfig_2.font_file_path = game_config["font"][c]["file"];
-					break;
+				t_fontConfig_1.font_file_path = game_config["font"][tempKey]["file"];
+			}
+			else if (tempKey == "font_2")
+			{
+				t_fontConfig_2.font_file_path = game_config["font"][tempKey]["file"];
 			}
 		}
 
 		// Set texture configurations
 		for (auto& c : game_config["textures"].items())
 		{
-			switch(c)
+			std::string tempKey = c.key();
+			
+			if (tempKey == "texture_1")
 			{
-				case "texture_1":
-					t_textureConfig_1.texture_file = game_config["textures"][c]["file"];
-					t_textureConfig_1.texture_name = game_config["textures"][c]["name"];
-					break;
-				case "texture_2":
-					t_textureConfig_2.texture_file = game_config["textures"][c]["file"];
-					t_textureConfig_2.texture_name = game_config["textures"][c]["name"];
-					break;
-				case "texture_3":
-					t_textureConfig_3.texture_file = game_config["textures"][c]["file"];
-					t_textureConfig_3.texture_name = game_config["textures"][c]["name"];
-					break;
+				t_textureConfig_1.texture_file = game_config["textures"][tempKey]["file"];
+				t_textureConfig_1.texture_name = game_config["textures"][tempKey]["name"];
+			}
+			else if (tempKey == "texture_2")
+			{
+				t_textureConfig_2.texture_file = game_config["textures"][tempKey]["file"];
+				t_textureConfig_2.texture_name = game_config["textures"][tempKey]["name"];
+			}
+			else if (tempKey == "texture_3")
+			{
+				t_textureConfig_3.texture_file = game_config["textures"][tempKey]["file"];
+				t_textureConfig_3.texture_name = game_config["textures"][tempKey]["name"];
 			}
 		}
 
@@ -148,17 +152,17 @@ namespace GWars
 			temp.spawn_interval = game_config["entity"][temp.entity_type]["spawn_interval"];
 			temp.texture = game_config["entity"][temp.entity_type]["texture"];
 
-			switch(temp.entity_type)
+			if (temp.entity_type == "player")
 			{
-				case "player":
-					t_entityConfig_1 = temp;
-					break;
-				case "enemy":
-					t_entityConfig_2 = temp;
-					break;
-				case "bullet":
-					t_entityConfig_3 = temp;
-					break;
+				t_entityConfig_1 = temp;
+			}
+			else if (temp.entity_type == "enemy")
+			{
+				t_entityConfig_2 = temp;
+			}
+			else if (temp.entity_type == "bullet")
+			{
+				t_entityConfig_3 = temp;
 			}
 		}
 

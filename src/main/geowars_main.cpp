@@ -7,8 +7,8 @@ using namespace GWars;
 
 int main(int argc, char* argv[])
 {	
-	std::string config_file_path = "config.json";
-	GameConfig game(config_file_path);
+	//std::string config_file_path = "config.json";
+	GameConfig game("config.json");
 	Game g(game.configInit());
 	g.run();
 

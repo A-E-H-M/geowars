@@ -6,7 +6,7 @@
 namespace GWars
 {
 	// Implement all collisions between entities
-	void Collisions::updateCollisions(const EntityManager& m_entity_manager, int& score)
+	void Collisions::updateCollisions(EntityManager& m_entity_manager, int& score)
 	{
 		for (const auto& e : m_entity_manager.getEntities())
 		{
