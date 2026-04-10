@@ -8,6 +8,7 @@
 
 namespace GWars 
 {
+
 	struct configObject
 	{
 		// Configuration specs for window, text strings, and entities
@@ -45,14 +46,25 @@ namespace GWars
 					{};
 	};
 
+	/*
 	struct GameConfig
 	{
 		const std::string ConfigFilePath;
 
 		nlohmann::json configParse();
-		configObject configInit();
+		configObject configInit(nlohmann::json& temp_json);
 		
 		GameConfig(std::string_view CFP) : ConfigFilePath(CFP) {};
 	};
+	*/
+
+	// Parse the JSON formatted text file
+	nlohmann::json configParse(const std::string& file_path);
+
+	// Assign parsed JSON values to game data structures
+	configObject configInit(const nlohmann::json& game_config);
+
+	// Completes parsing and assigning values to game data structures, returns game object for running the game
+	configObject Init(const std::string& file_path);
 
 } // End namespace

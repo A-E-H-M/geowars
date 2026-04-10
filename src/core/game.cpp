@@ -44,7 +44,8 @@ namespace GWars
 		spawnPlayer(gameConfig.entityConfig_1);
 	}
 
-	void Game::run() {
+	void Game::run() 
+	{
 		// Main while loop
 		while (m_running)
 		{
@@ -56,7 +57,7 @@ namespace GWars
 				sLifespan();
 				m_movement.updateEntitiesPos(m_entity_manager);
 				m_movement.updatePlayerMov(m_player);
-				m_collisions.updateCollisions(m_entity_manager, m_score);
+				//m_collisions.updateCollisions(m_entity_manager, m_score);
 			}
 
 			m_window_manager.pollWindowEvents(*this);
@@ -131,18 +132,6 @@ namespace GWars
 		// Record of the frame this enemy entity was spawned
 		m_lastEnemySpawnTime = m_currentFrame;
 	}
-
-	/*
-	// Spawns the small enemies after the larger entity collides with a bullet
-	void Game::spawnSmallEnemies(std::shared_ptr<Entity> e) {
-
-		// TODO: Spawn small enemies at the locaton of original entity's position
-		// 		- Number of small enemies depends on the original entity's vertices
-		// 		- Color should be the same as the original entity, but half the size
-		// 		- Award double the amount of points if a smaller enemy collides with a bullet
-
-	}
-	*/
 
 	// Spawn a bullet from the player entity's to a target location
 	void Game::spawnBullet(const std::shared_ptr<Entity>& entity, const Vec2<int>& mousePos) 

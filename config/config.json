@@ -1,5 +1,5 @@
 {
-    "window": {
+    "window_spec": {
         "width": 1280,
         "height": 720,
         "frame_rate": 60,
@@ -29,7 +29,7 @@
 			}
 		}
 	},
-    "font": {
+    "fonts": {
 		"font_1": {
 			"file": "Ohyou.ttf"
 		},
