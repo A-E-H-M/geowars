@@ -8,33 +8,63 @@
 
 namespace GWars 
 {
+
 	struct configObject
 	{
 		// Configuration specs for window, text strings, and entities
-		WindowConfig windowConfig;
-		FontConfig fontConfig;
-		TextConfig textConfig;
-		EntityConfig playerConfig;
-		EntityConfig enemyConfig;
-		EntityConfig bulletConfig;
-		TerrainConfig terrainConfig;
+		WindowConfig windowConfig_1;
+
+		FontConfig fontConfig_1;
+		FontConfig fontConfig_2;
+
+		TextConfig textConfig_1;
+		TextConfig textConfig_2;
+		TextConfig textConfig_3;
+
+		TextureConfig textureConfig_1;
+		TextureConfig textureConfig_2;
+		TextureConfig textureConfig_3;
+
+		EntityConfig entityConfig_1;
+		EntityConfig entityConfig_2;
+		EntityConfig entityConfig_3;
+
+		TerrainConfig terrainConfig_1;
 
 		configObject(){};
 
-		configObject(const WindowConfig wC, const FontConfig fC, const TextConfig txC, const EntityConfig eC1, 
-					const EntityConfig eC2, const EntityConfig eC3, const TerrainConfig tC) : windowConfig(wC), fontConfig(fC),
-					textConfig(txC), playerConfig(eC1), enemyConfig(eC2), bulletConfig(eC3), terrainConfig(tC)
+		configObject(const WindowConfig wC_1, const FontConfig fC_1, const FontConfig fC_2,
+					const TextConfig txC_1, const TextConfig txC_2, const TextConfig txC_3,
+					const TextureConfig tC_1, const TextureConfig tC_2, const TextureConfig tC_3,
+					const EntityConfig eC_1, const EntityConfig eC_2, const EntityConfig eC_3, 
+					const TerrainConfig tnC_1) 
+					: windowConfig_1(wC_1), fontConfig_1(fC_1), fontConfig_2(fC_2), 
+					textConfig_1(txC_1), textConfig_2(txC_2), textConfig_3(txC_3),
+					textureConfig_1(tC_1), textureConfig_2(tC_2), textureConfig_3(tC_3),
+					entityConfig_1(eC_1), entityConfig_2(eC_2), entityConfig_3(eC_3), 
+					terrainConfig_1(tnC_1)
 					{};
 	};
 
+	/*
 	struct GameConfig
 	{
-		const std::string configFileName;
+		const std::string ConfigFilePath;
 
 		nlohmann::json configParse();
-		configObject configInit();
+		configObject configInit(nlohmann::json& temp_json);
 		
-		GameConfig(std::string_view configFile) : configFileName (configFile) {};
+		GameConfig(std::string_view CFP) : ConfigFilePath(CFP) {};
 	};
+	*/
+
+	// Parse the JSON formatted text file
+	nlohmann::json configParse(const std::string& file_path);
+
+	// Assign parsed JSON values to game data structures
+	configObject configInit(const nlohmann::json& game_config);
+
+	// Completes parsing and assigning values to game data structures, returns game object for running the game
+	configObject Init(const std::string& file_path);
 
 } // End namespace

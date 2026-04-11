@@ -51,14 +51,14 @@ namespace GWars
 	}
 
 	// Get the vector of all entities
-	const EntityVec& EntityManager::getEntities() 
+	const EntityVec& EntityManager::getEntities()
 	{	
 		return m_entities;
 	}
 
 	const EntityVec& EntityManager::getEntities(std::string tag)
 	{	
-		return m_entityMap[tag];
+		return m_entityMap.at(tag);
 	}
 
 } // End namespace

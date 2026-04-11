@@ -10,6 +10,7 @@
 #include "geowars/window_manager.hpp"
 #include "geowars/movement.hpp"
 #include "geowars/collisions.hpp"
+#include "geowars/terrain.hpp"
 
 namespace GWars
 {
@@ -20,12 +21,12 @@ namespace GWars
 
 	void Game::init(const configObject& gameConfig)
 	{	
-		m_windowConfig = gameConfig.windowConfig;
-		m_fontConfig = gameConfig.fontConfig;
-		m_textConfig = gameConfig.textConfig;
-		m_enemyConfig = gameConfig.enemyConfig;
-		m_bulletConfig = gameConfig.bulletConfig;
-		m_terrainConfig = gameConfig.terrainConfig;
+		m_windowConfig = gameConfig.windowConfig_1;
+		m_fontConfig = gameConfig.fontConfig_1;
+		m_textConfig = gameConfig.textConfig_2;
+		m_enemyConfig = gameConfig.entityConfig_2;
+		m_bulletConfig = gameConfig.entityConfig_3;
+		m_terrainConfig = gameConfig.terrainConfig_1;
 
 		m_window_manager.initWindow(*this);
 
@@ -35,15 +36,16 @@ namespace GWars
 		m_text.setPosition(10, m_windowConfig.height - static_cast<float>(m_text.getCharacterSize()) - 10);
 
 		// Load textures
-		m_terrain.loadFromFile(m_terrainConfig.terrain_file_path);
-		Terrain m_sceneBackground(m_terrainConfig.difficulty, m_terrainConfig.terrain_type, m_terrain);
+		m_terrain.loadFromFile("background.png");
+		Terrain m_sceneBackground(m_terrain, m_terrainConfig.terrain_type, m_terrainConfig.difficulty);
 		m_sceneBackgroundSprite.setTexture(m_terrain);
 
 		// Spawn the player
-		spawnPlayer(gameConfig.playerConfig);
+		spawnPlayer(gameConfig.entityConfig_1);
 	}
 
-	void Game::run() {
+	void Game::run() 
+	{
 		// Main while loop
 		while (m_running)
 		{
@@ -55,7 +57,7 @@ namespace GWars
 				sLifespan();
 				m_movement.updateEntitiesPos(m_entity_manager);
 				m_movement.updatePlayerMov(m_player);
-				m_collisions.updateCollisions(*this);
+				//m_collisions.updateCollisions(m_entity_manager, m_score);
 			}
 
 			m_window_manager.pollWindowEvents(*this);
@@ -130,18 +132,6 @@ namespace GWars
 		// Record of the frame this enemy entity was spawned
 		m_lastEnemySpawnTime = m_currentFrame;
 	}
-
-	/*
-	// Spawns the small enemies after the larger entity collides with a bullet
-	void Game::spawnSmallEnemies(std::shared_ptr<Entity> e) {
-
-		// TODO: Spawn small enemies at the locaton of original entity's position
-		// 		- Number of small enemies depends on the original entity's vertices
-		// 		- Color should be the same as the original entity, but half the size
-		// 		- Award double the amount of points if a smaller enemy collides with a bullet
-
-	}
-	*/
 
 	// Spawn a bullet from the player entity's to a target location
 	void Game::spawnBullet(const std::shared_ptr<Entity>& entity, const Vec2<int>& mousePos) 

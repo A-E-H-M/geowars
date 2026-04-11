@@ -1,19 +1,56 @@
 {
-    "window": {
+    "window_spec": {
         "width": 1280,
         "height": 720,
         "frame_rate": 60,
         "fullscreen": false
     },
 	"text": {
-		"window_text": "Best Game Ever",
-		"score_text": "Your score, baby: "
+		"window": {
+			"element_1": {
+				"text_1": "Best Game Ever",
+				"size": 24,
+				"color": [255, 255, 255],
+				"font": "font_1"
+			}
+		},
+		"score": {
+			"element_1": {
+				"text_1": "Your score, baby: ",
+				"size": 24,
+				"color": [255, 255, 255],
+				"font": "font_1"
+			},
+			"element_2": {
+				"text_1": "",
+				"size": 24,
+				"color": [255, 255, 255],
+				"font": "font_2"
+			}
+		}
 	},
-    "font": {
-        "file": "Ohyou.ttf",
-        "size": 24,
-        "color": [255, 255, 255]
+    "fonts": {
+		"font_1": {
+			"file": "Ohyou.ttf"
+		},
+		"font_2": {
+			"file": "zetareticuli3d.ttf"
+		}
     },
+	"textures": {
+		"texture_1": {
+			"file": "background.png",
+			"name": "background"
+		},
+		"texture_2": {
+			"file": "cat.png",
+			"name": "cat"
+		},
+		"texture_3": {
+			"file": "mouse.png",
+			"name": "mouse"
+		}
+	},
 	"entity": {
     	"player": {
         	"shape_radius": 32,
@@ -24,7 +61,8 @@
         	"outline_thickness": 4,
         	"vertices": [8, 8],
 			"spawn_lifespan": 0,
-        	"spawn_interval": 0
+        	"spawn_interval": 0,
+			"texture": "texture_2"
     	},
     	"enemy": {
         	"shape_radius": 32,
@@ -35,7 +73,8 @@
         	"outline_thickness": 2,
         	"vertices": [3, 8],
         	"spawn_lifespan": 90,
-        	"spawn_interval": 60
+        	"spawn_interval": 60,
+			"texture": "none"
     	},
     	"bullet": {
         	"shape_radius": 10,
@@ -46,12 +85,13 @@
         	"outline_thickness": 2,
         	"vertices": [20, 20],
         	"spawn_lifespan": 90,
-			"spawn_interval": 0
+			"spawn_interval": 0,
+			"texture": "texture_3"
     	}
 	},	
 	"terrain": {
-        "difficulty": 3,
-        "file": "background.png",
-		"name": "Galaxy"
-		}
+        "texture": "texture_1",
+		"type": "Galaxy",
+		"difficulty": 3
+	}
 }
