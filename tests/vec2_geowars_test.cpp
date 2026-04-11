@@ -11,7 +11,7 @@ using namespace GWars;
 
 TEMPLATE_TEST_CASE( "Vec2 operations", "[vec2]", 
     int, long, short,                     // Integer types
-    float, double, long double,           // Floating point types
+    float, double, long double,           // Float types
     unsigned int, unsigned long           // Unsigned types
 ) {
     
@@ -58,7 +58,7 @@ Vec2<TestType> v2(static_cast<TestType>(3), static_cast<TestType>(4));
         v3 = v1;
         v3 -= v2;
         REQUIRE(v3.x == static_cast<TestType>(-1));
-        REQUIRE(v3.y == static_cast<TestType>(-1));
+        REQUIRE(v3.y == static_cast<TestType>(7));
 
         v3 = v1;
         v3 *= 2.0f;

@@ -58,8 +58,7 @@ namespace GWars
 		t_windowConfig_1.width = game_config["window_spec"]["width"];
 		t_windowConfig_1.height = game_config["window_spec"]["height"];
 		t_windowConfig_1.frame_rate = game_config["window_spec"]["frame_rate"];
-		t_windowConfig_1.fullscreen_mode = game_config["window_spec"]["fullscreen"];	
-
+		t_windowConfig_1.fullscreen_mode = game_config["window_spec"]["fullscreen"];
 		
 		// Set on screen text strings
 		for (auto& d : game_config["text"].items()) // Looping through "text" values ("window", "score")
