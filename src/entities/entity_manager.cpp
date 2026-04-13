@@ -44,6 +44,7 @@ namespace GWars
 	// Add entity
 	std::shared_ptr<Entity> EntityManager::addEntity(std::string_view tag)
 	{
+		m_totalEntities++;
 		auto entity = std::shared_ptr<Entity>(new Entity(m_totalEntities, tag));
 		m_entitiesToAdd.push_back(entity);
 		return entity;
